@@ -18,7 +18,7 @@
  */
 
 #include <math.h>
-#include "solar-hijri.h"
+#include "cl-solar-hijri.h"
 
 /* Constants */
 
@@ -46,7 +46,7 @@ int sh_is_leap(int16_t year)
 }
 
 LIBCALENDAR_API
-int days_in_month(uint8_t month, int16_t year)
+int sh_days_in_month(uint8_t month, int16_t year)
 {
     if(month > 0 && month <= 12)
         return month < 7 ? 31 : month < 12 || sh_is_leap(year) ? 30 : 29;
@@ -66,7 +66,7 @@ int16_t cycle(uint32_t jdn)
 }
 
 LIBCALENDAR_API
-uint16_t days_in_year(int16_t year)
+uint16_t sh_days_in_year(int16_t year)
 {
     return sh_is_leap(year) ? 366 : 365;
 }
@@ -119,7 +119,7 @@ void sh_to_jdn(uint32_t *jd, int16_t year, uint8_t month, uint16_t day)
     f_d = fdoy_c(y_c, e);
     d_y = 0;
     for(int i = 1; i < month; ++i)
-        d_y += days_in_month(i, year);
+        d_y += sh_days_in_month(i, year);
     d_y += day;
     *jd = f_d + d_y - 1;
 }
@@ -133,15 +133,15 @@ void jdn_to_sh(uint32_t jd, int16_t *year, uint8_t *month, uint16_t *day)
     uint32_t firstDay = fdoy_c(y_c, c);
     uint16_t d = jd - firstDay + 1;
     uint8_t m = 0;
-    if(d > days_in_year(y)) {
+    if(d > sh_days_in_year(y)) {
         y++;
         d = 1;
     }
     if(y <= 0)
         y--;
     for(m = 1; m < 12; ++m) {
-        if(d > days_in_month(m, y))
-            d -= days_in_month(m, y);
+        if(d > sh_days_in_month(m, y))
+            d -= sh_days_in_month(m, y);
         else
             break;
     }

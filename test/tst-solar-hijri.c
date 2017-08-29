@@ -17,26 +17,24 @@
  *
  */
 
-#ifndef LIBCALENDAR_SOLAR_HIJRI_H
-#define LIBCALENDAR_SOLAR_HIJRI_H
+#include "../src/cl-solar-hijri.h"
+#include <stdio.h>
 
-#include <stdint.h>
-#include "export.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-LIBCALENDAR_API int sh_is_leap(int16_t year);
-LIBCALENDAR_API int days_in_month(uint8_t month, int16_t year);
-LIBCALENDAR_API uint16_t days_in_year(int16_t year);
-LIBCALENDAR_API void sh_to_jdn(uint32_t* jd,
-                             int16_t year, uint8_t month, uint16_t day);
-LIBCALENDAR_API void jdn_to_sh(uint32_t jdn,
-                             int16_t* year, uint8_t* month, uint16_t *day);
-
-#ifdef __cplusplus
+int main(int argc, char *argv[])
+{
+    uint32_t jdn = 0;
+    uint32_t jdn2 = 0;
+    for(jdn = 0; jdn < 2488069; ++jdn) {
+        int16_t year;
+        uint8_t month;
+        uint16_t day;
+        jdn_to_sh(jdn, &year, &month, &day);
+        sh_to_jdn(&jdn2, year, month, day);
+        if(jdn != jdn2) {
+            printf("conversion failed! %d != %d for %+04d-%02d-%02d\n",
+                   jdn, jdn2, year, month, day);
+            return -1;
+        }
+    }
+    return 0;
 }
-#endif
-
-#endif /* LIBCALENDAR_SOLAR_HIJRI_H */

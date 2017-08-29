@@ -103,7 +103,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-check_PROGRAMS = solar_hijri_test$(EXEEXT)
+check_PROGRAMS = tst_solar_hijri$(EXEEXT) tst_gregorian$(EXEEXT)
 subdir = test
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -117,14 +117,18 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am_solar_hijri_test_OBJECTS = solar-hijri-test.$(OBJEXT)
-solar_hijri_test_OBJECTS = $(am_solar_hijri_test_OBJECTS)
-solar_hijri_test_LDADD = $(LDADD)
-solar_hijri_test_DEPENDENCIES = ../src/libcalendar.la
+am_tst_gregorian_OBJECTS = tst-gregorian.$(OBJEXT)
+tst_gregorian_OBJECTS = $(am_tst_gregorian_OBJECTS)
+tst_gregorian_LDADD = $(LDADD)
+tst_gregorian_DEPENDENCIES = ../src/libcalendar.la
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
+am_tst_solar_hijri_OBJECTS = tst-solar-hijri.$(OBJEXT)
+tst_solar_hijri_OBJECTS = $(am_tst_solar_hijri_OBJECTS)
+tst_solar_hijri_LDADD = $(LDADD)
+tst_solar_hijri_DEPENDENCIES = ../src/libcalendar.la
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -159,8 +163,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(solar_hijri_test_SOURCES)
-DIST_SOURCES = $(solar_hijri_test_SOURCES)
+SOURCES = $(tst_gregorian_SOURCES) $(tst_solar_hijri_SOURCES)
+DIST_SOURCES = $(tst_gregorian_SOURCES) $(tst_solar_hijri_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -517,8 +521,11 @@ AM_CXXFLAGS = --pedantic -Wall -Werror
 LDADD = \
     ../src/libcalendar.la
 
-solar_hijri_test_SOURCES = \
-    solar-hijri-test.c
+tst_solar_hijri_SOURCES = \
+    tst-solar-hijri.c
+
+tst_gregorian_SOURCES = \
+    tst-gregorian.c
 
 TESTS = $(check_PROGRAMS)
 all: all-am
@@ -564,9 +571,13 @@ clean-checkPROGRAMS:
 	echo " rm -f" $$list; \
 	rm -f $$list
 
-solar_hijri_test$(EXEEXT): $(solar_hijri_test_OBJECTS) $(solar_hijri_test_DEPENDENCIES) $(EXTRA_solar_hijri_test_DEPENDENCIES) 
-	@rm -f solar_hijri_test$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(solar_hijri_test_OBJECTS) $(solar_hijri_test_LDADD) $(LIBS)
+tst_gregorian$(EXEEXT): $(tst_gregorian_OBJECTS) $(tst_gregorian_DEPENDENCIES) $(EXTRA_tst_gregorian_DEPENDENCIES) 
+	@rm -f tst_gregorian$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(tst_gregorian_OBJECTS) $(tst_gregorian_LDADD) $(LIBS)
+
+tst_solar_hijri$(EXEEXT): $(tst_solar_hijri_OBJECTS) $(tst_solar_hijri_DEPENDENCIES) $(EXTRA_tst_solar_hijri_DEPENDENCIES) 
+	@rm -f tst_solar_hijri$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(tst_solar_hijri_OBJECTS) $(tst_solar_hijri_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -574,7 +585,8 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/solar-hijri-test.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tst-gregorian.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tst-solar-hijri.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -799,9 +811,16 @@ recheck: all $(check_PROGRAMS)
 	        am__force_recheck=am--force-recheck \
 	        TEST_LOGS="$$log_list"; \
 	exit $$?
-solar_hijri_test.log: solar_hijri_test$(EXEEXT)
-	@p='solar_hijri_test$(EXEEXT)'; \
-	b='solar_hijri_test'; \
+tst_solar_hijri.log: tst_solar_hijri$(EXEEXT)
+	@p='tst_solar_hijri$(EXEEXT)'; \
+	b='tst_solar_hijri'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+tst_gregorian.log: tst_gregorian$(EXEEXT)
+	@p='tst_gregorian$(EXEEXT)'; \
+	b='tst_gregorian'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \

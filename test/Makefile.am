@@ -23,9 +23,13 @@ LDADD = \
     ../src/libcalendar.la
 
 check_PROGRAMS = \
-    solar_hijri_test
+    tst_solar_hijri \
+    tst_gregorian
 
-solar_hijri_test_SOURCES = \
-    solar-hijri-test.c
-    
+tst_solar_hijri_SOURCES = \
+    tst-solar-hijri.c
+
+tst_gregorian_SOURCES = \
+    tst-gregorian.c
+
 TESTS = $(check_PROGRAMS)
