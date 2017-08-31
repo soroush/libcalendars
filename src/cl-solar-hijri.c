@@ -19,13 +19,14 @@
 
 #include <math.h>
 #include "cl-solar-hijri.h"
+#include "cl-math.h"
 
 /* Constants */
 
 /* Number of days in a cycle */
 static const int32_t cycle_days = 1029983;
 /* Number of years in a cycle */
-static const uint32_t cycle_years = 2820;
+static const uint16_t cycle_years = 2820;
 /* 365 + leapRatio */
 static const double year_length = 365.24219858156028368;
 /* 475/01/01 AP, start of 2820 cycle */
@@ -107,16 +108,16 @@ LIBCALENDAR_API
 void sh_to_jdn(uint32_t *jd, int16_t year, uint8_t month, uint16_t day)
 {
     /* Adjust the offset of year 0 */
-    int e = 0;
-    int d_y = 0;
+    int16_t era = 0;
+    int32_t d_y = 0;
     int32_t f_d;
     if(year < 0)
         ++year;
-    e = (year - 475) / cycle_years;
+    era = (year - 475) / cycle_years;
     if((year - 475) < 0)
-        e--;
-    int y_c = (year - 475) - e * cycle_years;
-    f_d = fdoy_c(y_c, e);
+        era--;
+    int y_c = (year - 475) - era * cycle_years;
+    f_d = fdoy_c(y_c, era);
     d_y = 0;
     for(int i = 1; i < month; ++i)
         d_y += sh_days_in_month(i, year);
