@@ -27,9 +27,11 @@ check_PROGRAMS = \
     tst_gregorian
 
 tst_solar_hijri_SOURCES = \
+    tst-common.h \
     tst-solar-hijri.c
 
 tst_gregorian_SOURCES = \
+    tst-common.h \
     tst-gregorian.c
 
 TESTS = $(check_PROGRAMS)

@@ -18,23 +18,11 @@
  */
 
 #include "../src/cl-solar-hijri.h"
-#include <stdio.h>
+#include "tst-common.h"
 
-int main(int argc, char *argv[])
+int main()
 {
-    uint32_t jdn = 0;
-    uint32_t jdn2 = 0;
-    for(jdn = 0; jdn < 2488069; ++jdn) {
-        int16_t year;
-        uint8_t month;
-        uint16_t day;
-        jdn_to_sh(jdn, &year, &month, &day);
-        sh_to_jdn(&jdn2, year, month, day);
-        if(jdn != jdn2) {
-            printf("conversion failed! %d != %d for %+04d-%02d-%02d\n",
-                   jdn, jdn2, year, month, day);
-            return -1;
-        }
-    }
-    return 0;
+    cal_to_jdn = &sh_to_jdn;
+    jdn_to_cal = &jdn_to_sh;
+    return tst_calendar();
 }

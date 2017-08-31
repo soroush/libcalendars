@@ -17,22 +17,26 @@
  *
  */
 
-#ifndef LIBCALENDAR_MATH_H
-#define LIBCALENDAR_MATH_H
+#ifndef LIBCALENDAR_MILANKOVIC_H
+#define LIBCALENDAR_MILANKOVIC_H
 
-#include <math.h>
-#include <stdlib.h>
+#include <stdint.h>
+#include "cl-export.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-div_t clm_pdiv(int d, int v);
-int clm_floor_div(int a, int b);
-int clm_mod(int a, int b);
+LIBCALENDAR_API int ml_is_leap(int16_t year);
+LIBCALENDAR_API int ml_days_in_month(uint8_t month, int16_t year);
+LIBCALENDAR_API uint16_t ml_days_in_year(int16_t year);
+LIBCALENDAR_API void ml_to_jdn(uint32_t* jd,
+                               int16_t year, uint8_t month, uint16_t day);
+LIBCALENDAR_API void jdn_to_ml(uint32_t jdn,
+                               int16_t* year, uint8_t* month, uint16_t* day);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* LIBCALENDAR_MATH_H */
+#endif /* LIBCALENDAR_MILANKOVIC_H */
