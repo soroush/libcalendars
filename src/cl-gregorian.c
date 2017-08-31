@@ -20,7 +20,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include "cl-gregorian.h"
-
+#include "cl-math.h"
 
 LIBCALENDAR_API
 int gr_is_leap(int16_t year) {
@@ -66,25 +66,25 @@ uint16_t gr_days_in_year(int16_t year) {
 
 LIBCALENDAR_API
 void gr_to_jdn(uint32_t* jd, int16_t year, uint8_t month, uint16_t day) {
-    uint8_t c0;
+    int8_t c0;
     int16_t x4;
     int16_t x1;
     div_t d;
-    c0 = (month - 3) / 12;
+    c0 = clm_floor_div((month - 3) , 12);
     x1 = month - (12 * c0) - 3;
     x4 = year + c0;
-    d = div(x4, 100);
-    *jd = (146097 * d.quot) / 4
-          + (36525 * d.rem) /100
-          + (153 * x1 + 2) / 5
+    d = clm_pdiv(x4, 100);
+    *jd = clm_floor_div(146097 * d.quot,  4)
+          + clm_floor_div(36525 * d.rem, 100)
+          + clm_floor_div(153 * x1 + 2 , 5)
           + day + 1721119;
 }
 
 LIBCALENDAR_API
 void jdn_to_gr(uint32_t jd, int16_t* year, uint8_t* month, uint16_t* day) {
-    div_t x3_r3 = div(4 * jd - 6884477, 146097);
-    div_t x2_r2 = div(100 * (x3_r3.rem / 4) + 99, 36525);
-    div_t x1_r1 = div(5 * (x2_r2.rem / 100) + 2, 153);
+    div_t x3_r3 = clm_pdiv(4 * jd - 6884477, 146097);
+    div_t x2_r2 = clm_pdiv(100 * (x3_r3.rem / 4) + 99, 36525);
+    div_t x1_r1 = clm_pdiv(5 * (x2_r2.rem / 100) + 2, 153);
     uint16_t c0 = (x1_r1.quot + 2) / 12;
     *day = (x1_r1.rem / 5) + 1;
     *month = x1_r1.quot - 12*c0 + 3;
