@@ -21,9 +21,27 @@
 #include "tst-common.h"
 #include <stdio.h>
 
-int main()
-{
+/* Because it makes no sense to convert dates from Gregorian to Gregorian,
+ * we provide dummy funvtions for tests.
+ */
+
+void gr_to_gr1(int16_t  cyear, uint8_t  cmonth, uint16_t  cday,
+               int16_t* gyear, uint8_t* gmonth, uint16_t* gday) {
+    *gyear = cyear;
+    *gmonth = cmonth;
+    *gday = cday;
+}
+void gr_to_gr2(int16_t  gyear, uint8_t  gmonth, uint16_t  gday,
+               int16_t* cyear, uint8_t* cmonth, uint16_t* cday) {
+    *cyear = gyear;
+    *cmonth = gmonth;
+    *cday = gday;
+}
+
+int main() {
     cal_to_jdn = &gr_to_jdn;
     jdn_to_cal = &jdn_to_gr;
+    cal_to_gr = & gr_to_gr1;
+    gr_to_cal = & gr_to_gr2;
     return tst_calendar();
 }

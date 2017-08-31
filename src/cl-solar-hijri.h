@@ -34,6 +34,10 @@ LIBCALENDAR_API void sh_to_jdn(uint32_t* jd,
                                int16_t year, uint8_t month, uint16_t day);
 LIBCALENDAR_API void jdn_to_sh(uint32_t jdn,
                                int16_t* year, uint8_t* month, uint16_t* day);
+LIBCALENDAR_API void sh_to_gr(int16_t  jyear, uint8_t  jmonth, uint16_t  jday,
+                              int16_t* gyear, uint8_t* gmonth, uint16_t* gday);
+LIBCALENDAR_API void gr_to_sh(int16_t  gyear, uint8_t  gmonth, uint16_t  gday,
+                              int16_t* jyear, uint8_t* jmonth, uint16_t* jday);
 
 #ifdef __cplusplus
 }

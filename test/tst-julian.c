@@ -25,5 +25,7 @@ int main()
 {
     cal_to_jdn = &ju_to_jdn;
     jdn_to_cal = &jdn_to_ju;
+    cal_to_gr = &ju_to_gr;
+    gr_to_cal = &gr_to_ju;
     return tst_calendar();
 }

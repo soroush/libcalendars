@@ -20,6 +20,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include "cl-julian.h"
+#include "cl-gregorian.h"
 #include "cl-math.h"
 
 LIBCALENDAR_API
@@ -79,3 +80,20 @@ void jdn_to_ju(uint32_t jd, int16_t* year, uint8_t* month, uint16_t* day) {
     *month = (uint8_t)(x1 - 12 * c0 + 3);
     *day = clm_floor_div(clm_mod(k1, 153), 5) + 1;
 }
+
+LIBCALENDAR_API
+void ju_to_gr(int16_t  jyear,  uint8_t jmonth,  uint16_t jday,
+              int16_t* gyear, uint8_t* gmonth, uint16_t* gday) {
+    uint32_t jdn = 0;
+    ju_to_jdn(&jdn, jyear, jmonth, jday);
+    jdn_to_gr(jdn, gyear, gmonth, gday);
+}
+
+LIBCALENDAR_API
+void gr_to_ju(int16_t  gyear,  uint8_t gmonth,  uint16_t gday,
+              int16_t* jyear, uint8_t* jmonth, uint16_t* jday) {
+    uint32_t jdn = 0;
+    gr_to_jdn(&jdn, gyear, gmonth, gday);
+    jdn_to_ju(jdn, jyear, jmonth, jday);
+}
+

@@ -22,12 +22,17 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#include "../src/cl-gregorian.h"
 
 uint32_t min_jd = 0;
 uint32_t max_jd = 2488069;
 
 void (*cal_to_jdn)(uint32_t*, int16_t, uint8_t, uint16_t);
 void (*jdn_to_cal)(uint32_t, int16_t*, uint8_t*, uint16_t*);
+void (*cal_to_gr)(int16_t  jyear, uint8_t  jmonth, uint16_t  jday,
+                  int16_t* gyear, uint8_t* gmonth, uint16_t* gday);
+void (*gr_to_cal)(int16_t  gyear, uint8_t  gmonth, uint16_t  gday,
+                  int16_t* jyear, uint8_t* jmonth, uint16_t* jday);
 
 int tst_calendar() {
     uint32_t jdn = 0;
@@ -39,10 +44,23 @@ int tst_calendar() {
         (*jdn_to_cal)(jdn, &year, &month, &day);
         (*cal_to_jdn)(&jdn2, year, month, day);
         if(jdn != jdn2) {
-            printf("conversion failed! %d != %d for %+04d-%02d-%02d\n",
+            printf("JDN conversion failed! %d != %d for %+04d-%02d-%02d\n",
                    jdn, jdn2, year, month, day);
             return -1;
         }
+        int16_t gy[2] = {0, 0};
+        uint8_t gm[2] = {0, 0};
+        uint16_t gd[2] = {0, 0};
+        jdn_to_gr(jdn, &gy[0], &gm[0], &gd[0]);
+        (*gr_to_cal)(gy[0], gm[0], gd[0], &year, &month, &day);
+        (*cal_to_gr)(year, month, day, &gy[1], &gm[1], &gd[1]);
+        if(gy[0] != gy[1] || gm[0] != gm[1] || gm[0] != gm[1]) {
+            printf("Gregorian to calendar conversion failed! "
+                   "%04d-%20d-%02d != %04d-%20d-%02d!\n",
+                   gy[0], gm[0], gd[0], gy[1], gm[1], gd[1]);
+            return -1;
+        }
+
     }
     return 0;
 }
