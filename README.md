@@ -44,8 +44,8 @@ implemented based
 on [Astronomy](http://aa.quae.nl/en/reken/juliaansedag.html) page). Namely
 Gregorian, Julian, Milankovic and Islamic Civil calendars and their JDN
 calculations are adopted from above page. Solar Hijri (Shamsi) and Jalali
-calendar calculations are implemented based on Dr.
-[Mousa Akrami](http://m-akrami.teacher.srbiau.ac.ir/)'s work on median year
+calendar calculations are implemented based on
+[Dr. Mousa Akrami](http://m-akrami.teacher.srbiau.ac.ir/)'s work on median year
 length for Persian calendar. (See notes on Solar Hijri calendar).
 
 # Calendars

@@ -103,7 +103,8 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-check_PROGRAMS = tst_solar_hijri$(EXEEXT) tst_gregorian$(EXEEXT)
+check_PROGRAMS = tst_solar_hijri$(EXEEXT) tst_julian$(EXEEXT) \
+	tst_milankovic$(EXEEXT) tst_gregorian$(EXEEXT)
 subdir = test
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -125,6 +126,14 @@ AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
+am_tst_julian_OBJECTS = tst-julian.$(OBJEXT)
+tst_julian_OBJECTS = $(am_tst_julian_OBJECTS)
+tst_julian_LDADD = $(LDADD)
+tst_julian_DEPENDENCIES = ../src/libcalendar.la
+am_tst_milankovic_OBJECTS = tst-milankovic.$(OBJEXT)
+tst_milankovic_OBJECTS = $(am_tst_milankovic_OBJECTS)
+tst_milankovic_LDADD = $(LDADD)
+tst_milankovic_DEPENDENCIES = ../src/libcalendar.la
 am_tst_solar_hijri_OBJECTS = tst-solar-hijri.$(OBJEXT)
 tst_solar_hijri_OBJECTS = $(am_tst_solar_hijri_OBJECTS)
 tst_solar_hijri_LDADD = $(LDADD)
@@ -163,8 +172,10 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(tst_gregorian_SOURCES) $(tst_solar_hijri_SOURCES)
-DIST_SOURCES = $(tst_gregorian_SOURCES) $(tst_solar_hijri_SOURCES)
+SOURCES = $(tst_gregorian_SOURCES) $(tst_julian_SOURCES) \
+	$(tst_milankovic_SOURCES) $(tst_solar_hijri_SOURCES)
+DIST_SOURCES = $(tst_gregorian_SOURCES) $(tst_julian_SOURCES) \
+	$(tst_milankovic_SOURCES) $(tst_solar_hijri_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -529,6 +540,14 @@ tst_gregorian_SOURCES = \
     tst-common.h \
     tst-gregorian.c
 
+tst_julian_SOURCES = \
+    tst-common.h \
+    tst-julian.c
+
+tst_milankovic_SOURCES = \
+    tst-common.h \
+    tst-milankovic.c
+
 TESTS = $(check_PROGRAMS)
 all: all-am
 
@@ -577,6 +596,14 @@ tst_gregorian$(EXEEXT): $(tst_gregorian_OBJECTS) $(tst_gregorian_DEPENDENCIES) $
 	@rm -f tst_gregorian$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(tst_gregorian_OBJECTS) $(tst_gregorian_LDADD) $(LIBS)
 
+tst_julian$(EXEEXT): $(tst_julian_OBJECTS) $(tst_julian_DEPENDENCIES) $(EXTRA_tst_julian_DEPENDENCIES) 
+	@rm -f tst_julian$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(tst_julian_OBJECTS) $(tst_julian_LDADD) $(LIBS)
+
+tst_milankovic$(EXEEXT): $(tst_milankovic_OBJECTS) $(tst_milankovic_DEPENDENCIES) $(EXTRA_tst_milankovic_DEPENDENCIES) 
+	@rm -f tst_milankovic$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(tst_milankovic_OBJECTS) $(tst_milankovic_LDADD) $(LIBS)
+
 tst_solar_hijri$(EXEEXT): $(tst_solar_hijri_OBJECTS) $(tst_solar_hijri_DEPENDENCIES) $(EXTRA_tst_solar_hijri_DEPENDENCIES) 
 	@rm -f tst_solar_hijri$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(tst_solar_hijri_OBJECTS) $(tst_solar_hijri_LDADD) $(LIBS)
@@ -588,6 +615,8 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tst-gregorian.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tst-julian.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tst-milankovic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tst-solar-hijri.Po@am__quote@
 
 .c.o:
@@ -816,6 +845,20 @@ recheck: all $(check_PROGRAMS)
 tst_solar_hijri.log: tst_solar_hijri$(EXEEXT)
 	@p='tst_solar_hijri$(EXEEXT)'; \
 	b='tst_solar_hijri'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+tst_julian.log: tst_julian$(EXEEXT)
+	@p='tst_julian$(EXEEXT)'; \
+	b='tst_julian'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+tst_milankovic.log: tst_milankovic$(EXEEXT)
+	@p='tst_milankovic$(EXEEXT)'; \
+	b='tst_milankovic'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \

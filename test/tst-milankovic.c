@@ -17,27 +17,13 @@
  *
  */
 
-#include "cl-math.h"
-#include <math.h>
+#include "../src/cl-milankovic.h"
+#include "tst-common.h"
+#include <stdio.h>
 
-div_t clm_pdiv(int d, int v) {
-    div_t rv = div(d, v);
-    if(rv.rem < 0) {
-        if(v>0) {
-            rv.quot -= 1;
-            rv.rem += v;
-        } else {
-            rv.quot += 1;
-            rv.rem -= v;
-        }
-    }
-    return rv;
-}
-
-int clm_floor_div(int a, int b) {
-    return floor((float)(a)/(float)(b));
-}
-
-int clm_mod(int a, int b) {
-    return a - clm_floor_div(a, b) * b;
+int main()
+{
+    cal_to_jdn = &ml_to_jdn;
+    jdn_to_cal = &jdn_to_ml;
+    return tst_calendar();
 }

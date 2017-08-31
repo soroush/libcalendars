@@ -64,12 +64,12 @@ LIBCALENDAR_API
 void ju_to_jdn(uint32_t* jd, int16_t year, uint8_t month, uint16_t day) {
     const uint8_t c0 = clm_floor_div(month - 3, 12);
     const int32_t j1 = clm_floor_div(1461 * (year + c0), 4);
-    const int32_t j2 = clm_floor_div(153 * *month - 1836 * c0 - 457, 5);
-    *jd = j1 + j2 + *day + 1721117;
+    const int32_t j2 = clm_floor_div(153 * month - 1836 * c0 - 457, 5);
+    *jd = j1 + j2 + day + 1721117;
 }
 
 LIBCALENDAR_API
-void ju_to_gr(uint32_t jd, int16_t* year, uint8_t* month, uint16_t* day) {
+void jdn_to_ju(uint32_t jd, int16_t* year, uint8_t* month, uint16_t* day) {
     const int32_t y2 = jd - 1721118;
     const int32_t k2 = 4 * y2 + 3;
     const int32_t k1 = 5 * clm_floor_div(clm_mod(k2, 1461), 4) + 2;

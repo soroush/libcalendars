@@ -24,6 +24,8 @@ LDADD = \
 
 check_PROGRAMS = \
     tst_solar_hijri \
+    tst_julian \
+    tst_milankovic \
     tst_gregorian
 
 tst_solar_hijri_SOURCES = \
@@ -33,5 +35,13 @@ tst_solar_hijri_SOURCES = \
 tst_gregorian_SOURCES = \
     tst-common.h \
     tst-gregorian.c
+
+tst_julian_SOURCES = \
+    tst-common.h \
+    tst-julian.c
+
+tst_milankovic_SOURCES = \
+    tst-common.h \
+    tst-milankovic.c
 
 TESTS = $(check_PROGRAMS)

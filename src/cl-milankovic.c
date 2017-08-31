@@ -94,11 +94,12 @@ void jdn_to_ml(uint32_t jd, int16_t* year, uint8_t* month, uint16_t* day) {
     const int32_t k3 = 9 * (jd - 1721120) + 2;
     const int32_t x3 = clm_floor_div(k3, 328718);
     const int32_t k2 = 100 * clm_floor_div(clm_mod(k3, 328718), 9) + 99;
+    const int32_t k1 = clm_floor_div(clm_mod(k2, 36525), 100) * 5 + 2;
     const int32_t x2 = clm_floor_div(k2, 36525);
     const int32_t x1 =
         clm_floor_div(5 * clm_floor_div(clm_mod(k2, 36525), 100) + 2, 153);
     const uint32_t c0 = clm_floor_div(x1 + 2, 12);
     *year = (int16_t)(100 * x3 + x2 + c0);
     *month = (uint8_t)(x1 - 12 * c0 + 3);
-    *day = clm_floor_div(clm_mod(k2, 153), 5) + 1;
+    *day = clm_floor_div(clm_mod(k1, 153), 5) + 1;
 }
