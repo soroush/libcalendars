@@ -28,8 +28,8 @@
 /stamp-h1
 
 # https://www.gnu.org/software/libtool/
-
-/ltmain.sh
+# Edit: Why would I want to ignore libtool?!
+#/ltmain.sh
 
 # http://www.gnu.org/software/texinfo
 
