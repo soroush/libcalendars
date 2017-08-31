@@ -62,7 +62,7 @@ uint16_t ju_days_in_year(int16_t year) {
 
 LIBCALENDAR_API
 void ju_to_jdn(uint32_t* jd, int16_t year, uint8_t month, uint16_t day) {
-    const uint8_t c0 = clm_floor_div(month - 3, 12);
+    const int32_t c0 = clm_floor_div(month - 3, 12);
     const int32_t j1 = clm_floor_div(1461 * (year + c0), 4);
     const int32_t j2 = clm_floor_div(153 * month - 1836 * c0 - 457, 5);
     *jd = j1 + j2 + day + 1721117;

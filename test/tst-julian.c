@@ -25,7 +25,5 @@ int main()
 {
     cal_to_jdn = &ju_to_jdn;
     jdn_to_cal = &jdn_to_ju;
-    min_jd = 2451893;
-    max_jd = 2451893+1;
     return tst_calendar();
 }
