@@ -100,7 +100,16 @@ void jw_to_jdn(uint32_t* jd, int16_t year, uint8_t month, uint16_t day) {
     const int32_t x1 = year - 1 + c0;
     const int32_t x3 = month - 1;
     const int32_t z4 = day - 1;
-    *jd = j0 - 177 + c4(x1, x3) + z4;
+    *jd = j0 - 177
+          + 32336 * q(x1)
+          + clm_floor_div(15 * q(x1) + 765433 * r(x1) + 12084, 25920)
+          + clm_mod(clm_floor_div(6 * clm_mod(v1(x1), 7), 7), 2)
+          + 2 * clm_mod(clm_floor_div(L2(x1) + 19, 15), 2)
+          + clm_mod(clm_floor_div(L2(x1 - 1) + 7, 15), 2)
+          + clm_floor_div(384 * x3 + 7, 13)
+          + clm_mod(clm_floor_div(L(x3) + 7, 2), 15) * clm_floor_div(x3 + 4, 12)
+          - clm_mod(clm_floor_div(385 - L(x3), 2), 15)
+          * clm_floor_div(x3 + 3, 12) + z4;
 }
 
 LIBCALENDAR_API
