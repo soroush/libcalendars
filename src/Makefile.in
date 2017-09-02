@@ -153,7 +153,7 @@ libcalendar_la_DEPENDENCIES =
 am__objects_1 =
 am_libcalendar_la_OBJECTS = $(am__objects_1) cl-math.lo \
 	cl-gregorian.lo cl-julian.lo cl-milankovic.lo \
-	cl-solar-hijri.lo
+	cl-solar-hijri.lo cl-jewish.lo
 libcalendar_la_OBJECTS = $(am_libcalendar_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -353,7 +353,8 @@ libcalendar_include_HEADERS = \
     cl-gregorian.h \
     cl-julian.h \
     cl-milankovic.h \
-    cl-solar-hijri.h
+    cl-solar-hijri.h \
+    cl-jewish.h
 
 lib_LTLIBRARIES = libcalendar.la
 libcalendar_la_LDFLAGS = -version-info $(LIBCALENDAR_SO_VERSION)
@@ -363,7 +364,8 @@ libcalendar_la_SOURCES = \
     cl-gregorian.c \
     cl-julian.c \
     cl-milankovic.c \
-    cl-solar-hijri.c
+    cl-solar-hijri.c \
+    cl-jewish.c
 
 libcalendar_la_LIBADD = \
     -lm
@@ -447,6 +449,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cl-gregorian.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cl-jewish.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cl-julian.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cl-math.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cl-milankovic.Plo@am__quote@
