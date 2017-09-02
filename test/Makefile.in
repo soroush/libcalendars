@@ -104,7 +104,8 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 check_PROGRAMS = tst_solar_hijri$(EXEEXT) tst_julian$(EXEEXT) \
-	tst_milankovic$(EXEEXT) tst_gregorian$(EXEEXT)
+	tst_milankovic$(EXEEXT) tst_gregorian$(EXEEXT) \
+	tst_jewish$(EXEEXT)
 subdir = test
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -126,6 +127,10 @@ AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
+am_tst_jewish_OBJECTS = tst-jewish.$(OBJEXT)
+tst_jewish_OBJECTS = $(am_tst_jewish_OBJECTS)
+tst_jewish_LDADD = $(LDADD)
+tst_jewish_DEPENDENCIES = ../src/libcalendar.la
 am_tst_julian_OBJECTS = tst-julian.$(OBJEXT)
 tst_julian_OBJECTS = $(am_tst_julian_OBJECTS)
 tst_julian_LDADD = $(LDADD)
@@ -172,10 +177,12 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(tst_gregorian_SOURCES) $(tst_julian_SOURCES) \
-	$(tst_milankovic_SOURCES) $(tst_solar_hijri_SOURCES)
-DIST_SOURCES = $(tst_gregorian_SOURCES) $(tst_julian_SOURCES) \
-	$(tst_milankovic_SOURCES) $(tst_solar_hijri_SOURCES)
+SOURCES = $(tst_gregorian_SOURCES) $(tst_jewish_SOURCES) \
+	$(tst_julian_SOURCES) $(tst_milankovic_SOURCES) \
+	$(tst_solar_hijri_SOURCES)
+DIST_SOURCES = $(tst_gregorian_SOURCES) $(tst_jewish_SOURCES) \
+	$(tst_julian_SOURCES) $(tst_milankovic_SOURCES) \
+	$(tst_solar_hijri_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -548,6 +555,10 @@ tst_milankovic_SOURCES = \
     tst-common.h \
     tst-milankovic.c
 
+tst_jewish_SOURCES = \
+    tst-common.h \
+    tst-jewish.c
+
 TESTS = $(check_PROGRAMS)
 all: all-am
 
@@ -596,6 +607,10 @@ tst_gregorian$(EXEEXT): $(tst_gregorian_OBJECTS) $(tst_gregorian_DEPENDENCIES) $
 	@rm -f tst_gregorian$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(tst_gregorian_OBJECTS) $(tst_gregorian_LDADD) $(LIBS)
 
+tst_jewish$(EXEEXT): $(tst_jewish_OBJECTS) $(tst_jewish_DEPENDENCIES) $(EXTRA_tst_jewish_DEPENDENCIES) 
+	@rm -f tst_jewish$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(tst_jewish_OBJECTS) $(tst_jewish_LDADD) $(LIBS)
+
 tst_julian$(EXEEXT): $(tst_julian_OBJECTS) $(tst_julian_DEPENDENCIES) $(EXTRA_tst_julian_DEPENDENCIES) 
 	@rm -f tst_julian$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(tst_julian_OBJECTS) $(tst_julian_LDADD) $(LIBS)
@@ -615,6 +630,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tst-gregorian.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tst-jewish.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tst-julian.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tst-milankovic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tst-solar-hijri.Po@am__quote@
@@ -866,6 +882,13 @@ tst_milankovic.log: tst_milankovic$(EXEEXT)
 tst_gregorian.log: tst_gregorian$(EXEEXT)
 	@p='tst_gregorian$(EXEEXT)'; \
 	b='tst_gregorian'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+tst_jewish.log: tst_jewish$(EXEEXT)
+	@p='tst_jewish$(EXEEXT)'; \
+	b='tst_jewish'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \

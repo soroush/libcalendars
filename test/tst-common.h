@@ -56,7 +56,7 @@ int tst_calendar() {
         (*cal_to_gr)(year, month, day, &gy[1], &gm[1], &gd[1]);
         if(gy[0] != gy[1] || gm[0] != gm[1] || gm[0] != gm[1]) {
             printf("Gregorian to calendar conversion failed! "
-                   "%04d-%20d-%02d != %04d-%20d-%02d!\n",
+                   "%04d-%02d-%02d != %04d-%02d-%02d!\n",
                    gy[0], gm[0], gd[0], gy[1], gm[1], gd[1]);
             return -1;
         }

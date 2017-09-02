@@ -26,7 +26,8 @@ check_PROGRAMS = \
     tst_solar_hijri \
     tst_julian \
     tst_milankovic \
-    tst_gregorian
+    tst_gregorian \
+    tst_jewish
 
 tst_solar_hijri_SOURCES = \
     tst-common.h \
@@ -43,5 +44,9 @@ tst_julian_SOURCES = \
 tst_milankovic_SOURCES = \
     tst-common.h \
     tst-milankovic.c
+
+tst_jewish_SOURCES = \
+    tst-common.h \
+    tst-jewish.c
 
 TESTS = $(check_PROGRAMS)
