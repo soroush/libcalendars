@@ -50,7 +50,11 @@ static inline int32_t v1(int32_t x) {
 }
 
 static inline int32_t v2(int32_t x) {
-    return v1(x) + clm_mod(clm_floor_div(6 * clm_mod(v1(x), 7), 7), 2);
+    const int32_t c1 = clm_floor_div(235 * x + 1, 19);
+    const int32_t qx = clm_floor_div(c1, 1095);
+    const int32_t v1x = 32336 * qx
+                        + clm_floor_div(15 * qx + 765433 * clm_mod(c1, 1095) + 12084, 25920);
+    return v1x + clm_mod(clm_floor_div(6 * clm_mod(v1x, 7), 7), 2);
 }
 
 static inline int32_t L2(int32_t x) {
@@ -73,18 +77,10 @@ static inline int32_t L(int32_t x) {
     return c2(x + 1) - c2(x);
 }
 
-static inline int32_t c8(int32_t x) {
-    return clm_mod(clm_floor_div(L(x) + 7, 2), 15);
-}
-
-static inline int32_t c9(int32_t x) {
-    return -1 * clm_mod(clm_floor_div(385 - L(x), 2), 15);
-}
-
 static inline int32_t c3(int32_t x) {
     return clm_floor_div(384 * x + 7, 13)
-           + c8(x) * clm_floor_div(x + 4, 12)
-           + c9(x) * clm_floor_div(x + 3, 12);
+           + clm_mod(clm_floor_div(L(x) + 7, 2), 15) * clm_floor_div(x + 4, 12)
+           - clm_mod(clm_floor_div(385 - L(x), 2), 15) * clm_floor_div(x + 3, 12);
 }
 
 static inline int32_t c4(int32_t x, int32_t y) {
