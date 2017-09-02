@@ -34,21 +34,19 @@ LIBCALENDAR_API
 uint16_t jw_days_in_year(int16_t year) {
 }
 
-static inline int32_t c1(int32_t x) {
-    return clm_floor_div(235 * x + 1, 19);
-}
-
 static inline int32_t q(int32_t x) {
-    return clm_floor_div(c1(x), 1095);
+    return clm_floor_div(clm_floor_div(235 * x + 1, 19), 1095);
 }
 
 static inline int32_t r(int32_t x) {
-    return clm_mod(c1(x), 1095);
+    return clm_mod(clm_floor_div(235 * x + 1, 19), 1095);
 }
 
 static inline int32_t v1(int32_t x) {
-    return 32336 * q(x)
-           + clm_floor_div(15 * q(x) + 765433 * r(x) + 12084, 25920);
+    const int32_t c1 = clm_floor_div(235 * x + 1, 19);
+    const int32_t qx = clm_floor_div(c1, 1095);
+    return 32336 * qx
+           + clm_floor_div(15 * qx + 765433 * clm_mod(c1, 1095) + 12084, 25920);
 }
 
 static inline int32_t v2(int32_t x) {
@@ -90,7 +88,21 @@ static inline int32_t c3(int32_t x) {
 }
 
 static inline int32_t c4(int32_t x, int32_t y) {
-    return c2(x) + c3(y);
+
+    const int32_t c1 = clm_floor_div(235 * x + 1, 19);
+    const int32_t qx = clm_floor_div(c1, 1095);
+    const int32_t Ly = L(y);
+    const int32_t rx = clm_mod(c1, 1095);
+    const int32_t v1x = 32336 * qx
+                        + clm_floor_div(15 * qx + 765433 * rx + 12084, 25920);
+    return
+        v1x
+        + clm_mod(clm_floor_div(6 * clm_mod(v1x, 7), 7), 2)
+        + 2 * clm_mod(clm_floor_div(L2(x) + 19, 15), 2)
+        + clm_mod(clm_floor_div(L2(x - 1) + 7, 15), 2)
+        + clm_floor_div(384 * y + 7, 13)
+        + clm_mod(clm_floor_div(Ly + 7, 2), 15) * clm_floor_div(y + 4, 12)
+        - clm_mod(clm_floor_div(385 - Ly, 2), 15) * clm_floor_div(y + 3, 12);
 }
 
 LIBCALENDAR_API
@@ -100,9 +112,10 @@ void jw_to_jdn(uint32_t* jd, int16_t year, uint8_t month, uint16_t day) {
     const int32_t x1 = year - 1 + c0;
     const int32_t x3 = month - 1;
     const int32_t z4 = day - 1;
+    const int32_t qx = q(x1);
     *jd = j0 - 177
-          + 32336 * q(x1)
-          + clm_floor_div(15 * q(x1) + 765433 * r(x1) + 12084, 25920)
+          + 32336 * qx
+          + clm_floor_div(15 * qx + 765433 * r(x1) + 12084, 25920)
           + clm_mod(clm_floor_div(6 * clm_mod(v1(x1), 7), 7), 2)
           + 2 * clm_mod(clm_floor_div(L2(x1) + 19, 15), 2)
           + clm_mod(clm_floor_div(L2(x1 - 1) + 7, 15), 2)
