@@ -3,15 +3,8 @@
 `libcalendar` is an experimental C library to provide arithmentic for several
 calendars.
 
-## Why?
+## Getting Started
 
-Why implement yet another calendaring library? Well, there are plenty of
-excellent implementations out there, though it seems there is no free,
-GPL-compliant, C implementation. Besides there is no precise implementation
-of non-gregorian calendars, most importantly Solar Hijri and Islamic Civil
-calendars.
-
-## How to use libcalendar?
 Almost all algorithms in libcalendar are implemented using Julian Day
 calculations. You can convert any date on supported calendars to JDN and vice
 versa. For example:
@@ -23,7 +16,9 @@ printf("Julian Day for 1392/04/15 AP is: %l\n", jdn);
 ```
 Which prints:
 
-```$ Julian Day for 1392/04/15 AP is: 2456480```
+```
+$ Julian Day for 1392/04/15 AP is: 2456480
+```
 
 You can also use non-jdn broken-down date API. For example you
 can check if a year in Solar Hijri calendar is leap or not:
@@ -32,11 +27,47 @@ can check if a year in Solar Hijri calendar is leap or not:
 if(sh_s_leap(1395))
     printf("Yep\n");
 ```
-# Algorithms
+
+### Prerequisites
 
 This library is imolemented in C programming language, using no external
 dependecies. The C standard library used in libcalendar is C11. Though it should
 be possible to compile this library with a C99 compiler.
+
+
+### Installing
+
+1. clone git repository:
+
+   ```
+   git clone git@github.com:soroush/libcalendars.git
+   ```
+
+   or download release tarball from
+[github release page](https://github.com/soroush/libcalendars/releases).
+
+2. Configure for build:
+
+   ```
+   ./configure
+   ```
+3. Build:
+   ```
+   make
+   ```
+   Or
+   ```
+   make -jN # Where N is degree of parallelism
+   ```
+
+## Running the tests
+
+Please make sure that the library works by running tests, and report any error:
+   ```
+   make check
+   ```
+   
+# Algorithms
 
 Most of the conversion algorithms for JDN to calendar and vice versa are
 implemented based
@@ -122,3 +153,27 @@ calculation obtained from Muousa Akrami's work:
 This method is more accurate than 33-year algorithm and supports a wider range
 of dates, both in Solar Hijri <-> Gregorian comversions, and in JDN
 calculations.
+ 
+# Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of
+conduct, and the process for submitting pull requests to us.
+
+# Versioning
+
+We use [SemVer](http://semver.org/) for versioning. For the versions available,
+see the [tags on this repository](https://github.com/soroush/libcalendars/tags).
+
+# Authors
+
+* **Soroush Rabiei**
+
+# License
+
+This project is licensed under the GPL-v3 License - see the [COPYING](COPYING)
+file for details.
+
+# Acknowledgments
+
+* Dr. Louis Strous
+* Dr. Mousa Akrami

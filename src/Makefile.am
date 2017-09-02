@@ -26,7 +26,8 @@ libcalendar_include_HEADERS =  \
     cl-gregorian.h \
     cl-julian.h \
     cl-milankovic.h \
-    cl-solar-hijri.h
+    cl-solar-hijri.h \
+    cl-islamic-civil.h
 
 lib_LTLIBRARIES = libcalendar.la
 libcalendar_la_LDFLAGS = -version-info $(LIBCALENDAR_SO_VERSION)
@@ -36,7 +37,8 @@ libcalendar_la_SOURCES = \
     cl-gregorian.c \
     cl-julian.c \
     cl-milankovic.c \
-    cl-solar-hijri.c
+    cl-solar-hijri.c \
+    cl-islamic-civil.c
 
 libcalendar_la_LIBADD = \
     -lm
