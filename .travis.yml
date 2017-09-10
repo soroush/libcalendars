@@ -29,4 +29,3 @@ matrix:
 
 before_install:
     - eval "${MATRIX_EVAL}"
-YAML
