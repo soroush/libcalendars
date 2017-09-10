@@ -1,0 +1,32 @@
+matrix:
+  include:
+    # works on Precise and Trusty
+    - os: linux
+      addons:
+        apt:
+          packages:
+            - gcc-4.9
+      env:
+         - MATRIX_EVAL="CC=gcc-4.9"
+
+    # works on Precise and Trusty
+    - os: linux
+      addons:
+        apt:
+          packages:
+            - gcc-5
+      env:
+         - MATRIX_EVAL="CC=gcc-5"
+    - os: osx
+      osx_image: xcode8
+      env:
+         - MATRIX_EVAL="CC=gcc-4.9"
+
+    - os: osx
+      osx_image: xcode8
+      env:
+        - MATRIX_EVAL="brew install gcc5 && CC=gcc-5"
+
+before_install:
+    - eval "${MATRIX_EVAL}"
+YAML
