@@ -1,5 +1,7 @@
 # A calendar implementation library
 
+[![Build Status](https://travis-ci.org/soroush/libcalendars.svg?branch=dev)](https://travis-ci.org/soroush/libcalendars)
+
 `libcalendar` is an experimental C library to provide arithmentic for several
 calendars.
 
