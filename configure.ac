@@ -15,7 +15,7 @@
 # along with libcalendar.  If not, see <http://www.gnu.org/licenses/>.
 
 AC_PREREQ([2.69])
-AC_INIT([libcalendar], [1.0.0])
+AC_INIT([libcalendars], [1.0.0])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -54,7 +54,7 @@ AC_CHECK_FUNCS([floor modf])
 AC_CONFIG_FILES([Makefile
                  src/Makefile
                  test/Makefile
-                 libcalendar.pc])
+                 libcalendars.pc])
 
 AC_SUBST([LIBCALENDAR_SO_VERSION], [1:0:0])
 AC_SUBST([LIBCALENDAR_API_VERSION], [1.0.0])
