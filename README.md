@@ -39,9 +39,27 @@ You can also use non-jdn broken-down date API. For example you
 can check if a year in Solar Hijri calendar is leap or not:
 
 ```c
-if(sh_s_leap(1395))
+if(sh_is_leap(1395)) /* returns 0 for regular years and 1 for leap years */
     printf("Yep\n");
 ```
+You can also convert calendar dates to/from Gregorian calendar:
+```c
+int16_t y;
+uint8_t m;
+uint16_t d;
+sh_to_gr(1369, 06, 18, &y, &m, &d); 
+printf("1369/06/18 AP is %04d-%02d-%02d\n", y, m, d);
+gr_to_sh(2017, 09, 11, &y, &m, &d); 
+printf("2017-09-11 is %04d-%02d-%02d AP\n", y, m, d);
+```
+which will print:
+
+```
+1369/06/18 AP is 2017-09-11
+2017-09-11 is 1369/06/18 AP 
+```
+
+
 # Algorithms
 
 This library is imolemented in C programming language, using no external
