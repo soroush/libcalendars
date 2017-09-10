@@ -1,5 +1,12 @@
 # A calendar implementation library
 
+![language](https://img.shields.io/badge/language-c-blue.svg)
+![c](https://img.shields.io/badge/std-c99-blue.svg)
+![GCC](https://img.shields.io/badge/GCC-5.4.0-blue.svg)
+![GCC](https://img.shields.io/badge/GCC-4.9.3-blue.svg)
+![GCC](https://img.shields.io/badge/GCC-4.8.5-blue.svg)
+![MSVC](https://img.shields.io/badge/MSVC-14-red.svg)
+![license](https://img.shields.io/badge/license-GPLv3-blue.svg)
 [![Build Status](https://travis-ci.org/soroush/libcalendars.svg?branch=dev)](https://travis-ci.org/soroush/libcalendars)
 
 `libcalendar` is an experimental C library to provide arithmentic for several
