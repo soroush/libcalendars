@@ -8,7 +8,7 @@
 ![MSVC](https://img.shields.io/badge/MSVC-14-red.svg)
 ![license](https://img.shields.io/badge/license-GPLv3-blue.svg)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6d907409c4244a0cb1a5e67299672d57)](https://www.codacy.com/app/soroush/libcalendars?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=soroush/libcalendars&amp;utm_campaign=Badge_Grade)
-[![Build Status](https://travis-ci.org/soroush/libcalendars.svg?branch=dev)](https://travis-ci.org/soroush/libcalendars)
+[![Build Status](https://travis-ci.org/soroush/libcalendars.svg?branch=dev)](https://travis-ci.org/soroush/libcalendars
 
 `libcalendar` is an experimental C library to provide arithmentic for several
 calendars.
