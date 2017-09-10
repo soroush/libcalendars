@@ -18,6 +18,7 @@
  */
 
 #include <math.h>
+#include <stddef.h>
 #include "cl-solar-hijri.h"
 #include "cl-gregorian.h"
 #include "cl-math.h"
@@ -106,6 +107,7 @@ void sh_to_jdn(uint32_t* jd, int16_t year, uint8_t month, uint16_t day) {
     int16_t era = 0;
     int32_t d_y = 0;
     int32_t f_d;
+    size_t i = 0;
     if(year < 0) {
         ++year;
     }
@@ -116,7 +118,7 @@ void sh_to_jdn(uint32_t* jd, int16_t year, uint8_t month, uint16_t day) {
     int y_c = (year - 475) - era * cycle_years;
     f_d = fdoy_c(y_c, era);
     d_y = 0;
-    for(int i = 1; i < month; ++i) {
+    for(i = 1; i < month; ++i) {
         d_y += sh_days_in_month(i, year);
     }
     d_y += day;
