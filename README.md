@@ -14,7 +14,6 @@
 calendars.
 
 ## Why?
-
 Why implement yet another calendaring library? Well, there are plenty of
 excellent implementations out there, though it seems there is no free,
 GPL-compliant, C implementation. Besides there is no precise implementation
@@ -47,15 +46,15 @@ You can also convert calendar dates to/from Gregorian calendar:
 int16_t y;
 uint8_t m;
 uint16_t d;
-sh_to_gr(1369, 06, 18, &y, &m, &d); 
-printf("1369/06/18 AP is %04d-%02d-%02d\n", y, m, d);
+sh_to_gr(1369, 06, 20, &y, &m, &d);
+printf("1369/06/20 AP is %04d-%02d-%02d\n", y, m, d);
 gr_to_sh(2017, 09, 11, &y, &m, &d); 
 printf("2017-09-11 is %04d-%02d-%02d AP\n", y, m, d);
 ```
 which will print:
 
 ```
-1369/06/18 AP is 2017-09-11
+1369/06/20 AP is 2017-09-11
 2017-09-11 is 1369/06/18 AP 
 ```
 
