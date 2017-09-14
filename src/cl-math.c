@@ -18,26 +18,54 @@
  */
 
 #include "cl-math.h"
-#include <math.h>
 
-div_t clm_pdiv(int d, int v) {
-    div_t rv = div(d, v);
+/**
+ * Division of a whole number \f$y\f$ by another whole number \f$x\f$ 
+ * results in a quotient \f$q\f$ and a remainder \f$r\f$. In our calculations,
+ * the remainder never should be negative. Then \f$0 ≤ r \lt \left|x\right|\f$
+ * As a result:
+ * 
+ *  \f{eqnarray*}{
+ *   q &=& \left\lfloor\frac{y}{x}\right\rfloor
+ *   \\ r &=& y \bmod x = y − x\left\lfloor\frac{y}{x}\right\rfloor
+ *   \\ y &=& qx + r
+ *  \f}
+ */
+div_t clm_pdiv(int y, int x) {
+    div_t rv = div(y, x);
     if(rv.rem < 0) {
-        if(v>0) {
+        if(x>0) {
             rv.quot -= 1;
-            rv.rem += v;
+            rv.rem += x;
         } else {
             rv.quot += 1;
-            rv.rem -= v;
+            rv.rem -= x;
         }
     }
     return rv;
 }
 
+/**
+ * C implentation of integer division results in truncation toward zero. While 
+ * we ofthen need floor, ceil or rounding. This function simulates floor 
+ * division in an optimized way. It returns:
+ * 
+ * \f[
+ *   \left\lfloor\frac{a}{b}\right\rfloor
+ * \f]
+ */
 int clm_floor_div(int a, int b) {
     return (a - (a < 0 ? b - 1 : 0)) / b;
 }
 
-int clm_mod(int a, int b) {
-    return a - clm_floor_div(a, b) * b;
+/**
+ * This function returns non-negative remainder from division of 
+ * \f$y\f$ by \f$x\f$, i.e. \f$x \bmod y\f$
+ * 
+ * \f[
+ *   x \bmod y=x-y\left\lfloor\frac{x}{y}\right\rfloor
+ * \f]
+ */
+int clm_mod(int x, int y) {
+    return x - clm_floor_div(x, y) * y;
 }
