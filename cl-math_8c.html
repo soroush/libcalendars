@@ -22,6 +22,12 @@
 <script type="text/javascript">
   $(document).ready(function() { init_search(); });
 </script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -109,24 +115,26 @@ $(document).ready(function(){initNavTree('cl-math_8c.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="cl-math_8h_source.html">cl-math.h</a>&quot;</code><br />
-<code>#include &lt;math.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for cl-math.c:</div>
 <div class="dyncontent">
 <div class="center"><img src="cl-math_8c__incl.png" border="0" usemap="#cl-math_8c" alt=""/></div>
 <map name="cl-math_8c" id="cl-math_8c">
-<area shape="rect" id="node2" href="cl-math_8h.html" title="cl&#45;math.h" alt="" coords="75,80,151,107"/>
+<area shape="rect" id="node2" href="cl-math_8h.html" title="cl&#45;math.h" alt="" coords="43,80,119,107"/>
 </map>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:acf94563bffe323e2182f8e1ae77be052"><td class="memItemLeft" align="right" valign="top">div_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl-math_8c.html#acf94563bffe323e2182f8e1ae77be052">clm_pdiv</a> (int d, int v)</td></tr>
-<tr class="separator:acf94563bffe323e2182f8e1ae77be052"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ac7c7f6d1bd74efe6ae794dec837dea"><td class="memItemLeft" align="right" valign="top">div_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl-math_8c.html#a8ac7c7f6d1bd74efe6ae794dec837dea">clm_pdiv</a> (int y, int x)</td></tr>
+<tr class="memdesc:a8ac7c7f6d1bd74efe6ae794dec837dea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Division with Positive Ramainder.  <a href="#a8ac7c7f6d1bd74efe6ae794dec837dea">More...</a><br /></td></tr>
+<tr class="separator:a8ac7c7f6d1bd74efe6ae794dec837dea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a53baf9bc4cf7d44c7c20b431f9194908"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl-math_8c.html#a53baf9bc4cf7d44c7c20b431f9194908">clm_floor_div</a> (int a, int b)</td></tr>
+<tr class="memdesc:a53baf9bc4cf7d44c7c20b431f9194908"><td class="mdescLeft">&#160;</td><td class="mdescRight">Floor Division Function.  <a href="#a53baf9bc4cf7d44c7c20b431f9194908">More...</a><br /></td></tr>
 <tr class="separator:a53baf9bc4cf7d44c7c20b431f9194908"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9eb2dc0fb68b69e5d4bd4dd663e51263"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl-math_8c.html#a9eb2dc0fb68b69e5d4bd4dd663e51263">clm_mod</a> (int a, int b)</td></tr>
-<tr class="separator:a9eb2dc0fb68b69e5d4bd4dd663e51263"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad42f3ffb5429294a390bcf90d324912c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl-math_8c.html#ad42f3ffb5429294a390bcf90d324912c">clm_mod</a> (int x, int y)</td></tr>
+<tr class="memdesc:ad42f3ffb5429294a390bcf90d324912c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modular Division Function.  <a href="#ad42f3ffb5429294a390bcf90d324912c">More...</a><br /></td></tr>
+<tr class="separator:ad42f3ffb5429294a390bcf90d324912c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="a53baf9bc4cf7d44c7c20b431f9194908"></a>
@@ -153,9 +161,15 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Floor Division Function. </p>
+<p>C implentation of integer division results in truncation toward zero. While we ofthen need floor, ceil or rounding. This function simulates floor division in an optimized way. It returns:</p>
+<p class="formulaDsp">
+\[ \left\lfloor\frac{a}{b}\right\rfloor \]
+</p>
+ 
 </div>
 </div>
-<a class="anchor" id="a9eb2dc0fb68b69e5d4bd4dd663e51263"></a>
+<a class="anchor" id="ad42f3ffb5429294a390bcf90d324912c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -163,13 +177,13 @@ Functions</h2></td></tr>
           <td class="memname">int clm_mod </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
+          <td class="paramname"><em>x</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>b</em>&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -179,9 +193,15 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Modular Division Function. </p>
+<p>This function returns non-negative remainder from division of \(y\) by \(x\), i.e. \(x \bmod y\)</p>
+<p class="formulaDsp">
+\[ x \bmod y=x-y\left\lfloor\frac{x}{y}\right\rfloor \]
+</p>
+ 
 </div>
 </div>
-<a class="anchor" id="acf94563bffe323e2182f8e1ae77be052"></a>
+<a class="anchor" id="a8ac7c7f6d1bd74efe6ae794dec837dea"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -189,13 +209,13 @@ Functions</h2></td></tr>
           <td class="memname">div_t clm_pdiv </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>d</em>, </td>
+          <td class="paramname"><em>y</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>v</em>&#160;</td>
+          <td class="paramname"><em>x</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -205,6 +225,12 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Division with Positive Ramainder. </p>
+<p>Division of a whole number \(y\) by another whole number \(x\) results in a quotient \(q\) and a remainder \(r\). In our calculations, the remainder never should be negative. Then \(0 ≤ r \lt \left|x\right|\) As a result:</p>
+<p class="formulaDsp">
+\begin{eqnarray*} q &amp;=&amp; \left\lfloor\frac{y}{x}\right\rfloor \\ r &amp;=&amp; y \bmod x = y − x\left\lfloor\frac{y}{x}\right\rfloor \\ y &amp;=&amp; qx + r \end{eqnarray*}
+</p>
+ 
 </div>
 </div>
 </div><!-- contents -->
