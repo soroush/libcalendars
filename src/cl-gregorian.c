@@ -23,7 +23,7 @@
 #include "cl-math.h"
 
 LIBCALENDAR_API
-int gr_is_leap(int16_t year) {
+uint8_t gr_is_leap(int16_t year) {
     if((year & 3) == 0 && ((year % 25) != 0 || (year & 15) == 0)) {
         return 1;
     } else {
@@ -32,7 +32,7 @@ int gr_is_leap(int16_t year) {
 }
 
 LIBCALENDAR_API
-int gr_days_in_month(uint8_t month, int16_t year) {
+uint8_t gr_days_in_month(uint8_t month, int16_t year) {
     switch(month) {
         case 1:
         case 3:
@@ -63,6 +63,18 @@ uint16_t gr_days_in_year(int16_t year) {
     return gr_is_leap(year) ? 366 : 365;
 }
 
+LIBCALENDAR_API
+uint8_t gr_month_in_year(int16_t year) {
+    return 12;
+}
+
+LIBCALENDAR_API
+uint8_t gr_is_valid(int16_t year, uint8_t month, uint16_t day) {
+    if(month <= gr_month_in_year(year) && day <= gr_days_in_month(month, year)) {
+        return 1;
+    }
+    return 0;
+}
 
 LIBCALENDAR_API
 void gr_to_jdn(uint32_t* jd, int16_t year, uint8_t month, uint16_t day) {

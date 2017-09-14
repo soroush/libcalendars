@@ -35,7 +35,7 @@ div_t clm_pdiv(int d, int v) {
 }
 
 int clm_floor_div(int a, int b) {
-    return floor((float)(a)/(float)(b));
+    return (a - (a < 0 ? b - 1 : 0)) / b;
 }
 
 int clm_mod(int a, int b) {

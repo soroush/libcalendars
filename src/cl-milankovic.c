@@ -24,7 +24,7 @@
 #include "cl-math.h"
 
 LIBCALENDAR_API
-int ml_is_leap(int16_t year) {
+uint8_t ml_is_leap(int16_t year) {
     if(clm_mod(year, 4) == 0) {
         if(clm_mod(year, 100) == 0) {
             const int16_t century = clm_mod(clm_floor_div(year, 100), 9);
@@ -40,7 +40,7 @@ int ml_is_leap(int16_t year) {
 }
 
 LIBCALENDAR_API
-int ml_days_in_month(uint8_t month, int16_t year) {
+uint8_t ml_days_in_month(uint8_t month, int16_t year) {
     switch(month) {
         case 1:
         case 3:
@@ -71,6 +71,16 @@ uint16_t ml_days_in_year(int16_t year) {
     return ml_is_leap(year) ? 366 : 365;
 }
 
+LIBCALENDAR_API uint8_t ml_month_in_year(int16_t year) {
+    return 12;
+}
+
+LIBCALENDAR_API
+uint8_t ml_is_valid(int16_t year, uint8_t month, uint16_t day){
+    if(month <= ml_month_in_year(year) && day <= ml_days_in_month(month, year))
+        return 1;
+    return 0;
+}
 
 LIBCALENDAR_API
 void ml_to_jdn(uint32_t* jd, int16_t year, uint8_t month, uint16_t day) {

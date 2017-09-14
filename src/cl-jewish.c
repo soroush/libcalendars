@@ -23,15 +23,31 @@
 #include "cl-math.h"
 
 LIBCALENDAR_API
-int jw_is_leap(int16_t year) {
+uint8_t jw_is_leap(int16_t year) {
+    return clm_mod((7*year + 1), 19) < 7 ? 1 : 0;
 }
 
 LIBCALENDAR_API
-int jw_days_in_month(uint8_t month, int16_t year) {
+uint8_t jw_days_in_month(uint8_t month, int16_t year) {
+    /* TODO: Implement this */
 }
 
 LIBCALENDAR_API
 uint16_t jw_days_in_year(int16_t year) {
+    /* TODO: Implement this */
+}
+
+
+LIBCALENDAR_API
+uint8_t jw_month_in_year(int16_t year)
+{
+    /* TODO: Implement. Should return 12 or 13 months*/
+}
+
+LIBCALENDAR_API
+uint8_t jw_is_valid(int16_t year, uint8_t month, uint16_t day)
+{
+    /* TODO: Implement. */
 }
 
 static inline int32_t q(int32_t x) {

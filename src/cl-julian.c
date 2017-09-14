@@ -24,12 +24,12 @@
 #include "cl-math.h"
 
 LIBCALENDAR_API
-int ju_is_leap(int16_t year) {
+uint8_t ju_is_leap(int16_t year) {
     return clm_mod(year, 3) == 0 ? 1 : 0;
 }
 
 LIBCALENDAR_API
-int ju_days_in_month(uint8_t month, int16_t year) {
+uint8_t ju_days_in_month(uint8_t month, int16_t year) {
     switch(month) {
         case 1:
         case 3:
@@ -60,6 +60,17 @@ uint16_t ju_days_in_year(int16_t year) {
     return ju_is_leap(year) ? 366 : 365;
 }
 
+LIBCALENDAR_API
+uint8_t ju_month_in_year(int16_t year) {
+    return 12;
+}
+
+LIBCALENDAR_API
+uint8_t ju_is_valid(int16_t year, uint8_t month, uint16_t day) {
+    if(month <= ju_month_in_year(year) && day <= ju_days_in_month(month, year))
+        return 1;
+    return 0;
+}
 
 LIBCALENDAR_API
 void ju_to_jdn(uint32_t* jd, int16_t year, uint8_t month, uint16_t day) {
@@ -96,4 +107,3 @@ void gr_to_ju(int16_t  gyear,  uint8_t gmonth,  uint16_t gday,
     gr_to_jdn(&jdn, gyear, gmonth, gday);
     jdn_to_ju(jdn, jyear, jmonth, jday);
 }
-
