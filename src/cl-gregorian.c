@@ -78,21 +78,21 @@ uint8_t gr_is_valid(int16_t year, uint8_t month, uint16_t day) {
 
 LIBCALENDAR_API
 void gr_to_jdn(uint32_t* jd, int16_t year, uint8_t month, uint16_t day) {
-    const int8_t c0 = clm_floor_div((month - 3) , 12);
+    const int8_t c0 = fdiv((month - 3) , 12);
     const int16_t x1 = month - (12 * c0) - 3;
     const int16_t x4 = year + c0;
-    const div_t d = clm_pdiv(x4, 100);
-    *jd = clm_floor_div(146097 * d.quot,  4)
-          + clm_floor_div(36525 * d.rem, 100)
-          + clm_floor_div(153 * x1 + 2 , 5)
+    const div_t d = pdiv(x4, 100);
+    *jd = fdiv(146097 * d.quot,  4)
+          + fdiv(36525 * d.rem, 100)
+          + fdiv(153 * x1 + 2 , 5)
           + day + 1721119;
 }
 
 LIBCALENDAR_API
 void jdn_to_gr(uint32_t jd, int16_t* year, uint8_t* month, uint16_t* day) {
-    const div_t x3 = clm_pdiv(4 * jd - 6884477, 146097);
-    const div_t x2 = clm_pdiv(100 * (x3.rem / 4) + 99, 36525);
-    const div_t x1 = clm_pdiv(5 * (x2.rem / 100) + 2, 153);
+    const div_t x3 = pdiv(4 * jd - 6884477, 146097);
+    const div_t x2 = pdiv(100 * (x3.rem / 4) + 99, 36525);
+    const div_t x1 = pdiv(5 * (x2.rem / 100) + 2, 153);
     const uint16_t c0 = (x1.quot + 2) / 12;
     *day = (x1.rem / 5) + 1;
     *month = x1.quot - 12 * c0 + 3;

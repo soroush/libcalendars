@@ -27,9 +27,12 @@
 extern "C" {
 #endif
 
-LIBCALENDAR_API int is_is_leap(int16_t year);
-LIBCALENDAR_API int is_days_in_month(uint8_t month, int16_t year);
+LIBCALENDAR_API uint8_t  is_is_leap(int16_t year);
+LIBCALENDAR_API uint8_t  is_days_in_month(uint8_t month, int16_t year);
 LIBCALENDAR_API uint16_t is_days_in_year(int16_t year);
+LIBCALENDAR_API uint8_t  is_month_in_year(int16_t year);
+LIBCALENDAR_API uint8_t  is_is_valid(int16_t year, uint8_t month, uint16_t day);
+
 LIBCALENDAR_API void is_to_jdn(uint32_t* jd,
                                int16_t year, uint8_t month, uint16_t day);
 LIBCALENDAR_API void jdn_to_is(uint32_t jdn,

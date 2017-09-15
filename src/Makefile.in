@@ -151,8 +151,8 @@ am__installdirs = "$(DESTDIR)$(libdir)" \
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libcalendar_la_DEPENDENCIES =
 am__objects_1 =
-am_libcalendar_la_OBJECTS = $(am__objects_1) cl-math.lo \
-	cl-gregorian.lo cl-julian.lo cl-milankovic.lo \
+am_libcalendar_la_OBJECTS = $(am__objects_1) cl-calendars.lo \
+	cl-math.lo cl-gregorian.lo cl-julian.lo cl-milankovic.lo \
 	cl-solar-hijri.lo cl-islamic-civil.lo cl-jewish.lo
 libcalendar_la_OBJECTS = $(am_libcalendar_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -348,6 +348,7 @@ ACLOCAL_AMFLAGS = ${ACLOCAL_FLAGS} -I m4
 AM_CXXFLAGS = --pedantic -Wall -Werror
 libcalendar_includedir = $(includedir)/calendar
 libcalendar_include_HEADERS = \
+    cl-calendars.h \
     cl-math.h \
     cl-export.h \
     cl-gregorian.h \
@@ -360,6 +361,7 @@ lib_LTLIBRARIES = libcalendar.la
 libcalendar_la_LDFLAGS = -version-info $(LIBCALENDAR_SO_VERSION)
 libcalendar_la_SOURCES = \
     $(libcalendar_include_HEADERS) \
+    cl-calendars.c \
     cl-math.c \
     cl-gregorian.c \
     cl-julian.c \
@@ -449,6 +451,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cl-calendars.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cl-gregorian.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cl-islamic-civil.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cl-jewish.Plo@am__quote@

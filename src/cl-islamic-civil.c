@@ -23,15 +23,15 @@
 #include "cl-math.h"
 
 LIBCALENDAR_API
-int is_is_leap(int16_t year) {
-    if(clm_mod(abs(year) * 11 + 14, 30) < 11) {
+uint8_t is_is_leap(int16_t year) {
+    if(mod(abs(year) * 11 + 14, 30) < 11) {
         return 1;
     }
     return 0;
 }
 
 LIBCALENDAR_API
-int is_days_in_month(uint8_t month, int16_t year) {
+uint8_t is_days_in_month(uint8_t month, int16_t year) {
     if(month == 12 && is_is_leap(year)) {
         return 30;
     }
@@ -43,20 +43,33 @@ uint16_t is_days_in_year(int16_t year) {
     return is_is_leap(year) ? 355 : 354;
 }
 
+LIBCALENDAR_API uint8_t
+is_month_in_year(int16_t year){
+    return 12;
+}
+
+LIBCALENDAR_API
+uint8_t is_is_valid(int16_t year, uint8_t month, uint16_t day) {
+    if(month <= is_month_in_year(year) && day <= is_days_in_month(month, year)) {
+        return 1;
+    }
+    return 0;
+}
+
 LIBCALENDAR_API
 void  is_to_jdn(uint32_t* jd, int16_t year, uint8_t month, uint16_t day) {
-    *jd = clm_floor_div(10631 * year - 10617, 30)
-          + clm_floor_div(325 * month - 320, 11)
+    *jd = fdiv(10631 * year - 10617, 30)
+          + fdiv(325 * month - 320, 11)
           + day + 1948439;
 }
 
 LIBCALENDAR_API
 void jdn_to_is(uint32_t jd, int16_t* year, uint8_t* month, uint16_t* day) {
     const int32_t k2 = 30 * (jd - 1948440) + 15;
-    const int32_t k1 = 11 * clm_floor_div(clm_mod(k2, 10631), 30) + 5;
-    *year = clm_floor_div(k2, 10631) + 1;
-    *month = clm_floor_div(k1, 325) + 1;
-    *day = clm_floor_div(clm_mod(k1, 325), 11) + 1;
+    const int32_t k1 = 11 * fdiv(mod(k2, 10631), 30) + 5;
+    *year = fdiv(k2, 10631) + 1;
+    *month = fdiv(k1, 325) + 1;
+    *day = fdiv(mod(k1, 325), 11) + 1;
 }
 
 LIBCALENDAR_API

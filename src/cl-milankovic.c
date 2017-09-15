@@ -25,9 +25,9 @@
 
 LIBCALENDAR_API
 uint8_t ml_is_leap(int16_t year) {
-    if(clm_mod(year, 4) == 0) {
-        if(clm_mod(year, 100) == 0) {
-            const int16_t century = clm_mod(clm_floor_div(year, 100), 9);
+    if(mod(year, 4) == 0) {
+        if(mod(year, 100) == 0) {
+            const int16_t century = mod(fdiv(year, 100), 9);
             if(century == 2 || century == 6) {
                 return 1;
             } else {
@@ -89,30 +89,30 @@ void ml_to_jdn(uint32_t* jd, int16_t year, uint8_t month, uint16_t day) {
     int16_t x2 = 0;
     int16_t x3 = 0;
     int16_t x4 = 0;
-    c0 = clm_floor_div((month - 3) , 12);
+    c0 = fdiv((month - 3) , 12);
     x1 = month - (12 * c0) - 3;
     x4 = year + c0;
-    x3 = clm_floor_div(x4, 100);
-    x2 = clm_mod(x4, 100);
-    *jd = clm_floor_div(328718 * x3 + 6, 9)
-          + clm_floor_div(36525 * x2 , 100)
-          + clm_floor_div(153 * x1 + 2 , 5)
+    x3 = fdiv(x4, 100);
+    x2 = mod(x4, 100);
+    *jd = fdiv(328718 * x3 + 6, 9)
+          + fdiv(36525 * x2 , 100)
+          + fdiv(153 * x1 + 2 , 5)
           + day + 1721119;
 }
 
 LIBCALENDAR_API
 void jdn_to_ml(uint32_t jd, int16_t* year, uint8_t* month, uint16_t* day) {
     const int32_t k3 = 9 * (jd - 1721120) + 2;
-    const int32_t x3 = clm_floor_div(k3, 328718);
-    const int32_t k2 = 100 * clm_floor_div(clm_mod(k3, 328718), 9) + 99;
-    const int32_t k1 = clm_floor_div(clm_mod(k2, 36525), 100) * 5 + 2;
-    const int32_t x2 = clm_floor_div(k2, 36525);
+    const int32_t x3 = fdiv(k3, 328718);
+    const int32_t k2 = 100 * fdiv(mod(k3, 328718), 9) + 99;
+    const int32_t k1 = fdiv(mod(k2, 36525), 100) * 5 + 2;
+    const int32_t x2 = fdiv(k2, 36525);
     const int32_t x1 =
-        clm_floor_div(5 * clm_floor_div(clm_mod(k2, 36525), 100) + 2, 153);
-    const uint32_t c0 = clm_floor_div(x1 + 2, 12);
+        fdiv(5 * fdiv(mod(k2, 36525), 100) + 2, 153);
+    const uint32_t c0 = fdiv(x1 + 2, 12);
     *year = (int16_t)(100 * x3 + x2 + c0);
     *month = (uint8_t)(x1 - 12 * c0 + 3);
-    *day = clm_floor_div(clm_mod(k1, 153), 5) + 1;
+    *day = fdiv(mod(k1, 153), 5) + 1;
 }
 
 LIBCALENDAR_API

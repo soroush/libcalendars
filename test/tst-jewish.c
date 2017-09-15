@@ -34,5 +34,5 @@ int main() {
     uint16_t d;
     jw_to_jdn(&jdn, 4682, 3, 18);
     jdn_to_jw(jdn, &y, &m, &d);
-    return tst_calendar();
+    return tst_calendar(0, 2488069);
 }

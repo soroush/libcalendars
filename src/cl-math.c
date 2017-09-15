@@ -31,7 +31,7 @@
  *   \\ y &=& qx + r
  *  \f}
  */
-div_t clm_pdiv(int y, int x) {
+div_t pdiv(int y, int x) {
     div_t rv = div(y, x);
     if(rv.rem < 0) {
         if(x>0) {
@@ -54,7 +54,7 @@ div_t clm_pdiv(int y, int x) {
  *   \left\lfloor\frac{a}{b}\right\rfloor
  * \f]
  */
-int clm_floor_div(int a, int b) {
+int fdiv(int a, int b) {
     return (a - (a < 0 ? b - 1 : 0)) / b;
 }
 
@@ -66,6 +66,6 @@ int clm_floor_div(int a, int b) {
  *   x \bmod y=x-y\left\lfloor\frac{x}{y}\right\rfloor
  * \f]
  */
-int clm_mod(int x, int y) {
-    return x - clm_floor_div(x, y) * y;
+int mod(int x, int y) {
+    return x - fdiv(x, y) * y;
 }

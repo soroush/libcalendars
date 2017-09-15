@@ -30,17 +30,17 @@ extern "C" {
 /**
  * \brief Division with Positive Ramainder 
  */
-div_t clm_pdiv(int d, int v);
+div_t pdiv(int d, int v);
 
 /**
  * \brief Floor Division Function
  */
-int clm_floor_div(int a, int b);
+int fdiv(int a, int b);
 
 /**
  * \brief Modular Division Function
  */
-int clm_mod(int a, int b);
+int mod(int a, int b);
 
 #ifdef __cplusplus
 }
