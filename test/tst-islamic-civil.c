@@ -17,15 +17,14 @@
  *
  */
 
-#include "../src/cl-milankovic.h"
+#include "../src/cl-islamic-civil.h"
 #include "tst-common.h"
-#include <stdio.h>
 
 int main()
 {
-    cal_to_jdn = &ml_to_jdn;
-    jdn_to_cal = &jdn_to_ml;
-    cal_to_gr = &ml_to_gr;
-    gr_to_cal = &gr_to_ml;
-    return tst_calendar(0, 2488069);
+    cal_to_jdn = &is_to_jdn;
+    jdn_to_cal = &jdn_to_is;
+    cal_to_gr = &is_to_gr;
+    gr_to_cal = &gr_to_is;
+    return tst_calendar(1380036, 2488069);
 }
