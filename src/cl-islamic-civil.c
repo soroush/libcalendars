@@ -24,7 +24,7 @@
 
 LIBCALENDAR_API
 int is_is_leap(int16_t year) {
-    if(clm_mod(year * 11 + 14, 30) < 11) {
+    if(clm_mod(abs(year) * 11 + 14, 30) < 11) {
         return 1;
     }
     return 0;
@@ -44,7 +44,7 @@ uint16_t is_days_in_year(int16_t year) {
 }
 
 LIBCALENDAR_API
-void is_to_jdn(uint32_t* jd, int16_t year, uint8_t month, uint16_t day) {
+void  is_to_jdn(uint32_t* jd, int16_t year, uint8_t month, uint16_t day) {
     *jd = clm_floor_div(10631 * year - 10617, 30)
           + clm_floor_div(325 * month - 320, 11)
           + day + 1948439;
