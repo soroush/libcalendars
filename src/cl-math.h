@@ -27,9 +27,20 @@
 extern "C" {
 #endif
 
-div_t clm_pdiv(int d, int v);
-int clm_floor_div(int a, int b);
-int clm_mod(int a, int b);
+/**
+ * \brief Division with Positive Ramainder 
+ */
+div_t pdiv(int d, int v);
+
+/**
+ * \brief Floor Division Function
+ */
+int fdiv(int a, int b);
+
+/**
+ * \brief Modular Division Function
+ */
+int mod(int a, int b);
 
 #ifdef __cplusplus
 }

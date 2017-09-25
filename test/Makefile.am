@@ -23,11 +23,12 @@ LDADD = \
     ../src/libcalendar.la
 
 check_PROGRAMS = \
-    tst_solar_hijri \
+    tst_gregorian \
     tst_julian \
     tst_milankovic \
-    tst_gregorian \
-    tst_jewish
+    tst_jewish \
+    tst_solar_hijri \
+    tst_islamic_civil
 
 tst_solar_hijri_SOURCES = \
     tst-common.h \
@@ -45,8 +46,13 @@ tst_milankovic_SOURCES = \
     tst-common.h \
     tst-milankovic.c
 
+
 tst_jewish_SOURCES = \
     tst-common.h \
     tst-jewish.c
+
+tst_islamic_civil_SOURCES = \
+    tst-common.h \
+    tst-islamic-civil.c
 
 TESTS = $(check_PROGRAMS)

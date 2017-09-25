@@ -17,22 +17,14 @@
  *
  */
 
-#include "../src/cl-jewish.h"
+#include "../src/cl-islamic-civil.h"
 #include "tst-common.h"
-#include <stdio.h>
 
-int main() {
-    cal_to_jdn = &jw_to_jdn;
-    jdn_to_cal = &jdn_to_jw;
-    cal_to_gr = &jw_to_gr;
-    gr_to_cal = &gr_to_jw;
-
-    /* Specific day tests */
-    int32_t jdn = 0;
-    int16_t y;
-    uint8_t m;
-    uint16_t d;
-    jw_to_jdn(&jdn, 4682, 3, 18);
-    jdn_to_jw(jdn, &y, &m, &d);
-    return tst_calendar(0, 2488069);
+int main()
+{
+    cal_to_jdn = &is_to_jdn;
+    jdn_to_cal = &jdn_to_is;
+    cal_to_gr = &is_to_gr;
+    gr_to_cal = &gr_to_is;
+    return tst_calendar(1380036, 2488069);
 }
