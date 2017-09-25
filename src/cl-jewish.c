@@ -24,14 +24,20 @@
 
 LIBCALENDAR_API
 int jw_is_leap(int16_t year) {
+    /* TODO: Implement */
+    return 0;
 }
 
 LIBCALENDAR_API
 int jw_days_in_month(uint8_t month, int16_t year) {
+    /* TODO: Implement */
+    return 0;
 }
 
 LIBCALENDAR_API
 uint16_t jw_days_in_year(int16_t year) {
+    /* TODO: Implement */
+    return 0;
 }
 
 static inline int32_t q(int32_t x) {

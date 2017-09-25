@@ -345,7 +345,19 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 ACLOCAL_AMFLAGS = ${ACLOCAL_FLAGS} -I m4
-AM_CXXFLAGS = --pedantic -Wall -Werror
+AM_CPPFLAGS = \
+    -DLIBCALENDAR_EXPORT
+
+AM_CFLAGS = \
+    --pedantic \
+    -Wall -Werror -Wno-unused-parameter -Wno-unused-function \
+    -Wno-unused-label -Wpointer-arith -Wformat -Wreturn-type \
+    -Wsign-compare -Wmultichar -Wformat-nonliteral -Winit-self \
+    -Wuninitialized -Wno-deprecated -Wformat-security \
+    -fvisibility=hidden -fPIC -fno-exceptions -fstack-protector \
+    -Wl,-z,relro -Wl,-z,now -Wl,--no-undefined -Wl,--discard-all \
+    -Wl,--build-id=sha1 -rdynamic
+
 libcalendar_includedir = $(includedir)/calendar
 libcalendar_include_HEADERS = \
     cl-math.h \
