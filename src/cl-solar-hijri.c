@@ -18,6 +18,7 @@
  */
 
 #include <math.h>
+#include <stddef.h>
 #include "cl-solar-hijri.h"
 #include "cl-gregorian.h"
 #include "cl-math.h"
@@ -36,7 +37,7 @@ static const uint32_t hijri_shamsi_epoch = 2121446;
 static const double leap_threshold = 0.24219858156028368;
 
 LIBCALENDAR_API
-int sh_is_leap(int16_t year) {
+uint8_t sh_is_leap(int16_t year) {
     double integral;
     double frac;
     frac = modf((year + 2346) * leap_threshold, &integral);
@@ -48,7 +49,7 @@ int sh_is_leap(int16_t year) {
 }
 
 LIBCALENDAR_API
-int sh_days_in_month(uint8_t month, int16_t year) {
+uint8_t sh_days_in_month(uint8_t month, int16_t year) {
     if(month > 0 && month <= 12) {
         return month < 7 ? 31 : month < 12 || sh_is_leap(year) ? 30 : 29;
     }
@@ -68,6 +69,19 @@ int16_t cycle(uint32_t jdn) {
 LIBCALENDAR_API
 uint16_t sh_days_in_year(int16_t year) {
     return sh_is_leap(year) ? 366 : 365;
+}
+
+LIBCALENDAR_API uint8_t sh_month_in_year(int16_t year) {
+    return 12;
+}
+
+LIBCALENDAR_API uint8_t sh_is_valid(int16_t year, uint8_t month, uint16_t day) {
+    if(year < 0)
+        ++year;
+    if(day > 0 && day <= sh_days_in_month(month, year)) {
+        return 1;
+    }
+    return 0;
 }
 
 static uint32_t cycle_start(uint32_t jdn) {
@@ -106,6 +120,7 @@ void sh_to_jdn(uint32_t* jd, int16_t year, uint8_t month, uint16_t day) {
     int16_t era = 0;
     int32_t d_y = 0;
     int32_t f_d;
+    size_t i = 0;
     if(year < 0) {
         ++year;
     }
@@ -116,7 +131,7 @@ void sh_to_jdn(uint32_t* jd, int16_t year, uint8_t month, uint16_t day) {
     int y_c = (year - 475) - era * cycle_years;
     f_d = fdoy_c(y_c, era);
     d_y = 0;
-    for(int i = 1; i < month; ++i) {
+    for(i = 1; i < month; ++i) {
         d_y += sh_days_in_month(i, year);
     }
     d_y += day;

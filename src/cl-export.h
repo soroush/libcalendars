@@ -21,13 +21,13 @@
 #define LIBCALENDAR_EXPORT_H
 
 #ifdef LIBCALENDAR_EXPORT
-    #ifdef _MSC_VER
+    #if defined(_MSC_VER)
         #define LIBCALENDAR_API __declspec(dllexport)
     #else
-        #define LIBCALENDAR_API
+        #define LIBCALENDAR_API __attribute__((visibility("default")))
     #endif
 #else
-    #ifdef _MSC_VER
+#if defined(_MSC_VER)
         #define LIBCALENDAR_API __declspec(dllimport)
     #else
         #define LIBCALENDAR_API

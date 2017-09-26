@@ -17,33 +17,22 @@
  *
  */
 
-#ifndef LIBCALENDAR_MATH_H
-#define LIBCALENDAR_MATH_H
+#include "../src/cl-jewish.h"
+#include "tst-common.h"
+#include <stdio.h>
 
-#include <math.h>
-#include <stdlib.h>
+int main() {
+    cal_to_jdn = &jw_to_jdn;
+    jdn_to_cal = &jdn_to_jw;
+    cal_to_gr = &jw_to_gr;
+    gr_to_cal = &gr_to_jw;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-/**
- * \brief Division with Positive Ramainder 
- */
-div_t pdiv(int d, int v);
-
-/**
- * \brief Floor Division Function
- */
-int fdiv(int a, int b);
-
-/**
- * \brief Modular Division Function
- */
-int mod(int a, int b);
-
-#ifdef __cplusplus
+    /* Specific day tests */
+    int32_t jdn = 0;
+    int16_t y;
+    uint8_t m;
+    uint16_t d;
+    jw_to_jdn(&jdn, 4682, 3, 18);
+    jdn_to_jw(jdn, &y, &m, &d);
+    return tst_calendar(0, 2488069);
 }
-#endif
-
-#endif /* LIBCALENDAR_MATH_H */

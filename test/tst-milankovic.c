@@ -27,5 +27,5 @@ int main()
     jdn_to_cal = &jdn_to_ml;
     cal_to_gr = &ml_to_gr;
     gr_to_cal = &gr_to_ml;
-    return tst_calendar();
+    return tst_calendar(0, 2488069);
 }

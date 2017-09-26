@@ -1,10 +1,19 @@
 # A calendar implementation library
 
+![language](https://img.shields.io/badge/language-c-blue.svg)
+![c](https://img.shields.io/badge/std-c99-blue.svg)
+![GCC](https://img.shields.io/badge/GCC-5.4.0-blue.svg)
+![GCC](https://img.shields.io/badge/GCC-4.9.3-blue.svg)
+![GCC](https://img.shields.io/badge/GCC-4.8.5-blue.svg)
+![MSVC](https://img.shields.io/badge/MSVC-14-red.svg)
+![license](https://img.shields.io/badge/license-GPLv3-blue.svg)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6d907409c4244a0cb1a5e67299672d57)](https://www.codacy.com/app/soroush/libcalendars?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=soroush/libcalendars&amp;utm_campaign=Badge_Grade)
+[![Build Status](https://travis-ci.org/soroush/libcalendars.svg?branch=dev)](https://travis-ci.org/soroush/libcalendars)
+
 `libcalendar` is an experimental C library to provide arithmentic for several
 calendars.
 
 ## Why?
-
 Why implement yet another calendaring library? Well, there are plenty of
 excellent implementations out there, though it seems there is no free,
 GPL-compliant, C implementation. Besides there is no precise implementation
@@ -29,9 +38,27 @@ You can also use non-jdn broken-down date API. For example you
 can check if a year in Solar Hijri calendar is leap or not:
 
 ```c
-if(sh_s_leap(1395))
+if(sh_is_leap(1395)) /* returns 0 for regular years and 1 for leap years */
     printf("Yep\n");
 ```
+You can also convert calendar dates to/from Gregorian calendar:
+```c
+int16_t y;
+uint8_t m;
+uint16_t d;
+sh_to_gr(1369, 06, 20, &y, &m, &d);
+printf("1369/06/20 AP is %04d-%02d-%02d\n", y, m, d);
+gr_to_sh(2017, 09, 11, &y, &m, &d); 
+printf("2017-09-11 is %04d-%02d-%02d AP\n", y, m, d);
+```
+which will print:
+
+```
+1369/06/20 AP is 2017-09-11
+2017-09-11 is 1369/06/18 AP 
+```
+
+
 # Algorithms
 
 This library is imolemented in C programming language, using no external
