@@ -1,0 +1,25 @@
+version: 0.1.{build}
+image:
+- Visual Studio 2017
+- Visual Studio 2015
+configuration:
+- Debug
+- Release
+- StaticRelease
+- StaticDebug
+platform:
+- x64
+- x86
+init:
+- ps: >-
+    mkdir c:\sysroot
+    mkdir c:\sysroot\bin
+    mkdir c:\sysroot\include
+    mkdir c:\sysroot\lib
+environment:
+  SYSROOT: C:\sysroot
+  INCLUDE: C:\sysroot\include
+  LIBS: C:\sysroot\libs
+build:
+  project: win32/libcalendars.sln
+  verbosity: minimal
