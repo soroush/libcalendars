@@ -38,16 +38,16 @@ after_build:
 
    switch($env:CONFIGURATION)
         {
-        "Debug" {export $env:BUILD_TYPE = "debug-shared"}
-        "Release" {export $env:BUILD_TYPE = "release-shared"}
-        "StaticDebug" {export $env:BUILD_TYPE = "debug-static"}
-        "StaticRelease" {export $env:BUILD_TYPE = "release-static"}
+        "Debug" {$env:BUILD_TYPE = "debug-shared"}
+        "Release" {$env:BUILD_TYPE = "release-shared"}
+        "StaticDebug" {$env:BUILD_TYPE = "debug-static"}
+        "StaticRelease" {$env:BUILD_TYPE = "release-static"}
         }
 
    switch($env:APPVEYOR_BUILD_WORKER_IMAGE)
         {
-        "Visual Studio 2017" {export $env:BUILD_MSVC = "msvc14_1"}
-        "Visual Studio 2015" {export $env:BUILD_MSVC = "msvc14_1"}
+        "Visual Studio 2017" {$env:BUILD_MSVC = "msvc14_1"}
+        "Visual Studio 2015" {$env:BUILD_MSVC = "msvc14"}
         }
 
 - cmd: 7z a .\%APPVEYOR_PROJECT_NAME%-%BUILD_ARCH%-%BUILD_MSVC%-%BUILD_TYPE%.zip C:\sysroot\*
