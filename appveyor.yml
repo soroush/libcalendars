@@ -40,9 +40,9 @@ environment:
           BUILD_TYPE: release-static
         - configuration: StaticDebug
           BUILD_TYPE: debug-static
-        -image: Visual Studio 2017
+        - image: Visual Studio 2017
           BUILD_MSVC: msvc14_1
-        -image: Visual Studio 2015
+        - image: Visual Studio 2015
           BUILD_MSVC: msvc14
 
 build:
