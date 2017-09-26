@@ -12,21 +12,21 @@ platform:
 - x86
 before_build:
 - ps: >-
-    mkdir .\sysroot
+    mkdir C:\sysroot
 
-    mkdir .\sysroot\bin
+    mkdir C:\sysroot\bin
 
-    mkdir .\sysroot\include
+    mkdir C:\sysroot\include
 
-    mkdir .\sysroot\lib
+    mkdir C:\sysroot\lib
 
 after_build:
-- cmd: 7z a .\%APPVEYOR_BUILD_ID%.zip .\sysroot\*
+- cmd: 7z a .\%APPVEYOR_BUILD_ID%.zip C:\sysroot\*
 
 environment:
-  SYSROOT: .\sysroot
-  INCLUDE: .\sysroot\include
-  LIBS: .\sysroot\libs
+  SYSROOT: C:\sysroot\
+  INCLUDE: C:\sysroot\include\
+  LIBS: C:\sysroot\libs\
 build:
   project: win32/libcalendars.sln
   verbosity: minimal
