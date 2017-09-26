@@ -30,15 +30,15 @@ environment:
 
 matrix:
   - platform: x86
-    image: Visual Studio 2017
-    configuration: Debug
+  - image: Visual Studio 2017
+  - configuration: Debug
     environment:
       BUILD_ARCH: win32
       BUILD_TYPE: debug-dynamic
       BUILD_MSVC: msvc14_1
   - platform: x64
-    image: Visual Studio 2017
-    configuration: Debug
+  - image: Visual Studio 2017
+  - configuration: Debug
     environment:
       BUILD_ARCH: win64
       BUILD_TYPE: debug-dynamic
