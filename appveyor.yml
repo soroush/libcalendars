@@ -31,6 +31,6 @@ build:
   project: win32/libcalendars.sln
   verbosity: minimal
 artifacts:
-- path: %APPVEYOR_BUILD_ID%.zip
+- path: .\*.zip
   type: zip
 
