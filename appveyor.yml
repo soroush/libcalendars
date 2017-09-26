@@ -21,7 +21,7 @@ before_build:
     mkdir .\sysroot\lib
 
 after_build:
-- ps: 7z a %APPVEYOR_BUILD_ID%.zip %APPVEYOR_BUILD_FOLDER%\sysroot\*
+- cmd: 7z a .\%APPVEYOR_BUILD_ID%.zip .\sysroot\*
 
 environment:
   SYSROOT: .\sysroot
