@@ -28,6 +28,6 @@ build:
   project: win32/libcalendars.sln
   verbosity: minimal
 artifacts:
-- path: c:\sysroot\*
+- path: ..\..\sysroot\*
   type: zip
 
