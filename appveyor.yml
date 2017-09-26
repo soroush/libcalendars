@@ -20,6 +20,9 @@ before_build:
 
     mkdir .\sysroot\lib
 
+after_build:
+- ps: 7z a %APPVEYOR_BUILD_ID%.zip %APPVEYOR_BUILD_FOLDER%\sysroot\*
+
 environment:
   SYSROOT: .\sysroot
   INCLUDE: .\sysroot\include
@@ -28,6 +31,6 @@ build:
   project: win32/libcalendars.sln
   verbosity: minimal
 artifacts:
-- path: .\sysroot\*
+- path: %APPVEYOR_BUILD_ID%.zip
   type: zip
 
