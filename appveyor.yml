@@ -10,7 +10,7 @@ configuration:
 platform:
 - x64
 - x86
-init:
+before_build:
 - ps: >-
     mkdir .\sysroot
 
