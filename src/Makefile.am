@@ -37,6 +37,7 @@ libcalendar_include_HEADERS =  \
     cl-gregorian.h \
     cl-julian.h \
     cl-milankovic.h \
+    cl-solar-hijri.h \
     cl-islamic-civil.h \
     cl-jewish.h
 
