@@ -33,7 +33,6 @@ AM_CFLAGS = \
 libcalendar_includedir = $(includedir)/calendar
 libcalendar_include_HEADERS =  \
     cl-calendars.h \
-    cl-math.h \
     cl-export.h \
     cl-gregorian.h \
     cl-julian.h \
@@ -45,8 +44,9 @@ lib_LTLIBRARIES = libcalendar.la
 libcalendar_la_LDFLAGS = -version-info $(LIBCALENDAR_SO_VERSION)
 libcalendar_la_SOURCES = \
     $(libcalendar_include_HEADERS) \
-    cl-calendars.c \
+    cl-math.h \
     cl-math.c \
+    cl-calendars.c \
     cl-gregorian.c \
     cl-julian.c \
     cl-milankovic.c \
