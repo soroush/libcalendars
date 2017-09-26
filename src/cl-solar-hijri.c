@@ -120,7 +120,7 @@ void sh_to_jdn(uint32_t* jd, int16_t year, uint8_t month, uint16_t day) {
     int16_t era = 0;
     int32_t d_y = 0;
     int32_t f_d;
-    size_t i = 0;
+    uint8_t i = 0;
     if(year < 0) {
         ++year;
     }
@@ -141,7 +141,7 @@ void sh_to_jdn(uint32_t* jd, int16_t year, uint8_t month, uint16_t day) {
 LIBCALENDAR_API
 void jdn_to_sh(uint32_t jd, int16_t* year, uint8_t* month, uint16_t* day) {
     const int c = cycle(jd);
-    const int16_t y_c = floor((jd - cycle_start(jd)) / year_length);
+    const int16_t y_c = (int16_t)(floor((jd - cycle_start(jd)) / year_length));
     int16_t y = y_c + 475 + c * 2820;
     uint16_t d = jd - fdoy_c(y_c, c) + 1;
     uint8_t m = 0;

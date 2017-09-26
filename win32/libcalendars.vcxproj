@@ -288,8 +288,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\cl-calendars.h" />
     <ClInclude Include="..\src\cl-export.h" />
     <ClInclude Include="..\src\cl-gregorian.h" />
+    <ClInclude Include="..\src\cl-islamic-civil.h" />
+    <ClInclude Include="..\src\cl-jewish.h" />
     <ClInclude Include="..\src\cl-julian.h" />
     <ClInclude Include="..\src\cl-math.h" />
     <ClInclude Include="..\src\cl-milankovic.h" />
@@ -297,7 +300,10 @@
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\cl-calendars.c" />
     <ClCompile Include="..\src\cl-gregorian.c" />
+    <ClCompile Include="..\src\cl-islamic-civil.c" />
+    <ClCompile Include="..\src\cl-jewish.c" />
     <ClCompile Include="..\src\cl-julian.c" />
     <ClCompile Include="..\src\cl-math.c" />
     <ClCompile Include="..\src\cl-milankovic.c" />
