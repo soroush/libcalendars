@@ -27,6 +27,7 @@ environment:
   SYSROOT: C:\sysroot\
   INCLUDE: C:\sysroot\include\
   LIBS: C:\sysroot\libs\
+  matrix:
   - platform: x86
     BUILD_ARCH: win32
   - platform: x64
