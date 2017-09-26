@@ -358,7 +358,7 @@ AM_CFLAGS = \
     -Wl,-z,relro -Wl,-z,now -Wl,--no-undefined -Wl,--discard-all \
     -Wl,--build-id=sha1 -rdynamic
 
-libcalendar_includedir = $(includedir)/calendar
+libcalendar_includedir = $(includedir)/libcalendars
 libcalendar_include_HEADERS = \
     cl-calendars.h \
     cl-export.h \

@@ -20,6 +20,10 @@ init:
 
     mkdir c:\sysroot\lib
 
+artifacts:
+	- path: c:\sysroot\*
+	type: zip
+
 environment:
   SYSROOT: C:\sysroot
   INCLUDE: C:\sysroot\include

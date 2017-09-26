@@ -26,4 +26,4 @@ URL: @PACKAGE_URL@
 #Requires: @AX_PACKAGE_REQUIRES@
 #Requires.private: @AX_PACKAGE_REQUIRES_PRIVATE@
 Libs: -L${libdir} -lcalendar -lm
-Cflags: -I${includedir}/calendar
+Cflags: -I${includedir}/
