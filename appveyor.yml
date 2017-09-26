@@ -35,6 +35,7 @@ build:
 after_build:
 - ps: >-
    $env:BUILD_ARCH = $env:PLATFORM
+
    switch($env:CONFIGURATION)
         {
         "Debug" {export $env:BUILD_TYPE = "debug-shared"}
@@ -42,6 +43,7 @@ after_build:
         "StaticDebug" {export $env:BUILD_TYPE = "debug-static"}
         "StaticRelease" {export $env:BUILD_TYPE = "release-static"}
         }
+
    switch($env:APPVEYOR_BUILD_WORKER_IMAGE)
         {
         "Visual Studio 2017" {export $env:BUILD_MSVC = "msvc14_1"}
