@@ -27,26 +27,18 @@ environment:
   SYSROOT: C:\sysroot\
   INCLUDE: C:\sysroot\include\
   LIBS: C:\sysroot\libs\
-
-matrix:
   - platform: x86
-  - image: Visual Studio 2017
-  - configuration: Debug
-    environment:
-      BUILD_ARCH: win32
-      BUILD_TYPE: debug-dynamic
-      BUILD_MSVC: msvc14_1
+    BUILD_ARCH: win32
   - platform: x64
-  - image: Visual Studio 2017
+    BUILD_ARCH: win64
   - configuration: Debug
-    environment:
-      BUILD_ARCH: win64
-      BUILD_TYPE: debug-dynamic
-      BUILD_MSVC: msvc14_1
+    BUILD_TYPE: debug
+  - configuration: Release
+    BUILD_TYPE: release
 
 build:
   project: win32/libcalendars.sln
-  verbosity: minimal
+  verbosity: detailed
 
 after_build:
 - cmd: 7z a .\%APPVEYOR_PROJECT_NAME%-%BUILD_ARCH%-%BUILD_MSVC%-%BUILD_TYPE%.zip C:\sysroot\*
