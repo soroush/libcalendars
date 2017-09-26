@@ -174,6 +174,13 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Message>Installs binaries on the location specified by SYSROOT env variable.</Message>
+      <Command>xcopy /Y /I "$(ProjectDir)..\..\src\*.h" "$(SYSROOT)\include\libcalendars\"
+xcopy /Y /I "$(TargetPath)" "$(SYSROOT)\bin\"
+xcopy /Y /I "$(OutDir)$(TargetName).lib" "$(SYSROOT)\lib\"
+del "$(SYSROOT)\include\libcalendars\cl-math.h"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='StaticDebug|Win32'">
     <ClCompile>
@@ -190,6 +197,12 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Message>Installs binaries on the location specified by SYSROOT env variable.</Message>
+      <Command>xcopy /Y /I "$(ProjectDir)..\..\src\*.h" "$(SYSROOT)\include\libcalendars\"
+xcopy /Y /I "$(TargetPath)" "$(SYSROOT)\lib\"
+del "$(SYSROOT)\include\libcalendars\cl-math.h"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -204,6 +217,13 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Message>Installs binaries on the location specified by SYSROOT env variable.</Message>
+      <Command>xcopy /Y /I "$(ProjectDir)..\..\src\*.h" "$(SYSROOT)\include\libcalendars\"
+xcopy /Y /I "$(TargetPath)" "$(SYSROOT)\bin\"
+xcopy /Y /I "$(OutDir)$(TargetName).lib" "$(SYSROOT)\lib\"
+del "$(SYSROOT)\include\libcalendars\cl-math.h"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='StaticDebug|x64'">
     <ClCompile>
@@ -220,6 +240,12 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Message>Installs binaries on the location specified by SYSROOT env variable.</Message>
+      <Command>xcopy /Y /I "$(ProjectDir)..\..\src\*.h" "$(SYSROOT)\include\libcalendars\"
+xcopy /Y /I "$(TargetPath)" "$(SYSROOT)\lib\"
+del "$(SYSROOT)\include\libcalendars\cl-math.h"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -238,6 +264,13 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Message>Installs binaries on the location specified by SYSROOT env variable.</Message>
+      <Command>xcopy /Y /I "$(ProjectDir)..\..\src\*.h" "$(SYSROOT)\include\libcalendars\"
+xcopy /Y /I "$(TargetPath)" "$(SYSROOT)\bin\"
+xcopy /Y /I "$(OutDir)$(TargetName).lib" "$(SYSROOT)\lib\"
+del "$(SYSROOT)\include\libcalendars\cl-math.h"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='StaticRelease|Win32'">
     <ClCompile>
@@ -258,6 +291,12 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Message>Installs binaries on the location specified by SYSROOT env variable.</Message>
+      <Command>xcopy /Y /I "$(ProjectDir)..\..\src\*.h" "$(SYSROOT)\include\libcalendars\"
+xcopy /Y /I "$(TargetPath)" "$(SYSROOT)\lib\"
+del "$(SYSROOT)\include\libcalendars\cl-math.h"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -276,6 +315,13 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Message>Installs binaries on the location specified by SYSROOT env variable.</Message>
+      <Command>xcopy /Y /I "$(ProjectDir)..\..\src\*.h" "$(SYSROOT)\include\libcalendars\"
+xcopy /Y /I "$(TargetPath)" "$(SYSROOT)\bin\"
+xcopy /Y /I "$(OutDir)$(TargetName).lib" "$(SYSROOT)\lib\"
+del "$(SYSROOT)\include\libcalendars\cl-math.h"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='StaticRelease|x64'">
     <ClCompile>
@@ -296,6 +342,12 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Message>Installs binaries on the location specified by SYSROOT env variable.</Message>
+      <Command>xcopy /Y /I "$(ProjectDir)..\..\src\*.h" "$(SYSROOT)\include\libcalendars\"
+xcopy /Y /I "$(TargetPath)" "$(SYSROOT)\lib\"
+del "$(SYSROOT)\include\libcalendars\cl-math.h"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\cl-calendars.h" />
