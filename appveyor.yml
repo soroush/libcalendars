@@ -27,29 +27,37 @@ environment:
   SYSROOT: C:\sysroot\
   INCLUDE: C:\sysroot\include\
   LIBS: C:\sysroot\libs\
-  matrix:
-        - platform: x86
-          BUILD_ARCH: win32
-        - platform: x64
-          BUILD_ARCH: win64
 
-environment:
-  matrix:
-        - configuration: Debug
-          BUILD_TYPE: debug-dynamic
-        - configuration: Release
-          BUILD_TYPE: release-dynamic
-        - configuration: StaticRelease
-          BUILD_TYPE: release-static
-        - configuration: StaticDebug
-          BUILD_TYPE: debug-static
+matrix:
+  - platform: x86
+    environment:
+      BUILD_ARCH: win32
+  - platform: x64
+    environment:
+      BUILD_ARCH: win64
 
-environment:
-  matrix:
-        - image: Visual Studio 2017
-          BUILD_MSVC: msvc14_1
-        - image: Visual Studio 2015
-          BUILD_MSVC: msvc14
+matrix:
+  - configuration: Debug
+    environment:
+      BUILD_TYPE: debug-dynamic
+  - configuration: Release
+    environment:
+      BUILD_TYPE: release-dynamic
+  - configuration: StaticRelease
+    environment:
+      BUILD_TYPE: release-static
+  - configuration: StaticDebug
+    environment:
+      BUILD_TYPE: debug-static
+
+matrix:
+  - image: Visual Studio 2017
+    environment:
+      BUILD_MSVC: msvc14_1
+  - image: Visual Studio 2015
+    environment:
+      BUILD_MSVC: msvc14
+
 
 build:
   project: win32/libcalendars.sln
