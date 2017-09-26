@@ -5,8 +5,6 @@ image:
 
 configuration:
 - Debug
-  environment:
-  BUILD_TYPE: debug
 - Release
 - StaticRelease
 - StaticDebug
@@ -30,21 +28,26 @@ environment:
   INCLUDE: C:\sysroot\include\
   LIBS: C:\sysroot\libs\
 
-  # matrix:
-  # - platform: x86
-  #   BUILD_ARCH: win32
-  # - platform: x64
-  #   BUILD_ARCH: win64
-  # - configuration: Debug
-  #   BUILD_TYPE: debug
-  # - configuration: Release
-  #   BUILD_TYPE: release
-
 build:
   project: win32/libcalendars.sln
   verbosity: detailed
 
 after_build:
+- ps: >-
+   $env:BUILD_ARCH = $env:PLATFORM
+   switch($env:CONFIGURATION)
+        {
+        "Debug" {export $env:BUILD_TYPE = "debug-shared"}
+        "Release" {export $env:BUILD_TYPE = "release-shared"}
+        "StaticDebug" {export $env:BUILD_TYPE = "debug-static"}
+        "StaticRelease" {export $env:BUILD_TYPE = "release-static"}
+        }
+   switch($env:APPVEYOR_BUILD_WORKER_IMAGE)
+        {
+        "Visual Studio 2017" {export $env:BUILD_MSVC = "msvc14_1"}
+        "Visual Studio 2015" {export $env:BUILD_MSVC = "msvc14_1"}
+        }
+
 - cmd: 7z a .\%APPVEYOR_PROJECT_NAME%-%BUILD_ARCH%-%BUILD_MSVC%-%BUILD_TYPE%.zip C:\sysroot\*
 
 artifacts:
