@@ -119,7 +119,8 @@ void sh_to_jdn(uint32_t* jd, int16_t year, uint8_t month, uint16_t day) {
     /* Adjust the offset of year 0 */
     int16_t era = 0;
     int32_t d_y = 0;
-    int32_t f_d;
+    int32_t y_c = 0;
+    int32_t f_d = 0;
     size_t i = 0;
     if(year < 0) {
         ++year;
@@ -128,7 +129,7 @@ void sh_to_jdn(uint32_t* jd, int16_t year, uint8_t month, uint16_t day) {
     if((year - 475) < 0) {
         --era;
     }
-    int y_c = (year - 475) - era * cycle_years;
+    y_c = (year - 475) - era * cycle_years;
     f_d = fdoy_c(y_c, era);
     d_y = 0;
     for(i = 1; i < month; ++i) {
