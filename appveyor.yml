@@ -5,6 +5,8 @@ image:
 
 configuration:
 - Debug
+  environment:
+  BUILD_TYPE: debug
 - Release
 - StaticRelease
 - StaticDebug
@@ -27,15 +29,16 @@ environment:
   SYSROOT: C:\sysroot\
   INCLUDE: C:\sysroot\include\
   LIBS: C:\sysroot\libs\
-  matrix:
-  - platform: x86
-    BUILD_ARCH: win32
-  - platform: x64
-    BUILD_ARCH: win64
-  - configuration: Debug
-    BUILD_TYPE: debug
-  - configuration: Release
-    BUILD_TYPE: release
+
+  # matrix:
+  # - platform: x86
+  #   BUILD_ARCH: win32
+  # - platform: x64
+  #   BUILD_ARCH: win64
+  # - configuration: Debug
+  #   BUILD_TYPE: debug
+  # - configuration: Release
+  #   BUILD_TYPE: release
 
 build:
   project: win32/libcalendars.sln
