@@ -12,22 +12,22 @@ platform:
 - x86
 init:
 - ps: >-
-    mkdir c:\sysroot
+    mkdir .\sysroot
 
-    mkdir c:\sysroot\bin
+    mkdir .\sysroot\bin
 
-    mkdir c:\sysroot\include
+    mkdir .\sysroot\include
 
-    mkdir c:\sysroot\lib
+    mkdir .\sysroot\lib
 
 environment:
-  SYSROOT: C:\sysroot
-  INCLUDE: C:\sysroot\include
-  LIBS: C:\sysroot\libs
+  SYSROOT: .\sysroot
+  INCLUDE: .\sysroot\include
+  LIBS: .\sysroot\libs
 build:
   project: win32/libcalendars.sln
   verbosity: minimal
 artifacts:
-- path: ..\..\sysroot\*
+- path: .\sysroot\*
   type: zip
 
