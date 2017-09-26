@@ -1,33 +1,17 @@
 version: 0.1.{build}
 image:
 - Visual Studio 2017
-        environment:
-            BUILD_MSVC: msvc14_1
 - Visual Studio 2015
-        environment:
-            BUILD_MSVC: msvc14
 
 configuration:
 - Debug
-        environment:
-            BUILD_TYPE: debug-dynamic
 - Release
-        environment:
-            BUILD_TYPE: release-dynamic
 - StaticRelease
-        environment:
-            BUILD_TYPE: release-static
 - StaticDebug
-        environment:
-            BUILD_TYPE: debug-static
 
 platform:
 - x64
-        environment:
-            BUILD_ARCH: win64
 - x86
-        environment:
-            BUILD_ARCH: win32
 
 before_build:
 - ps: >-
@@ -39,16 +23,35 @@ before_build:
 
     mkdir C:\sysroot\lib
 
-after_build:
-- cmd: 7z a .\%APPVEYOR_PROJECT_NAME%-%BUILD_ARCH%-%BUILD_MSVC%-%BUILD_TYPE%.zip C:\sysroot\*
-
 environment:
   SYSROOT: C:\sysroot\
   INCLUDE: C:\sysroot\include\
   LIBS: C:\sysroot\libs\
+  matrix:
+        - platform: x86
+          BUILD_ARCH: win32
+        - platform: x64
+          BUILD_ARCH: win64
+        - configuration: Debug
+          BUILD_TYPE: debug-dynamic
+        - configuration: Release
+          BUILD_TYPE: release-dynamic
+        - configuration: StaticRelease
+          BUILD_TYPE: release-static
+        - configuration: StaticDebug
+          BUILD_TYPE: debug-static
+        -image: Visual Studio 2017
+          BUILD_MSVC: msvc14_1
+        -image: Visual Studio 2015
+          BUILD_MSVC: msvc14
+
 build:
   project: win32/libcalendars.sln
   verbosity: minimal
+
+after_build:
+- cmd: 7z a .\%APPVEYOR_PROJECT_NAME%-%BUILD_ARCH%-%BUILD_MSVC%-%BUILD_TYPE%.zip C:\sysroot\*
+
 artifacts:
 - path: .\*.zip
   type: zip
