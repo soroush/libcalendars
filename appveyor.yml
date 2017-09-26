@@ -32,6 +32,9 @@ environment:
           BUILD_ARCH: win32
         - platform: x64
           BUILD_ARCH: win64
+
+environment:
+  matrix:
         - configuration: Debug
           BUILD_TYPE: debug-dynamic
         - configuration: Release
@@ -40,6 +43,9 @@ environment:
           BUILD_TYPE: release-static
         - configuration: StaticDebug
           BUILD_TYPE: debug-static
+
+environment:
+  matrix:
         - image: Visual Studio 2017
           BUILD_MSVC: msvc14_1
         - image: Visual Studio 2015
