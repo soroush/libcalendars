@@ -20,10 +20,6 @@ init:
 
     mkdir c:\sysroot\lib
 
-artifacts:
-	- path: c:\sysroot\*
-	type: zip
-
 environment:
   SYSROOT: C:\sysroot
   INCLUDE: C:\sysroot\include
@@ -31,3 +27,7 @@ environment:
 build:
   project: win32/libcalendars.sln
   verbosity: minimal
+artifacts:
+- path: c:\sysroot\*
+  type: zip
+
