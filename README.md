@@ -70,7 +70,7 @@ Reference of API is available at [https://soroush.github.io/libcalendars](https:
 This library is written in the hope that it will be useful. With your help, `libcalendars` can be better (: 
 You can help `libcalendars` in several ways:
 
-1. Build the library and thest its output. You can [raise an issue](issues) if you've found any problem. 
+1. Build the library and thest its output. You can [raise an issue](https://github.com/soroush/libcalendars/issues) if you've found any problem. 
 2. Contribute to improve code quality, fix bugs and add new features. Please read our [Code of Conduct](CODE_OF_CONDUCT.md) for more details. 
 
 # Algorithms
