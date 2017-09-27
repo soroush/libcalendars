@@ -38,8 +38,7 @@ int tst_calendar(
         if(jdn != jdn2) {
             printf("JDN conversion failed! %d != %d for %+04d-%02d-%02d\n",
                    jdn, jdn2, year, month, day);
-           // printf("%d %d\n", year, jdn-jdn2);
-            //return -1;
+            return -1;
         }
         int16_t gy[2] = {0, 0};
         uint8_t gm[2] = {0, 0};
@@ -47,11 +46,11 @@ int tst_calendar(
         jdn_to_gr(jdn, &gy[0], &gm[0], &gd[0]);
         (*gr_to_cal)(gy[0], gm[0], gd[0], &year, &month, &day);
         (*cal_to_gr)(year, month, day, &gy[1], &gm[1], &gd[1]);
-        if(gy[0] != gy[1] || gm[0] != gm[1] || gm[0] != gm[1]) {
+        if(gy[0] != gy[1] || gm[0] != gm[1] || gd[0] != gd[1]) {
             printf("Gregorian to calendar conversion failed! "
                    "%04d-%02d-%02d != %04d-%02d-%02d!\n",
                    gy[0], gm[0], gd[0], gy[1], gm[1], gd[1]);
-            //return -1;
+            return -1;
         }
 
     }

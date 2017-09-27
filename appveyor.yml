@@ -56,3 +56,5 @@ artifacts:
 - path: .\*.zip
   type: zip
 
+skip_commits:
+  message: /\[ci skip\]/
