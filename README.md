@@ -15,6 +15,7 @@
 calendars.
 
 ## Why?
+
 Why implement yet another calendaring library? Well, there are plenty of
 excellent implementations out there, though it seems there is no free,
 GPL-compliant, C implementation. Besides there is no precise implementation
@@ -22,6 +23,7 @@ of non-gregorian calendars, most importantly Solar Hijri and Islamic Civil
 calendars.
 
 ## How to use libcalendar?
+
 Almost all algorithms in libcalendar are implemented using Julian Day
 calculations. You can convert any date on supported calendars to JDN and vice
 versa. For example:
@@ -59,6 +61,17 @@ which will print:
 2017-09-11 is 1396/06/18 AP 
 ```
 
+### Documentation
+
+Reference of API is available at (https://soroush.github.io/libcalendars)[https://soroush.github.io/libcalendars/].
+
+## Contribution
+
+This library is written in the hope that it will be useful. With your help, `libcalendars` can be better (: 
+You can help `libcalendars` in several ways:
+
+1. Build the library and thest its output. You can (raise an issue)[issues] if you've found any problem. 
+2. Contribute to improve code quality, fix bugs and add new features. Please read our (Code of Conduct)[CODE_OF_CONDUCT.md] for more details. 
 
 # Algorithms
 
