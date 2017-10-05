@@ -25,6 +25,9 @@
 
 LIBCALENDAR_API
 uint8_t ml_is_leap(int16_t year) {
+    if(year <= 0) {
+        ++year;
+    }
     if(mod(year, 4) == 0) {
         if(mod(year, 100) == 0) {
             const int16_t century = mod(fdiv(year, 100), 9);
@@ -76,14 +79,19 @@ LIBCALENDAR_API uint8_t ml_month_in_year(int16_t year) {
 }
 
 LIBCALENDAR_API
-uint8_t ml_is_valid(int16_t year, uint8_t month, uint16_t day){
-    if(month <= ml_month_in_year(year) && day <= ml_days_in_month(month, year))
+uint8_t ml_is_valid(int16_t year, uint8_t month, uint16_t day) {
+
+    if(day > 0 && day <= ml_days_in_month(month, year)) {
         return 1;
+    }
     return 0;
 }
 
 LIBCALENDAR_API
 void ml_to_jdn(uint32_t* jd, int16_t year, uint8_t month, uint16_t day) {
+    if(year <= 0) {
+        ++year;
+    }
     int8_t c0;
     int16_t x1 = 0;
     int16_t x2 = 0;
@@ -111,6 +119,9 @@ void jdn_to_ml(uint32_t jd, int16_t* year, uint8_t* month, uint16_t* day) {
         fdiv(5 * fdiv(mod(k2, 36525), 100) + 2, 153);
     const uint32_t c0 = fdiv(x1 + 2, 12);
     *year = (int16_t)(100 * x3 + x2 + c0);
+    if(*year <= 0) {
+        --(*year);
+    }
     *month = (uint8_t)(x1 - 12 * c0 + 3);
     *day = fdiv(mod(k1, 153), 5) + 1;
 }

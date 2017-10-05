@@ -26,5 +26,5 @@ int main()
     jdn_to_cal = &jdn_to_is;
     cal_to_gr = &is_to_gr;
     gr_to_cal = &gr_to_is;
-    return tst_calendar(1380036, 2488069);
+    return tst_calendar(0, 2488069);
 }

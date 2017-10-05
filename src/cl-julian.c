@@ -25,7 +25,10 @@
 
 LIBCALENDAR_API
 uint8_t ju_is_leap(int16_t year) {
-    return mod(year, 3) == 0 ? 1 : 0;
+    if(year < 0) {
+        ++year;
+    }
+    return mod(year, 4) == 0 ? 1 : 0;
 }
 
 LIBCALENDAR_API
@@ -67,13 +70,20 @@ uint8_t ju_month_in_year(int16_t year) {
 
 LIBCALENDAR_API
 uint8_t ju_is_valid(int16_t year, uint8_t month, uint16_t day) {
-    if(month <= ju_month_in_year(year) && day <= ju_days_in_month(month, year))
+    if(day > 0 && day <= ju_days_in_month(month, year)) {
         return 1;
+    }
     return 0;
 }
 
 LIBCALENDAR_API
 void ju_to_jdn(uint32_t* jd, int16_t year, uint8_t month, uint16_t day) {
+    if(!year) {
+        *jd = 0;
+    }
+    if(year < 0) {
+        ++year;
+    }
     const int32_t c0 = fdiv(month - 3, 12);
     const int32_t j1 = fdiv(1461 * (year + c0), 4);
     const int32_t j2 = fdiv(153 * month - 1836 * c0 - 457, 5);
@@ -88,6 +98,9 @@ void jdn_to_ju(uint32_t jd, int16_t* year, uint8_t* month, uint16_t* day) {
     const int32_t x1 = fdiv(k1, 153);
     const int32_t c0 = fdiv(x1 + 2, 12);
     *year = (int16_t)(fdiv(k2, 1461) + c0);
+    if(*year <= 0) {
+        --(*year);
+    }
     *month = (uint8_t)(x1 - 12 * c0 + 3);
     *day = fdiv(mod(k1, 153), 5) + 1;
 }
