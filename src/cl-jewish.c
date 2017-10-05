@@ -22,32 +22,247 @@
 #include "cl-gregorian.h"
 #include "cl-math.h"
 
-LIBCALENDAR_API
-uint8_t jw_is_leap(int16_t year) {
-    return mod((7*year + 1), 19) < 7 ? 1 : 0;
+uint8_t jw_year_type(int16_t year) {
+    div_t qr = pdiv(7 * year - 6, 19);
+    double k_p = 0.178117457 * year + 0.777965458 * qr.rem + 0.2533747;
+    double i;
+    double k = modf(k_p, &i);
+    if(qr.rem < 5) {
+        if(k >= 0.752248) {
+            return 7;
+        }
+        if(k >= 0.714282) {
+            return 6;
+        }
+        if(k >= 0.661835) {
+            return 5;
+        }
+        if(k >= 0.376121) {
+            return 4;
+        }
+        if(k >= 0.271103) {
+            return 3;
+        }
+        if(k >= 0.090410) {
+            return 2;
+        }
+        if(k >= 0.000000) {
+            return 1;
+        }
+    } else if(qr.rem >= 5 && qr.rem < 8) {
+        if(k >= 0.804693) {
+            return 7;
+        }
+        if(k >= 0.714282) {
+            return 6;
+        }
+        if(k >= 0.661835) {
+            return 5;
+        }
+        if(k >= 0.376121) {
+            return 4;
+        }
+        if(k >= 0.271103) {
+            return 3;
+        }
+        if(k >= 0.090410) {
+            return 2;
+        }
+        if(k >= 0.000000) {
+            return 1;
+        }
+    } else if(qr.rem >= 8 && qr.rem < 12) {
+        /* FIXME: This is the same as previous case... seems to be an error[?] */
+        if(k >= 0.804693) {
+            return 7;
+        }
+        if(k >= 0.714282) {
+            return 6;
+        }
+        if(k >= 0.661835) {
+            return 5;
+        }
+        if(k >= 0.376121) {
+            return 4;
+        }
+        if(k >= 0.271103) {
+            return 3;
+        }
+        if(k >= 0.090410) {
+            return 2;
+        }
+        if(k >= 0.000000) {
+            return 1;
+        }
+    } else if(qr.rem > 12) {
+        if(k >= 0.871750) {
+            return 14;
+        }
+        if(k >= 0.714282) {
+            return 13;
+        }
+        if(k >= 0.533590) {
+            return 12;
+        }
+        if(k >= 0.428570) {
+            return 11;
+        }
+        if(k >= 0.285711) {
+            return 10;
+        }
+        if(k >= 0.157466) {
+            return 9;
+        }
+        if(k >= 0.000000) {
+            return 8;
+        }
+    }
 }
 
 LIBCALENDAR_API
+uint8_t jw_is_leap(int16_t year) {
+    return mod((7 * year + 1), 19) < 7 ? 1 : 0;
+}
+
+LIBCALENDAR_API
+uint8_t jw_is_complete(int16_t year) {
+    switch(jw_year_type(year)) {
+        case 2:
+        case 5:
+        case 7:
+        case 9:
+        case 12:
+        case 14:
+            return 1;
+        default:
+            return 0;
+    }
+}
+
+LIBCALENDAR_API
+uint8_t jw_is_deficient(int16_t year) {
+    switch(jw_year_type(year)) {
+        case 1:
+        case 6:
+        case 8:
+        case 11:
+        case 13:
+            return 1;
+        default:
+            return 0;
+    }
+}
+
+LIBCALENDAR_API
+uint8_t jw_is_regular(int16_t year) {
+    switch(jw_year_type(year)) {
+        case 3:
+        case 5:
+        case 10:
+            return 1;
+        default:
+            return 0;
+    }
+}
+
+
+LIBCALENDAR_API
 uint8_t jw_days_in_month(uint8_t month, int16_t year) {
-    /* TODO: Implement this */
+    switch(month) {
+        case 1:
+            return 30;
+        case 2:
+            return 29;
+        case 3:
+            return 30;
+        case 4:
+            return 29;
+        case 5:
+            return 30;
+        case 6:
+            return 29;
+        case 7:
+            return 30;
+        case 8:
+            if(jw_is_regular(year) || jw_is_deficient(year)) {
+                return 29;
+            } else if(jw_is_complete(year)) {
+                return 30;
+            }
+        case 9:
+            if(jw_is_regular(year) || jw_is_complete(year)) {
+                return 30;
+            } else if(jw_is_deficient(year)) {
+                return 29;
+            }
+        case 10:
+            return 29;
+        case 11:
+            return 30;
+        case 12:
+            if(jw_is_leap(year)) {
+                /* Adar Rishon */
+                return 30;
+            } else {
+                /* Adar */
+                return 29;
+            }
+        case 13:
+            if(jw_is_leap(year)) {
+                /* Adar Sheni */
+                return 29;
+            } else {
+                /* Invalid */
+                return 0;
+            }
+            break;
+        default:
+            break;
+    }
 }
 
 LIBCALENDAR_API
 uint16_t jw_days_in_year(int16_t year) {
-    /* TODO: Implement this */
+    if(year == 0) {
+        return 0;
+    }
+    if(jw_is_leap(year)) {
+        if(jw_is_regular(year)) {
+            return 354;
+        } else if(jw_is_complete(year)) {
+            return 355;
+        } else if(jw_is_deficient(year)) {
+            return 353;
+        }
+    } else {
+        if(jw_is_regular(year)) {
+            return 384;
+        } else if(jw_is_complete(year)) {
+            return 385;
+        } else if(jw_is_deficient(year)) {
+            return 383;
+        }
+    }
+    return 0;
 }
 
-
 LIBCALENDAR_API
-uint8_t jw_month_in_year(int16_t year)
-{
-    /* TODO: Implement. Should return 12 or 13 months*/
+uint8_t jw_month_in_year(int16_t year) {
+    if(year == 0) {
+        return 0;
+    }
+    if(jw_is_leap(year)) {
+        return 13;
+    }
+    return 12;
 }
 
 LIBCALENDAR_API
-uint8_t jw_is_valid(int16_t year, uint8_t month, uint16_t day)
-{
-    /* TODO: Implement. */
+uint8_t jw_is_valid(int16_t year, uint8_t month, uint16_t day) {
+    if(day > 0 && day <= jw_days_in_month(month, year)) {
+        return 1;
+    }
+    return 0;
 }
 
 static inline int32_t q(int32_t x) {

@@ -28,6 +28,9 @@ extern "C" {
 #endif
 
 LIBCALENDAR_API uint8_t jw_is_leap(int16_t year);
+LIBCALENDAR_API uint8_t jw_is_complete(int16_t year);
+LIBCALENDAR_API uint8_t jw_is_deficient(int16_t year);
+LIBCALENDAR_API uint8_t jw_is_regular(int16_t year);
 LIBCALENDAR_API uint8_t jw_days_in_month(uint8_t month, int16_t year);
 LIBCALENDAR_API uint16_t jw_days_in_year(int16_t year);
 LIBCALENDAR_API uint8_t  jw_month_in_year(int16_t year);
