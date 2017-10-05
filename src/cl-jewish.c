@@ -117,6 +117,7 @@ uint8_t jw_year_type(int16_t year) {
             return 8;
         }
     }
+    return 0;
 }
 
 LIBCALENDAR_API
@@ -219,6 +220,7 @@ uint8_t jw_days_in_month(uint8_t month, int16_t year) {
         default:
             break;
     }
+    return 0;
 }
 
 LIBCALENDAR_API

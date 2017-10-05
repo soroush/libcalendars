@@ -17,16 +17,27 @@
 
 ACLOCAL_AMFLAGS = ${ACLOCAL_FLAGS} -I m4
 
-AM_CXXFLAGS = --pedantic -Wall -Werror
+AM_CPPFLAGS = \
+    -DLIBCALENDAR_EXPORT
 
-libcalendar_includedir = $(includedir)/calendar
+AM_CFLAGS = \
+    --pedantic \
+    -Wall -Werror -Wno-unused-parameter -Wno-unused-function \
+    -Wno-unused-label -Wpointer-arith -Wformat -Wreturn-type \
+    -Wsign-compare -Wmultichar -Wformat-nonliteral -Winit-self \
+    -Wuninitialized -Wno-deprecated -Wformat-security \
+    -fvisibility=hidden -fPIC -fno-exceptions -fstack-protector \
+    -Wl,-z,relro -Wl,-z,now -Wl,--no-undefined -Wl,--discard-all \
+    -Wl,--build-id=sha1 -rdynamic
+
+libcalendar_includedir = $(includedir)/libcalendars
 libcalendar_include_HEADERS =  \
     cl-calendars.h \
-    cl-math.h \
     cl-export.h \
     cl-gregorian.h \
     cl-julian.h \
     cl-milankovic.h \
+    cl-solar-hijri.h \
     cl-islamic-civil.h \
     cl-jewish.h
 
@@ -34,8 +45,9 @@ lib_LTLIBRARIES = libcalendar.la
 libcalendar_la_LDFLAGS = -version-info $(LIBCALENDAR_SO_VERSION)
 libcalendar_la_SOURCES = \
     $(libcalendar_include_HEADERS) \
-    cl-calendars.c \
+    cl-math.h \
     cl-math.c \
+    cl-calendars.c \
     cl-gregorian.c \
     cl-julian.c \
     cl-milankovic.c \

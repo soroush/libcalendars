@@ -21,11 +21,14 @@
 #include "tst-common.h"
 #include <stdio.h>
 
-int main()
-{
-    cal_to_jdn = &ml_to_jdn;
-    jdn_to_cal = &jdn_to_ml;
-    cal_to_gr = &ml_to_gr;
-    gr_to_cal = &gr_to_ml;
-    return tst_calendar(0, 2488069);
+#ifdef _WIN32
+DWORD WINAPI tst_milankovic(LPVOID param_arg) {
+#else
+int main(int argc, char *argv[]) {
+#endif
+    int result;
+    printf("TEST: Milankovic Calendar...\n");
+    result = tst_calendar(&ml_to_jdn, &jdn_to_ml, &ml_to_gr, &gr_to_ml, 0, 2488069);
+    printf("%s: Milankovic Calendar.\n", result == 0 ? "PASS" : "FAIL");
+    return result;
 }

@@ -21,11 +21,14 @@
 #include "tst-common.h"
 #include <stdio.h>
 
-int main()
-{
-    cal_to_jdn = &ju_to_jdn;
-    jdn_to_cal = &jdn_to_ju;
-    cal_to_gr = &ju_to_gr;
-    gr_to_cal = &gr_to_ju;
-    return tst_calendar(0, 2488069);
+#ifdef _WIN32
+DWORD WINAPI tst_julian(LPVOID param_arg) {
+#else
+int main(int argc, char *argv[]) {
+#endif
+    int result;
+    printf("TEST: Julian Calendar...\n");
+    result = tst_calendar(&ju_to_jdn, &jdn_to_ju, &ju_to_gr, &gr_to_ju, 0, 2488069);
+    printf("%s: Julian Calendar.\n", result == 0 ? "PASS" : "FAIL");
+    return result;
 }

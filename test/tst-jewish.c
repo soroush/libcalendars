@@ -21,18 +21,14 @@
 #include "tst-common.h"
 #include <stdio.h>
 
-int main() {
-    cal_to_jdn = &jw_to_jdn;
-    jdn_to_cal = &jdn_to_jw;
-    cal_to_gr = &jw_to_gr;
-    gr_to_cal = &gr_to_jw;
-
-    /* Specific day tests */
-    int32_t jdn = 0;
-    int16_t y;
-    uint8_t m;
-    uint16_t d;
-    jw_to_jdn(&jdn, 4682, 3, 18);
-    jdn_to_jw(jdn, &y, &m, &d);
-    return tst_calendar(0, 2488069);
+#ifdef _WIN32
+DWORD WINAPI tst_jewish(LPVOID param_arg) {
+#else
+int main(int argc, char *argv[]) {
+#endif
+    int result;
+    printf("TEST: Jewish Calendar...\n");
+    result = tst_calendar(&jw_to_jdn, &jdn_to_jw, &jw_to_gr, &gr_to_jw, 0, 2488069);
+    printf("%s: Jewish Calendar.\n", result == 0 ? "PASS" : "FAIL");
+    return result;
 }

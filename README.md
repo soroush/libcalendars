@@ -9,11 +9,13 @@
 ![license](https://img.shields.io/badge/license-GPLv3-blue.svg)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6d907409c4244a0cb1a5e67299672d57)](https://www.codacy.com/app/soroush/libcalendars?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=soroush/libcalendars&amp;utm_campaign=Badge_Grade)
 [![Build Status](https://travis-ci.org/soroush/libcalendars.svg?branch=dev)](https://travis-ci.org/soroush/libcalendars)
+[![Build status](https://ci.appveyor.com/api/projects/status/kroimbg1ous41iak?svg=true)](https://ci.appveyor.com/project/soroush/libcalendars)
 
 `libcalendar` is an experimental C library to provide arithmentic for several
 calendars.
 
 ## Why?
+
 Why implement yet another calendaring library? Well, there are plenty of
 excellent implementations out there, though it seems there is no free,
 GPL-compliant, C implementation. Besides there is no precise implementation
@@ -21,6 +23,7 @@ of non-gregorian calendars, most importantly Solar Hijri and Islamic Civil
 calendars.
 
 ## How to use libcalendar?
+
 Almost all algorithms in libcalendar are implemented using Julian Day
 calculations. You can convert any date on supported calendars to JDN and vice
 versa. For example:
@@ -46,18 +49,29 @@ You can also convert calendar dates to/from Gregorian calendar:
 int16_t y;
 uint8_t m;
 uint16_t d;
-sh_to_gr(1369, 06, 20, &y, &m, &d);
-printf("1369/06/20 AP is %04d-%02d-%02d\n", y, m, d);
+sh_to_gr(1396, 06, 20, &y, &m, &d);
+printf("1396/06/20 AP is %04d-%02d-%02d\n", y, m, d);
 gr_to_sh(2017, 09, 11, &y, &m, &d); 
 printf("2017-09-11 is %04d-%02d-%02d AP\n", y, m, d);
 ```
 which will print:
 
 ```
-1369/06/20 AP is 2017-09-11
-2017-09-11 is 1369/06/18 AP 
+1396/06/20 AP is 2017-09-11
+2017-09-11 is 1396/06/18 AP 
 ```
 
+### Documentation
+
+Reference of API is available at [https://soroush.github.io/libcalendars](https://soroush.github.io/libcalendars/).
+
+## Contribution
+
+This library is written in the hope that it will be useful. With your help, `libcalendars` can be better (: 
+You can help `libcalendars` in several ways:
+
+1. Build the library and thest its output. You can [raise an issue](https://github.com/soroush/libcalendars/issues) if you've found any problem. 
+2. Contribute to improve code quality, fix bugs and add new features. Please read our [Code of Conduct](CODE_OF_CONDUCT.md) for more details. 
 
 # Algorithms
 

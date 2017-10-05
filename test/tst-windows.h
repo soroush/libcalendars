@@ -17,24 +17,16 @@
 *
 */
 
-#ifndef LIBCALENDAR_EXPORT_H
-#define LIBCALENDAR_EXPORT_H
+#ifndef LIBCALENDAR_TEST_WINDOWS_H
+#define LIBCALENDAR_TEST_WINDOWS_H
 
-#if defined(LIBCALENDAR_EXPORT)
-    #if defined(_MSC_VER)
-        #define LIBCALENDAR_API __declspec(dllexport)
-    #else
-        #define LIBCALENDAR_API __attribute__((visibility("default")))
-    #endif
-#elif defined(LIBCALENDAR_STATIC)
-    #define LIBCALENDAR_API
-#else
-#if defined(_MSC_VER)
-        #define LIBCALENDAR_API __declspec(dllimport)
-#else
-        #define LIBCALENDAR_API
-#endif
+#include <windows.h>
 
-#endif
+DWORD WINAPI tst_gregorian(LPVOID);
+DWORD WINAPI tst_islamic_civil(LPVOID);
+DWORD WINAPI tst_jewish(LPVOID);
+DWORD WINAPI tst_julian(LPVOID);
+DWORD WINAPI tst_milankovic(LPVOID);
+DWORD WINAPI tst_solar_hijri(LPVOID);
 
-#endif
+#endif /* LIBCALENDAR_TEST_WINDOWS_H */

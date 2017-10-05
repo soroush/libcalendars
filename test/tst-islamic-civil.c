@@ -20,11 +20,14 @@
 #include "../src/cl-islamic-civil.h"
 #include "tst-common.h"
 
-int main()
-{
-    cal_to_jdn = &is_to_jdn;
-    jdn_to_cal = &jdn_to_is;
-    cal_to_gr = &is_to_gr;
-    gr_to_cal = &gr_to_is;
-    return tst_calendar(0, 2488069);
+#ifdef _WIN32
+DWORD WINAPI tst_islamic_civil(LPVOID param_arg) {
+#else
+int main() {
+#endif
+    int result;
+    printf("TEST: Islamic Civil Calendar...\n");
+    result = tst_calendar(&is_to_jdn, &jdn_to_is, &is_to_gr, &gr_to_is, 0, 2488069);
+    printf("%s: Islamic Civil Calendar.\n", result == 0 ? "PASS" : "FAIL");
+    return result;
 }

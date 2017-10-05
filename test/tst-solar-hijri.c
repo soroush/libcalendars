@@ -20,11 +20,14 @@
 #include "../src/cl-solar-hijri.h"
 #include "tst-common.h"
 
-int main()
-{
-    cal_to_jdn = &sh_to_jdn;
-    jdn_to_cal = &jdn_to_sh;
-    cal_to_gr = &sh_to_gr;
-    gr_to_cal = &gr_to_sh;
-    return tst_calendar(0, 2488069);
+#ifdef _WIN32
+DWORD WINAPI tst_solar_hijri(LPVOID param_arg) {
+#else
+int main(int argc, char *argv[]) {
+#endif
+    int result;
+    printf("TEST: Solar Hijri Calendar...\n");
+    result = tst_calendar(&sh_to_jdn, &jdn_to_sh, &sh_to_gr, &gr_to_sh, 0, 2488069);
+    printf("%s: Solar Hijri Calendar.\n", result == 0 ? "PASS" : "FAIL");
+    return result;
 }

@@ -32,27 +32,33 @@ check_PROGRAMS = \
 
 tst_solar_hijri_SOURCES = \
     tst-common.h \
+    tst-common.c \
     tst-solar-hijri.c
 
 tst_gregorian_SOURCES = \
     tst-common.h \
+    tst-common.c \
     tst-gregorian.c
 
 tst_julian_SOURCES = \
     tst-common.h \
+    tst-common.c \
     tst-julian.c
 
 tst_milankovic_SOURCES = \
     tst-common.h \
+    tst-common.c \
     tst-milankovic.c
 
 
 tst_jewish_SOURCES = \
     tst-common.h \
+    tst-common.c \
     tst-jewish.c
 
 tst_islamic_civil_SOURCES = \
     tst-common.h \
+    tst-common.c \
     tst-islamic-civil.c
 
 TESTS = $(check_PROGRAMS)

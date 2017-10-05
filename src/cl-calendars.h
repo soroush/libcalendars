@@ -27,15 +27,15 @@
 extern "C" {
 #endif
 
-#define CAL_GREGORIAN       0b00000001
-#define CAL_JULIAN          0b00000010
-#define CAL_MILANKOVIC      0b00000100
+#define CAL_GREGORIAN       0x01    /* 0b00000001 */
+#define CAL_JULIAN          0x02    /* 0b00000010 */
+#define CAL_MILANKOVIC      0x04    /* 0b00000100 */
 #define CAL_REVISED_JULIAN  CAL_MILANKOVIC
-#define CAL_ISLAMIC_CIVIL   0b00001000
+#define CAL_ISLAMIC_CIVIL   0x08    /* 0b00001000 */
 #define CAL_HIJRI           CAL_ISLAMIC_CIVIL
-#define CAL_JEWSISH         0b00010000
+#define CAL_JEWSISH         0x10    /* 0b00010000 */
 #define CAL_HEBREW          CAL_JEWSISH
-#define CAL_SOLAR_HIJRI     0b00100000
+#define CAL_SOLAR_HIJRI     0x20    /* 0b00100000 */
 #define CAL_SHAMSI          CAL_SOLAR_HIJRI
 #define CAL_PERSIAN         CAL_SOLAR_HIJRI
 

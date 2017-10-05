@@ -38,10 +38,14 @@ void gr_to_gr2(int16_t  gyear, uint8_t  gmonth, uint16_t  gday,
     *cday = gday;
 }
 
-int main() {
-    cal_to_jdn = &gr_to_jdn;
-    jdn_to_cal = &jdn_to_gr;
-    cal_to_gr = & gr_to_gr1;
-    gr_to_cal = & gr_to_gr2;
-    return tst_calendar(0, 2488069);
+#ifdef _WIN32
+DWORD WINAPI tst_gregorian(LPVOID param_arg) {
+#else
+int main(int argc, char *argv[]) {
+#endif
+    int result;
+    printf("TEST: Gregorian Calendar...\n");
+    result = tst_calendar(&gr_to_jdn, &jdn_to_gr, &gr_to_gr1, &gr_to_gr2, 0, 2488069);
+    printf("%s: Gregorian Calendar.\n", result == 0 ? "PASS" : "FAIL");
+    return result;
 }
