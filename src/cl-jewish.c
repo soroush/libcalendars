@@ -196,6 +196,7 @@ uint8_t jw_days_in_month(uint8_t month, int16_t year) {
             } else if(jw_is_deficient(year)) {
                 return 29;
             }
+            break;
         case 10:
             return 29;
         case 11:
@@ -208,6 +209,7 @@ uint8_t jw_days_in_month(uint8_t month, int16_t year) {
                 /* Adar */
                 return 29;
             }
+            break;
         case 13:
             if(jw_is_leap(year)) {
                 /* Adar Sheni */
