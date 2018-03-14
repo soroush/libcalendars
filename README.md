@@ -16,7 +16,27 @@ systems. Currently Gregorian, Julian, Milankovic, Solar Hijri (also known as
 Shamsi or Jalali), Islamic Civil and Jewish (also know as Hebrew) calendar 
 systems are provided.
 
-## How to use libcalendar?
+### Installation
+
+The easiest way to install `libcalendars` is to use PPA:
+
+```bash
+sudo add-apt-repository ppa:soroush-r/solap
+sudo apt update
+sudo apt install libcalendars1    # installs the library
+sudo apt install libcalendars-dev # Installs development headers
+```
+
+Alternatively you can compile the package from source:
+```bash
+./configure
+make 
+sudo make install
+```
+
+Plase refere to [INSTALL](INSTALL) for further details.
+
+### Usage
 
 Almost all algorithms in libcalendar are implemented using Julian Day
 calculations. You can convert any date on supported calendars to JDN and vice
