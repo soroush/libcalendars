@@ -11,16 +11,10 @@
 [![Build Status](https://travis-ci.org/soroush/libcalendars.svg?branch=dev)](https://travis-ci.org/soroush/libcalendars)
 [![Build status](https://ci.appveyor.com/api/projects/status/kroimbg1ous41iak?svg=true)](https://ci.appveyor.com/project/soroush/libcalendars)
 
-`libcalendar` is an experimental C library to provide arithmentic for several
-calendars.
-
-## Why?
-
-Why implement yet another calendaring library? Well, there are plenty of
-excellent implementations out there, though it seems there is no free,
-GPL-compliant, C implementation. Besides there is no precise implementation
-of non-gregorian calendars, most importantly Solar Hijri and Islamic Civil
-calendars.
+A precise C library to provide arithmentic for the most common calendar 
+systems. Currently Gregorian, Julian, Milankovic, Solar Hijri (also known as 
+Shamsi or Jalali), Islamic Civil and Jewish (also know as Hebrew) calendar 
+systems are provided.
 
 ## How to use libcalendar?
 
@@ -63,19 +57,23 @@ which will print:
 
 ### Documentation
 
-Reference of API is available at [https://soroush.github.io/libcalendars](https://soroush.github.io/libcalendars/).
+Reference of API is available at 
+[https://soroush.github.io/libcalendars](https://soroush.github.io/libcalendars/).
 
 ## Contribution
 
-This library is written in the hope that it will be useful. With your help, `libcalendars` can be better (: 
-You can help `libcalendars` in several ways:
+This library is written in the hope that it will be useful. With your help, 
+`libcalendars` can be better (: You can help `libcalendars` in several ways:
 
-1. Build the library and thest its output. You can [raise an issue](https://github.com/soroush/libcalendars/issues) if you've found any problem. 
-2. Contribute to improve code quality, fix bugs and add new features. Please read our [Code of Conduct](CODE_OF_CONDUCT.md) for more details. 
+1. Build the library and thest its output. You can [raise an 
+issue](https://github.com/soroush/libcalendars/issues) if you've found any 
+problem. 
+2. Contribute to improve code quality, fix bugs and add new features. Please 
+read our [Code of Conduct](CODE_OF_CONDUCT.md) for more details. 
 
 # Algorithms
 
-This library is imolemented in C programming language, using no external
+This library is implemented in C programming language, using no external
 dependecies. The C standard library used in libcalendar is C11. Though it should
 be possible to compile this library with a C99 compiler.
 
@@ -159,7 +157,26 @@ always falls on the March equinox.
 
 My implementation of Solar Hijri (Shamsi) calendar is based on median year
 calculation obtained from Muousa Akrami's work:
-[The development of Iranian calendar: historical and astronomical foundations - 2014](https://arxiv.org/pdf/1111.4926.pdf).
+[The development of Iranian calendar: historical and astronomical foundations - 
+2014](https://arxiv.org/pdf/1111.4926.pdf).
 This method is more accurate than 33-year algorithm and supports a wider range
 of dates, both in Solar Hijri <-> Gregorian comversions, and in JDN
 calculations.
+
+## Islamic Civil
+
+The Islamic, Muslim, or Hijri calendar is a lunar calendar consisting of 12 
+months in a year of 354 or 355 days. It is used (often alongside the Gregorian 
+calendar) to date events in many Muslim countries. It is also used by Muslims to 
+determine the proper days of Islamic holidays and rituals, such as the annual 
+period of fasting and the proper time for the pilgrimage to Mecca.
+
+The Islamic calendar employs the Hijri era whose epoch was retrospectively 
+established as the Islamic New Year of AD 622. During that year, Muhammad and 
+his followers migrated from Mecca to Yathrib (now Medina) and established the 
+first Muslim community (ummah), an event commemorated as the Hijra. In the West, 
+dates in this era are usually denoted AH (Latin: Anno Hegirae, "in the year of 
+the Hijra") in parallel with the Christian (AD) and Jewish eras (AM). In Muslim 
+countries, it is also sometimes denoted as H from its Arabic form. In English, 
+years prior to the Hijra are reckoned as BH ("Before the Hijra").
+

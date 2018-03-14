@@ -15,20 +15,20 @@
 @SET_MAKE@
 
 # Copyright 2017 - Soroush Rabiei, <soroush@ametisco.ir>
-# This file is part of libcalendar.
+# This file is part of libcalendars.
 #
-# libcalendar is free software: you can redistribute it and/or modify
+# libcalendars is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# libcalendar is distributed in the hope that it will be useful,
+# libcalendars is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with libcalendar.  If not, see <http://www.gnu.org/licenses/>.
+# along with libcalendars.  If not, see <http://www.gnu.org/licenses/>.
 
 
 VPATH = @srcdir@
@@ -113,7 +113,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
-DIST_COMMON = $(srcdir)/Makefile.am $(libcalendar_include_HEADERS) \
+DIST_COMMON = $(srcdir)/Makefile.am $(libcalendars_include_HEADERS) \
 	$(am__DIST_COMMON)
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
@@ -147,22 +147,22 @@ am__uninstall_files_from_dir = { \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
 am__installdirs = "$(DESTDIR)$(libdir)" \
-	"$(DESTDIR)$(libcalendar_includedir)"
+	"$(DESTDIR)$(libcalendars_includedir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
-libcalendar_la_DEPENDENCIES =
+libcalendars_la_DEPENDENCIES =
 am__objects_1 =
-am_libcalendar_la_OBJECTS = $(am__objects_1) cl-math.lo \
+am_libcalendars_la_OBJECTS = $(am__objects_1) cl-math.lo \
 	cl-calendars.lo cl-gregorian.lo cl-julian.lo cl-milankovic.lo \
 	cl-solar-hijri.lo cl-islamic-civil.lo cl-jewish.lo
-libcalendar_la_OBJECTS = $(am_libcalendar_la_OBJECTS)
+libcalendars_la_OBJECTS = $(am_libcalendars_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
-libcalendar_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+libcalendars_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(AM_CFLAGS) $(CFLAGS) $(libcalendar_la_LDFLAGS) $(LDFLAGS) -o \
-	$@
+	$(AM_CFLAGS) $(CFLAGS) $(libcalendars_la_LDFLAGS) $(LDFLAGS) \
+	-o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -197,14 +197,14 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(libcalendar_la_SOURCES)
-DIST_SOURCES = $(libcalendar_la_SOURCES)
+SOURCES = $(libcalendars_la_SOURCES)
+DIST_SOURCES = $(libcalendars_la_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
-HEADERS = $(libcalendar_include_HEADERS)
+HEADERS = $(libcalendars_include_HEADERS)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
@@ -358,8 +358,8 @@ AM_CFLAGS = \
     -Wl,-z,relro -Wl,-z,now -Wl,--no-undefined -Wl,--discard-all \
     -Wl,--build-id=sha1 -rdynamic
 
-libcalendar_includedir = $(includedir)/libcalendars
-libcalendar_include_HEADERS = \
+libcalendars_includedir = $(includedir)/libcalendars
+libcalendars_include_HEADERS = \
     cl-calendars.h \
     cl-export.h \
     cl-gregorian.h \
@@ -369,10 +369,10 @@ libcalendar_include_HEADERS = \
     cl-islamic-civil.h \
     cl-jewish.h
 
-lib_LTLIBRARIES = libcalendar.la
-libcalendar_la_LDFLAGS = -version-info $(LIBCALENDAR_SO_VERSION)
-libcalendar_la_SOURCES = \
-    $(libcalendar_include_HEADERS) \
+lib_LTLIBRARIES = libcalendars.la
+libcalendars_la_LDFLAGS = -version-info $(LIBCALENDAR_SO_VERSION)
+libcalendars_la_SOURCES = \
+    $(libcalendars_include_HEADERS) \
     cl-math.h \
     cl-math.c \
     cl-calendars.c \
@@ -383,7 +383,7 @@ libcalendar_la_SOURCES = \
     cl-islamic-civil.c \
     cl-jewish.c
 
-libcalendar_la_LIBADD = \
+libcalendars_la_LIBADD = \
     -lm
 
 all: all-am
@@ -455,8 +455,8 @@ clean-libLTLIBRARIES:
 	  rm -f $${locs}; \
 	}
 
-libcalendar.la: $(libcalendar_la_OBJECTS) $(libcalendar_la_DEPENDENCIES) $(EXTRA_libcalendar_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(libcalendar_la_LINK) -rpath $(libdir) $(libcalendar_la_OBJECTS) $(libcalendar_la_LIBADD) $(LIBS)
+libcalendars.la: $(libcalendars_la_OBJECTS) $(libcalendars_la_DEPENDENCIES) $(EXTRA_libcalendars_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(libcalendars_la_LINK) -rpath $(libdir) $(libcalendars_la_OBJECTS) $(libcalendars_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -499,27 +499,27 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
-install-libcalendar_includeHEADERS: $(libcalendar_include_HEADERS)
+install-libcalendars_includeHEADERS: $(libcalendars_include_HEADERS)
 	@$(NORMAL_INSTALL)
-	@list='$(libcalendar_include_HEADERS)'; test -n "$(libcalendar_includedir)" || list=; \
+	@list='$(libcalendars_include_HEADERS)'; test -n "$(libcalendars_includedir)" || list=; \
 	if test -n "$$list"; then \
-	  echo " $(MKDIR_P) '$(DESTDIR)$(libcalendar_includedir)'"; \
-	  $(MKDIR_P) "$(DESTDIR)$(libcalendar_includedir)" || exit 1; \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(libcalendars_includedir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(libcalendars_includedir)" || exit 1; \
 	fi; \
 	for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  echo "$$d$$p"; \
 	done | $(am__base_list) | \
 	while read files; do \
-	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(libcalendar_includedir)'"; \
-	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(libcalendar_includedir)" || exit $$?; \
+	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(libcalendars_includedir)'"; \
+	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(libcalendars_includedir)" || exit $$?; \
 	done
 
-uninstall-libcalendar_includeHEADERS:
+uninstall-libcalendars_includeHEADERS:
 	@$(NORMAL_UNINSTALL)
-	@list='$(libcalendar_include_HEADERS)'; test -n "$(libcalendar_includedir)" || list=; \
+	@list='$(libcalendars_include_HEADERS)'; test -n "$(libcalendars_includedir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
-	dir='$(DESTDIR)$(libcalendar_includedir)'; $(am__uninstall_files_from_dir)
+	dir='$(DESTDIR)$(libcalendars_includedir)'; $(am__uninstall_files_from_dir)
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -607,7 +607,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(LTLIBRARIES) $(HEADERS)
 installdirs:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(libcalendar_includedir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(libcalendars_includedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -663,7 +663,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-libcalendar_includeHEADERS
+install-data-am: install-libcalendars_includeHEADERS
 
 install-dvi: install-dvi-am
 
@@ -710,7 +710,7 @@ ps: ps-am
 ps-am:
 
 uninstall-am: uninstall-libLTLIBRARIES \
-	uninstall-libcalendar_includeHEADERS
+	uninstall-libcalendars_includeHEADERS
 
 .MAKE: install-am install-strip
 
@@ -722,13 +722,13 @@ uninstall-am: uninstall-libLTLIBRARIES \
 	install-data-am install-dvi install-dvi-am install-exec \
 	install-exec-am install-html install-html-am install-info \
 	install-info-am install-libLTLIBRARIES \
-	install-libcalendar_includeHEADERS install-man install-pdf \
+	install-libcalendars_includeHEADERS install-man install-pdf \
 	install-pdf-am install-ps install-ps-am install-strip \
 	installcheck installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
 	tags tags-am uninstall uninstall-am uninstall-libLTLIBRARIES \
-	uninstall-libcalendar_includeHEADERS
+	uninstall-libcalendars_includeHEADERS
 
 .PRECIOUS: Makefile
 

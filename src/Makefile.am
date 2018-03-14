@@ -1,18 +1,18 @@
 # Copyright 2017 - Soroush Rabiei, <soroush@ametisco.ir>
-# This file is part of libcalendar.
+# This file is part of libcalendars.
 #
-# libcalendar is free software: you can redistribute it and/or modify
+# libcalendars is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# libcalendar is distributed in the hope that it will be useful,
+# libcalendars is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with libcalendar.  If not, see <http://www.gnu.org/licenses/>.
+# along with libcalendars.  If not, see <http://www.gnu.org/licenses/>.
 
 
 ACLOCAL_AMFLAGS = ${ACLOCAL_FLAGS} -I m4
@@ -30,8 +30,8 @@ AM_CFLAGS = \
     -Wl,-z,relro -Wl,-z,now -Wl,--no-undefined -Wl,--discard-all \
     -Wl,--build-id=sha1 -rdynamic
 
-libcalendar_includedir = $(includedir)/libcalendars
-libcalendar_include_HEADERS =  \
+libcalendars_includedir = $(includedir)/libcalendars
+libcalendars_include_HEADERS =  \
     cl-calendars.h \
     cl-export.h \
     cl-gregorian.h \
@@ -41,10 +41,10 @@ libcalendar_include_HEADERS =  \
     cl-islamic-civil.h \
     cl-jewish.h
 
-lib_LTLIBRARIES = libcalendar.la
-libcalendar_la_LDFLAGS = -version-info $(LIBCALENDAR_SO_VERSION)
-libcalendar_la_SOURCES = \
-    $(libcalendar_include_HEADERS) \
+lib_LTLIBRARIES = libcalendars.la
+libcalendars_la_LDFLAGS = -version-info $(LIBCALENDAR_SO_VERSION)
+libcalendars_la_SOURCES = \
+    $(libcalendars_include_HEADERS) \
     cl-math.h \
     cl-math.c \
     cl-calendars.c \
@@ -55,5 +55,5 @@ libcalendar_la_SOURCES = \
     cl-islamic-civil.c \
     cl-jewish.c
 
-libcalendar_la_LIBADD = \
+libcalendars_la_LIBADD = \
     -lm
