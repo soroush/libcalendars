@@ -19,6 +19,7 @@
 
 #include <math.h>
 #include <stddef.h>
+#include <time.h>
 #include "cl-solar-hijri.h"
 #include "cl-gregorian.h"
 #include "cl-math.h"
@@ -76,8 +77,9 @@ LIBCALENDAR_API uint8_t sh_month_in_year(int16_t year) {
 }
 
 LIBCALENDAR_API uint8_t sh_is_valid(int16_t year, uint8_t month, uint16_t day) {
-    if(year < 0)
+    if(year < 0) {
         ++year;
+    }
     if(day > 0 && day <= sh_days_in_month(month, year)) {
         return 1;
     }
@@ -180,3 +182,41 @@ void gr_to_sh(int16_t  gyear,  uint8_t gmonth,  uint16_t gday,
     gr_to_jdn(&jdn, gyear, gmonth, gday);
     jdn_to_sh(jdn, jyear, jmonth, jday);
 }
+
+LIBCALENDAR_API
+void ts_to_sh(time_t ts, int32_t tz,
+              int16_t* jyear, uint8_t* jmonth, uint16_t* jday,
+              uint8_t* hour, uint8_t* minute, uint8_t* second) {
+    ts += tz;
+    struct tm* t = gmtime(&ts);
+    gr_to_sh(t->tm_year + 1900, t->tm_mon + 1, t->tm_mday, jyear, jmonth, jday);
+    if(hour) {
+        *hour = t->tm_hour;
+    }
+    if(minute) {
+        *minute = t->tm_min;
+    }
+    if(second) {
+        *second = t->tm_sec;
+    }
+}
+
+/*
+LIBCALENDAR_API
+time_t sh_to_ts(int32_t tz,
+                int16_t jyear, uint8_t jmonth, uint16_t jday,
+                uint8_t hour, uint8_t minute, uint8_t second) {
+    int16_t gy;
+    uint8_t gm;
+    uint16_t gd;
+    struct tm utc_time;
+    sh_to_gr(jyear, jmonth, jday, &gy, &gm, &gd);
+    utc_time.tm_year = gy - 1900;
+    utc_time.tm_mon = gm - 1;
+    utc_time.tm_mday = gd;
+    utc_time.tm_hour = hour;
+    utc_time.tm_min = minute;
+    utc_time.tm_sec = second;
+    return mktime(&utc_time);
+}
+*/
