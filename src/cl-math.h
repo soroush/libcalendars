@@ -21,6 +21,8 @@
 #define LIBCALENDAR_MATH_H
 
 #include <math.h>
+#include <stdint.h>
+#include <time.h>
 #include <stdlib.h>
 
 #ifdef __cplusplus
