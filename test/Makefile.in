@@ -123,7 +123,7 @@ am_tst_gregorian_OBJECTS = tst-common.$(OBJEXT) \
 	tst-gregorian.$(OBJEXT)
 tst_gregorian_OBJECTS = $(am_tst_gregorian_OBJECTS)
 tst_gregorian_LDADD = $(LDADD)
-tst_gregorian_DEPENDENCIES = ../src/libcalendar.la
+tst_gregorian_DEPENDENCIES = ../src/libcalendars.la
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
@@ -132,25 +132,25 @@ am_tst_islamic_civil_OBJECTS = tst-common.$(OBJEXT) \
 	tst-islamic-civil.$(OBJEXT)
 tst_islamic_civil_OBJECTS = $(am_tst_islamic_civil_OBJECTS)
 tst_islamic_civil_LDADD = $(LDADD)
-tst_islamic_civil_DEPENDENCIES = ../src/libcalendar.la
+tst_islamic_civil_DEPENDENCIES = ../src/libcalendars.la
 am_tst_jewish_OBJECTS = tst-common.$(OBJEXT) tst-jewish.$(OBJEXT)
 tst_jewish_OBJECTS = $(am_tst_jewish_OBJECTS)
 tst_jewish_LDADD = $(LDADD)
-tst_jewish_DEPENDENCIES = ../src/libcalendar.la
+tst_jewish_DEPENDENCIES = ../src/libcalendars.la
 am_tst_julian_OBJECTS = tst-common.$(OBJEXT) tst-julian.$(OBJEXT)
 tst_julian_OBJECTS = $(am_tst_julian_OBJECTS)
 tst_julian_LDADD = $(LDADD)
-tst_julian_DEPENDENCIES = ../src/libcalendar.la
+tst_julian_DEPENDENCIES = ../src/libcalendars.la
 am_tst_milankovic_OBJECTS = tst-common.$(OBJEXT) \
 	tst-milankovic.$(OBJEXT)
 tst_milankovic_OBJECTS = $(am_tst_milankovic_OBJECTS)
 tst_milankovic_LDADD = $(LDADD)
-tst_milankovic_DEPENDENCIES = ../src/libcalendar.la
+tst_milankovic_DEPENDENCIES = ../src/libcalendars.la
 am_tst_solar_hijri_OBJECTS = tst-common.$(OBJEXT) \
 	tst-solar-hijri.$(OBJEXT)
 tst_solar_hijri_OBJECTS = $(am_tst_solar_hijri_OBJECTS)
 tst_solar_hijri_LDADD = $(LDADD)
-tst_solar_hijri_DEPENDENCIES = ../src/libcalendar.la
+tst_solar_hijri_DEPENDENCIES = ../src/libcalendars.la
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -545,7 +545,7 @@ AUTOMAKE_OPTIONS = subdir-objects
 AM_CPPFLAGS = -I$(srcdir)/..
 AM_CXXFLAGS = --pedantic -Wall -Werror
 LDADD = \
-    ../src/libcalendar.la
+    ../src/libcalendars.la
 
 tst_solar_hijri_SOURCES = \
     tst-common.h \

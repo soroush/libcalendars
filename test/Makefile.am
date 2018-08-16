@@ -20,7 +20,7 @@ AM_CPPFLAGS = -I$(srcdir)/..
 AM_CXXFLAGS = --pedantic -Wall -Werror
 
 LDADD = \
-    ../src/libcalendar.la
+    ../src/libcalendars.la
 
 check_PROGRAMS = \
     tst_gregorian \
