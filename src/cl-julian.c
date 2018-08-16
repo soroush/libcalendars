@@ -78,15 +78,18 @@ uint8_t ju_is_valid(int16_t year, uint8_t month, uint16_t day) {
 
 LIBCALENDAR_API
 void ju_to_jdn(uint32_t* jd, int16_t year, uint8_t month, uint16_t day) {
+    int32_t c0 = 0;
+    int32_t j1 = 0;
+    int32_t j2 = 0;
     if(!year) {
         *jd = 0;
     }
     if(year < 0) {
         ++year;
     }
-    const int32_t c0 = fdiv(month - 3, 12);
-    const int32_t j1 = fdiv(1461 * (year + c0), 4);
-    const int32_t j2 = fdiv(153 * month - 1836 * c0 - 457, 5);
+    c0 = fdiv(month - 3, 12);
+    j1 = fdiv(1461 * (year + c0), 4);
+    j2 = fdiv(153 * month - 1836 * c0 - 457, 5);
     *jd = j1 + j2 + day + 1721117;
 }
 
