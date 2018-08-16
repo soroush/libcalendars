@@ -89,14 +89,14 @@ uint8_t ml_is_valid(int16_t year, uint8_t month, uint16_t day) {
 
 LIBCALENDAR_API
 void ml_to_jdn(uint32_t* jd, int16_t year, uint8_t month, uint16_t day) {
-    if(year <= 0) {
-        ++year;
-    }
     int8_t c0;
     int16_t x1 = 0;
     int16_t x2 = 0;
     int16_t x3 = 0;
     int16_t x4 = 0;
+    if(year <= 0) {
+        ++year;
+    }
     c0 = fdiv((month - 3) , 12);
     x1 = month - (12 * c0) - 3;
     x4 = year + c0;
