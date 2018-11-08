@@ -20,9 +20,11 @@
 #include <math.h>
 #include <stddef.h>
 #include <time.h>
+#include <string.h>
 #include "cl-solar-hijri.h"
 #include "cl-gregorian.h"
 #include "cl-math.h"
+#include "cl-tz.h"
 
 /* Constants */
 
@@ -184,11 +186,12 @@ void gr_to_sh(int16_t  gyear,  uint8_t gmonth,  uint16_t gday,
 }
 
 LIBCALENDAR_API
-void ts_to_sh(time_t ts, int32_t tz,
+void ts_to_sh(time_t ts, const char *zone,
               int16_t* jyear, uint8_t* jmonth, uint16_t* jday,
               uint8_t* hour, uint8_t* minute, uint8_t* second) {
-    ts += tz;
-    struct tm* t = gmtime(&ts);
+    struct tm* t;
+    ts += cl_tz_diff(ts, zone);
+    t = gmtime(&ts);
     gr_to_sh(t->tm_year + 1900, t->tm_mon + 1, t->tm_mday, jyear, jmonth, jday);
     if(hour) {
         *hour = t->tm_hour;
@@ -201,14 +204,15 @@ void ts_to_sh(time_t ts, int32_t tz,
     }
 }
 
-/*
 LIBCALENDAR_API
-time_t sh_to_ts(int32_t tz,
+time_t sh_to_ts(const char* zone,
                 int16_t jyear, uint8_t jmonth, uint16_t jday,
                 uint8_t hour, uint8_t minute, uint8_t second) {
     int16_t gy;
     uint8_t gm;
     uint16_t gd;
+    time_t ts;
+    long int diff;
     struct tm utc_time;
     sh_to_gr(jyear, jmonth, jday, &gy, &gm, &gd);
     utc_time.tm_year = gy - 1900;
@@ -217,6 +221,7 @@ time_t sh_to_ts(int32_t tz,
     utc_time.tm_hour = hour;
     utc_time.tm_min = minute;
     utc_time.tm_sec = second;
-    return mktime(&utc_time);
+    ts = mktime(&utc_time);
+    diff = cl_tz_diff(ts, zone);
+    return ts + diff;
 }
-*/

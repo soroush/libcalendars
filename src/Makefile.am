@@ -45,6 +45,7 @@ lib_LTLIBRARIES = libcalendars.la
 libcalendars_la_LDFLAGS = -version-info $(LIBCALENDAR_SO_VERSION)
 libcalendars_la_SOURCES = \
     $(libcalendars_include_HEADERS) \
+    cl-tz.h \
     cl-math.h \
     cl-math.c \
     cl-calendars.c \

@@ -41,14 +41,12 @@ LIBCALENDAR_API void sh_to_gr(int16_t  jyear, uint8_t  jmonth, uint16_t  jday,
                               int16_t* gyear, uint8_t* gmonth, uint16_t* gday);
 LIBCALENDAR_API void gr_to_sh(int16_t  gyear, uint8_t  gmonth, uint16_t  gday,
                               int16_t* jyear, uint8_t* jmonth, uint16_t* jday);
-LIBCALENDAR_API void ts_to_sh(time_t ts, int32_t tz,
+LIBCALENDAR_API void ts_to_sh(time_t ts, const char* zone,
                               int16_t* jyear, uint8_t* jmonth, uint16_t* jday,
                               uint8_t* hour, uint8_t* minute, uint8_t* second);
-/*
-LIBCALENDAR_API time_t sh_to_ts(int32_t tz,
+LIBCALENDAR_API time_t sh_to_ts(const char* zone,
                                 int16_t jyear, uint8_t jmonth, uint16_t jday,
                                 uint8_t hour, uint8_t minute, uint8_t second);
-*/
 #ifdef __cplusplus
 }
 #endif

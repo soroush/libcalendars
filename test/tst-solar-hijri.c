@@ -20,6 +20,10 @@
 #include "../src/cl-solar-hijri.h"
 #include "tst-common.h"
 
+void tst_time_zone() {
+
+}
+
 #ifdef _WIN32
 DWORD WINAPI tst_solar_hijri(LPVOID param_arg) {
 #else
