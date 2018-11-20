@@ -1,0 +1,25 @@
+Source: libcalendars
+Priority: optional
+Maintainer: Soroush Rabiei <soroush@ametisco.ir>
+Build-Depends: debhelper (>= 9), autotools-dev, cdbs
+Standards-Version: 3.9.8
+Section: libs
+Homepage: https://soroush.github.io/libcalendars
+Vcs-Git: https://github.com/soroush/libcalendars.git
+Vcs-Browser: https://github.com/soroush/libcalendars
+
+Package: libcalendars-dev
+Section: libdevel
+Architecture: any
+Depends: libcalendars1 (= ${binary:Version}), ${misc:Depends}
+Description: Calendar Arithmetic library - development headers
+ Header files and develipment libs for libcalendars.
+
+Package: libcalendars1
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Calendar Arithmetic library
+ A precise C library to provide arithmentic for the most common calendar 
+ systems. Currently Gregorian, Julian, Milankovic, Solar Hijri (also known as 
+ Shamsi or Jalali), Islamic Civil and Jewish (also know as Hebrew) calendar 
+ systems are provided.
