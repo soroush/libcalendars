@@ -185,7 +185,7 @@ void convert_date(uint8_t icalendar, uint8_t ocalendar,
                   int16_t iyear, uint8_t imonth, uint16_t iday,
                   int16_t* oyear, uint8_t* omonth, uint16_t* oday) {
     uint32_t jdn = 0;
-    if(!is_valid(icalendar, iyear, imonth, iyear)) {
+    if(!is_valid(icalendar, iyear, imonth, iday)) {
         *oyear = 0;
         *omonth = 0;
         *oday = 0;
