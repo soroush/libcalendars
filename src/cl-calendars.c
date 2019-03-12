@@ -30,25 +30,18 @@ uint8_t is_leap(uint8_t calendar, int16_t year) {
     switch(calendar) {
         case CAL_GREGORIAN:
             return gr_is_leap(year);
-            break;
         case CAL_JULIAN:
             return ju_is_leap(year);
-            break;
         case CAL_MILANKOVIC:
             return ml_is_leap(year);
-            break;
         case CAL_ISLAMIC_CIVIL:
             return is_is_leap(year);
-            break;
         case CAL_JEWSISH:
             return jw_is_leap(year);
-            break;
         case CAL_SOLAR_HIJRI:
             return sh_is_leap(year);
-            break;
         default:
             return 0;
-            break;
     }
 }
 
@@ -57,25 +50,18 @@ days_in_month(uint8_t calendar, uint8_t month, int16_t year) {
     switch(calendar) {
         case CAL_GREGORIAN:
             return gr_days_in_month(month, year);
-            break;
         case CAL_JULIAN:
             return ju_days_in_month(month, year);
-            break;
         case CAL_MILANKOVIC:
             return ml_days_in_month(month, year);
-            break;
         case CAL_ISLAMIC_CIVIL:
             return is_days_in_month(month, year);
-            break;
         case CAL_JEWSISH:
             return jw_days_in_month(month, year);
-            break;
         case CAL_SOLAR_HIJRI:
             return sh_days_in_month(month, year);
-            break;
         default:
             return 0;
-            break;
     }
 }
 
@@ -84,25 +70,18 @@ uint16_t days_in_year(uint8_t calendar, int16_t year) {
     switch(calendar) {
         case CAL_GREGORIAN:
             return gr_days_in_year(year);
-            break;
         case CAL_JULIAN:
             return ju_days_in_year(year);
-            break;
         case CAL_MILANKOVIC:
             return ml_days_in_year(year);
-            break;
         case CAL_ISLAMIC_CIVIL:
             return is_days_in_year(year);
-            break;
         case CAL_JEWSISH:
             return jw_days_in_year(year);
-            break;
         case CAL_SOLAR_HIJRI:
             return sh_days_in_year(year);
-            break;
         default:
             return 0;
-            break;
     }
 }
 
@@ -110,25 +89,18 @@ LIBCALENDAR_API uint8_t month_in_year(uint8_t calendar, int16_t year) {
     switch(calendar) {
         case CAL_GREGORIAN:
             return gr_month_in_year(year);
-            break;
         case CAL_JULIAN:
             return ju_month_in_year(year);
-            break;
         case CAL_MILANKOVIC:
             return ml_month_in_year(year);
-            break;
         case CAL_ISLAMIC_CIVIL:
             return is_month_in_year(year);
-            break;
         case CAL_JEWSISH:
             return jw_month_in_year(year);
-            break;
         case CAL_SOLAR_HIJRI:
             return sh_month_in_year(year);
-            break;
         default:
             return 0;
-            break;
     }
 }
 
@@ -137,25 +109,18 @@ LIBCALENDAR_API uint8_t is_valid(uint8_t calendar,
     switch(calendar) {
         case CAL_GREGORIAN:
             return gr_is_valid(year, month, day);
-            break;
         case CAL_JULIAN:
             return ju_is_valid(year, month, day);
-            break;
         case CAL_MILANKOVIC:
             return ml_is_valid(year, month, day);
-            break;
         case CAL_ISLAMIC_CIVIL:
             return is_is_valid(year, month, day);
-            break;
         case CAL_JEWSISH:
             return jw_is_valid(year, month, day);
-            break;
         case CAL_SOLAR_HIJRI:
             return sh_is_valid(year, month, day);
-            break;
         default:
             return 0;
-            break;
     }
 }
 

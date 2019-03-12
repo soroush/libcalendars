@@ -43,12 +43,12 @@ extern "C" {
  * Decide wheter a given year number in a specified calendar is a leap year
  * (have some extra number of month or days) or not.
  */
-LIBCALENDAR_API uint8_t  is_leap(uint8_t calendar, int16_t year);
+LIBCALENDAR_API uint8_t is_leap(uint8_t calendar, int16_t year);
 
 /**
  * Returns number of days in a given year for specified calendar type.
  */
-LIBCALENDAR_API uint8_t  days_in_month(uint8_t calendar, uint8_t month, int16_t year);
+LIBCALENDAR_API uint8_t days_in_month(uint8_t calendar, uint8_t month, int16_t year);
 
 /**
  * Returns number of days of a specific month in a given year for specified
@@ -60,14 +60,14 @@ LIBCALENDAR_API uint16_t days_in_year(uint8_t calendar, int16_t year);
 /**
  * Returns number of month in a given year for specified calendar type.
  */
-LIBCALENDAR_API uint8_t  month_in_year(uint8_t calendar, int16_t year);
+LIBCALENDAR_API uint8_t month_in_year(uint8_t calendar, int16_t year);
 
 
 /**
  * Checks if a givend date is valid is specified calendar or not (exists, or
  * fits in calendar rules).
  */
-LIBCALENDAR_API uint8_t  is_valid(uint8_t calendar,
+LIBCALENDAR_API uint8_t is_valid(uint8_t calendar,
                                   int16_t year, uint8_t month, uint16_t day);
 
 /**
