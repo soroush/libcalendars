@@ -1,0 +1,28 @@
+#!/bin/bash
+
+read -p "Enter NDK path [$ANDROID_NDK_HOME]: " ndk_path
+
+if [ ! -d "$ndk_path" ]; then
+  echo "The variable ANDROID_NDK_HOME does not point to valid location"
+  exit
+fi
+
+cd jni
+so_file=$($ndk_path/ndk-build APPLICATION_MK=$(pwd)/Application.mk | grep -o -e '\S*\/libcalendars.so')
+echo "lib created on path: $so_file..."
+
+cd ..
+echo "Copying $so_file to calendar/src/main/jniLibs..."
+mkdir -p calendar/src/main/jniLibs/
+cp $so_file calendar/src/main/jniLibs
+
+./gradlew makeJar
+
+jar_file=calendar/release/calendars.jar
+
+mkdir -p output
+mkdir -p output/jniLibs
+mkdir -p output/libs
+
+cp $jar_file output/jniLibs 
+cp $so_file  output/libs
