@@ -36,6 +36,9 @@ sudo make install
 
 Plase refere to [INSTALL](INSTALL) for further details.
 
+### Bindings
+- Vala: [vlibcal](https://github.com/LinArcX/vlibcal)
+
 ### Usage
 
 Almost all algorithms in libcalendar are implemented using Julian Day
