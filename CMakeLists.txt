@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 3.16.0)
 
 project(libcalendars VERSION 1.0.1 LANGUAGES C)
 
-include(CTest)
-
 set(LIBCAL_SOURCES
     src/cl-math.h
     src/cl-math.c
@@ -42,7 +40,7 @@ target_include_directories(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
-if(linux)
+if(UNIX)
 target_link_libraries(${PROJECT_NAME} PUBLIC m)
 endif()
 
