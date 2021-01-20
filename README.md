@@ -29,12 +29,12 @@ sudo apt install libcalendars-dev # Installs development headers
 
 Alternatively you can compile the package from source:
 ```bash
-./configure
-make 
-sudo make install
+mkdir build && cd build
+cmake ..
+cmake --build . --config Release
+ctest . # Optional
+sudo cmake --install . --config Release
 ```
-
-Plase refere to [INSTALL](INSTALL) for further details.
 
 ### Usage
 
