@@ -16,8 +16,8 @@ add_executable(tst_jewish tst-common.c tst-common.h tst-jewish.c)
 add_executable(tst_islamic_civil tst-common.c tst-common.h tst-islamic-civil.c)
 
 set_target_properties(tst_gregorian tst_julian tst_milankovic tst_solar_hijri tst_jewish tst_islamic_civil
-    PROPERTIES 
-        C_STANDARD 11 
+    PROPERTIES
+        C_STANDARD 11
         DEBUG_POSTFIX "_d"
 )
 

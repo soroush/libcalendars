@@ -32,8 +32,32 @@ Alternatively you can compile the package from source:
 mkdir build && cd build
 cmake ..
 cmake --build . --config Release
-ctest . # Optional
 sudo cmake --install . --config Release
+```
+
+In case you also want to build and run unit tests:
+```bash
+cmake -DBUILD_TESTING=ON ..
+cmake --build . --config Release
+ctest . --config Release
+```
+
+If nothing goes wrong, you should see all test passed:
+```
+    Start 1: Gregorian
+1/6 Test #1: Gregorian ........................   Passed    0.31 sec
+    Start 2: Julian
+2/6 Test #2: Julian ...........................   Passed    0.59 sec
+    Start 3: Milankovic
+3/6 Test #3: Milankovic .......................   Passed    0.78 sec
+    Start 4: SolarHijri
+4/6 Test #4: SolarHijri .......................   Passed    0.89 sec
+    Start 5: Jewish
+5/6 Test #5: Jewish ...........................   Passed   17.46 sec
+    Start 6: IslamicCivil
+6/6 Test #6: IslamicCivil .....................   Passed    0.53 sec
+
+100% tests passed, 0 tests failed out of 6
 ```
 
 ### Usage
