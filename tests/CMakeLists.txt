@@ -3,8 +3,13 @@ cmake_minimum_required(VERSION 3.16.0)
 project(libcalendars_tests VERSION 0.1.0 LANGUAGES C)
 
 # Calendar tests
+set(libs libcalendars)
 
-link_libraries(libcalendars)
+if(linux)
+list(APPEND libs "m")
+endif()
+
+link_libraries("${libs}")
 
 include_directories(PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include/>)
 
