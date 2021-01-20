@@ -17,33 +17,28 @@
  *
  */
 
-#ifndef LIBCALENDAR_MATH_H
-#define LIBCALENDAR_MATH_H
+#ifndef LIBCALENDAR_GREGORIAN_H
+#define LIBCALENDAR_GREGORIAN_H
 
-#include <math.h>
-#include <stdlib.h>
+#include <stdint.h>
+#include "cl-export.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/**
- * \brief Division with Positive Ramainder 
- */
-div_t pdiv(int d, int v);
-
-/**
- * \brief Floor Division Function
- */
-int fdiv(int a, int b);
-
-/**
- * \brief Modular Division Function
- */
-int mod(int a, int b);
+LIBCALENDAR_API uint8_t  gr_is_leap(int16_t year);
+LIBCALENDAR_API uint8_t  gr_days_in_month(uint8_t month, int16_t year);
+LIBCALENDAR_API uint16_t gr_days_in_year(int16_t year);
+LIBCALENDAR_API uint8_t  gr_month_in_year(int16_t year);
+LIBCALENDAR_API uint8_t  gr_is_valid(int16_t year, uint8_t month, uint16_t day);
+LIBCALENDAR_API void     gr_to_jdn(uint32_t* jd,
+                                   int16_t year, uint8_t month, uint16_t day);
+LIBCALENDAR_API void     jdn_to_gr(uint32_t jdn,
+                                   int16_t* year, uint8_t* month, uint16_t* day);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* LIBCALENDAR_MATH_H */
+#endif /* LIBCALENDAR_GREGORIAN_H */

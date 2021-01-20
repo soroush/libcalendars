@@ -1,6 +1,6 @@
 Source: libcalendars
 Priority: optional
-Maintainer: Soroush Rabiei <soroush@ametisco.ir>
+Maintainer: Soroush Rabiei <soroush.rabiei@gmail.com>
 Build-Depends: debhelper (>= 9), autotools-dev, cdbs
 Standards-Version: 3.9.8
 Section: libs

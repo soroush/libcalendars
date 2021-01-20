@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 - Sorouis Rabiei, <sorouis@ametisco.ir>
+ * Copyright 2021 - Sorouis Rabiei, <sorouis@ametisco.ir>
  * This file is part of libcalendars.
  *
  * libcalendars is free software: you can redistribute it and/or modify
@@ -18,8 +18,8 @@
  */
 
 #include <math.h>
-#include "cl-islamic-civil.h"
-#include "cl-gregorian.h"
+#include <libcalendars/cl-islamic-civil.h>
+#include <libcalendars/cl-gregorian.h>
 #include "cl-math.h"
 
 LIBCALENDAR_API

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 - Soroush Rabiei, <soroush@ametisco.ir>
+ * Copyright 2021 - Soroush Rabiei, <soroush.rabiei@gmail.com>
  * This file is part of libcalendars.
  *
  * libcalendars is free software: you can redistribute it and/or modify
@@ -17,13 +17,13 @@
  *
  */
 
-#include "cl-calendars.h"
-#include "cl-gregorian.h"
-#include "cl-julian.h"
-#include "cl-milankovic.h"
-#include "cl-jewish.h"
-#include "cl-islamic-civil.h"
-#include "cl-solar-hijri.h"
+#include <libcalendars/cl-calendars.h>
+#include <libcalendars/cl-gregorian.h>
+#include <libcalendars/cl-julian.h>
+#include <libcalendars/cl-milankovic.h>
+#include <libcalendars/cl-jewish.h>
+#include <libcalendars/cl-islamic-civil.h>
+#include <libcalendars/cl-solar-hijri.h>
 
 LIBCALENDAR_API
 uint8_t is_leap(uint8_t calendar, int16_t year) {
