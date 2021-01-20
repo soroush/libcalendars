@@ -42,6 +42,10 @@ target_include_directories(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
+if(linux)
+target_link_libraries(${PROJECT_NAME} PUBLIC m)
+endif()
+
 # Testing
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND BUILD_TESTING)
     enable_testing()
