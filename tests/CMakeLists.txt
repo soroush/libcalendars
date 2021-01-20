@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16.0)
 
-project(libcalendars_tests VERSION 0.1.0 LANGUAGES CXX)
+project(libcalendars_tests VERSION 0.1.0 LANGUAGES C)
 
 # Calendar tests
 
