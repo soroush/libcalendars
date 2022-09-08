@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.16.0)
 
-project(libcalendars_tests VERSION 0.1.0 LANGUAGES C)
-
 # Calendar tests
 
 link_libraries(calendars)
@@ -17,7 +15,7 @@ add_executable(tst_islamic_civil tst-common.c tst-common.h tst-islamic-civil.c)
 
 set_target_properties(tst_gregorian tst_julian tst_milankovic tst_solar_hijri tst_jewish tst_islamic_civil
     PROPERTIES
-        C_STANDARD 11
+        C_STANDARD 90
         DEBUG_POSTFIX "_d"
 )
 
