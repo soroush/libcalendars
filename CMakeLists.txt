@@ -1,8 +1,23 @@
 cmake_minimum_required(VERSION 3.16.0)
 
-project(calendars VERSION 1.0.1 LANGUAGES C)
+project(calendars 
+    VERSION 1.1.0 
+    DESCRIPTION "A calendar arithmetic library"
+    HOMEPAGE_URL "https://github.com/soroush/libcalendars"
+    LANGUAGES C
+)
 
 set(LIBCAL_SOURCES
+    # Headers
+    include/libcalendars/cl-calendars.h
+    include/libcalendars/cl-export.h
+    include/libcalendars/cl-gregorian.h
+    include/libcalendars/cl-islamic-civil.h
+    include/libcalendars/cl-jewish.h
+    include/libcalendars/cl-julian.h
+    include/libcalendars/cl-milankovic.h
+    include/libcalendars/cl-solar-hijri.h
+    # Sources
     src/cl-math.h
     src/cl-math.c
     src/cl-calendars.c
@@ -26,9 +41,12 @@ file(GLOB_RECURSE ALL_HEADER_FILES "include/libcalendars/*.h")
 
 # Prepate the target
 set_target_properties(${PROJECT_NAME} PROPERTIES
-    C_STANDARD 11
+    VERSION 1.1.0
+    SOVERSION 0
+    C_STANDARD 90
     DEBUG_POSTFIX "_d"
     PUBLIC_HEADER "${ALL_HEADER_FILES}"
+    DEFINE_SYMBOL libcalendars_EXPORTS
 )
 
 target_include_directories(${PROJECT_NAME}
@@ -70,9 +88,13 @@ install(TARGETS ${PROJECT_NAME}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/libcalendars
+    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
 
+install(DIRECTORY "include/" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/libcalendars")
+
 include(CMakePackageConfigHelpers)
+
 write_basic_package_version_file(
     "lib${PROJECT_NAME}ConfigVersion.cmake"
     VERSION ${PROJECT_VERSION}
@@ -90,3 +112,6 @@ install(FILES
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/
 )
 
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc"
+    DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig
+)
