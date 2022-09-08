@@ -3,11 +3,11 @@ Upstream-Name: libcalendars
 Source: https://github.com/soroush/libcalendars
 
 Files: *
-Copyright: 2017 - 2018 Soroush Rabiei <soroush@ametisco.ir>
+Copyright: 2017 - 2018 Soroush Rabiei <soroush.rabiei@gmail.com>
 License: GPL-3.0+
 
 Files: debian/*
-Copyright: 2018 Soroush Rabiei <soroush@ametisco.ir>
+Copyright: 2018 Soroush Rabiei <soroush.rabiei@gmail.com>
 License: GPL-3.0+
 
 License: GPL-3.0+
