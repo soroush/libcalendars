@@ -27,13 +27,13 @@ if(WIN32)
 endif()
 
 # Define the library
-add_library(${PROJECT_NAME} SHARED ${LIBCAL_SOURCES})
+add_library(calendars SHARED ${LIBCAL_SOURCES})
 
 # Mark all public headers
 file(GLOB_RECURSE ALL_HEADER_FILES "include/libcalendars/*.h")
 
 # Prepate the target
-set_target_properties(${PROJECT_NAME} PROPERTIES
+set_target_properties(calendars PROPERTIES
     VERSION 1.1.0
     SOVERSION 0
     C_STANDARD 90
@@ -42,7 +42,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     DEFINE_SYMBOL libcalendars_EXPORTS
 )
 
-target_include_directories(${PROJECT_NAME}
+target_include_directories(calendars
     PUBLIC
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
@@ -52,7 +52,7 @@ target_include_directories(${PROJECT_NAME}
 )
 
 if(UNIX)
-target_link_libraries(${PROJECT_NAME} PUBLIC m)
+target_link_libraries(calendars PUBLIC m)
 endif()
 
 # Testing
@@ -73,15 +73,15 @@ configure_package_config_file(libcalendars.pc.in libcalendars.pc
 
 include(GNUInstallDirs)
 
-export(TARGETS ${PROJECT_NAME} FILE "lib${PROJECT_NAME}Targets.cmake")
+export(TARGETS calendars FILE "libcalendarsTargets.cmake")
 
-install(TARGETS ${PROJECT_NAME}
-    EXPORT "${PROJECT_NAME}Targets"
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/libcalendars
-    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+install(TARGETS calendars
+    EXPORT "calendarsTargets"
+    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+    PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/libcalendars"
+    INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
 )
 
 install(DIRECTORY "include/" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/libcalendars")
@@ -89,22 +89,22 @@ install(DIRECTORY "include/" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/libcalenda
 include(CMakePackageConfigHelpers)
 
 write_basic_package_version_file(
-    "lib${PROJECT_NAME}ConfigVersion.cmake"
+    "libcalendarsConfigVersion.cmake"
     VERSION ${PROJECT_VERSION}
     COMPATIBILITY SameMajorVersion
 )
 
-install(EXPORT "${PROJECT_NAME}Targets"
-    FILE "lib${PROJECT_NAME}Targets.cmake"
+install(EXPORT "calendarsTargets"
+    FILE "libcalendarsTargets.cmake"
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/
 )
 
 install(FILES
-        "cmake/lib${PROJECT_NAME}Config.cmake"
-        "${CMAKE_CURRENT_BINARY_DIR}/lib${PROJECT_NAME}ConfigVersion.cmake"
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/
+    "cmake/libcalendarsConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/libcalendarsConfigVersion.cmake"
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/"
 )
 
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc"
-    DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/calendars.pc"
+    DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig"
 )
