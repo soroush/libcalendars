@@ -43,3 +43,9 @@ add_test(NAME "Milankovic" COMMAND tst_milankovic WORKING_DIRECTORY ${CMAKE_BINA
 add_test(NAME "SolarHijri" COMMAND tst_solar_hijri WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 add_test(NAME "Jewish" COMMAND tst_jewish WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 add_test(NAME "IslamicCivil" COMMAND tst_islamic_civil WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+
+add_custom_command(TARGET tst_gregorian tst_julian tst_milankovic tst_solar_hijri tst_jewish tst_islamic_civil
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:calendars>" "$<TARGET_FILE_DIR:tst_gregorian>"
+    COMMENT "Copy dll file to $<TARGET_FILE_DIR:tst_gregorian> directory" VERBATIM
+)
