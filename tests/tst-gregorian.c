@@ -18,8 +18,11 @@
  */
 
 #include <libcalendars/cl-gregorian.h>
-#include "tst-common.h"
+#include <gtest/gtest.h>
+
 #include <stdio.h>
+
+// #include "tst-common.h"
 
 /* Because it makes no sense to convert dates from Gregorian to Gregorian,
  * we provide dummy funvtions for tests.
@@ -38,10 +41,18 @@ void gr_to_gr2(int16_t  gyear, uint8_t  gmonth, uint16_t  gday,
     *cday = gday;
 }
 
-int main(int argc, char *argv[]) {
-    int result;
-    printf("TEST: Gregorian Calendar...\n");
-    result = tst_calendar(&gr_to_jdn, &jdn_to_gr, &gr_to_gr1, &gr_to_gr2, 0, 2488069);
-    printf("%s: Gregorian Calendar.\n", result == 0 ? "PASS" : "FAIL");
-    return result;
+// int main(int argc, char *argv[]) {
+//     int result;
+//     printf("TEST: Gregorian Calendar...\n");
+//     result = tst_calendar(&gr_to_jdn, &jdn_to_gr, &gr_to_gr1, &gr_to_gr2, 0, 2488069);
+//     printf("%s: Gregorian Calendar.\n", result == 0 ? "PASS" : "FAIL");
+//     return result;
+// }
+
+TEST(Gregorian, ToJDN)
+{
+}
+
+TEST(Gregorian, FromJDN)
+{
 }
