@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 - Soroush Rabiei, <soroush.rabiei@gmail.com>
+ * Copyright (C) 2021-2025 - Soroush Rabiei, <soroush.rabiei@gmail.com>
  * This file is part of libcalendar.
  *
  * libcalendar is free software: you can redistribute it and/or modify
