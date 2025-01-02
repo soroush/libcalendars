@@ -20,7 +20,7 @@ include_directories(PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../incl
 
 # Commont test mathematics
 add_library(calendar_test_common OBJECT calendar-arithmetic.c)
-target_link_libraries(calendar_test_common PUBLIC calendars Check::checkShared)
+target_link_libraries(calendar_test_common PUBLIC calendars check)
 
 link_libraries(calendar_test_common calendars)
 
@@ -57,6 +57,6 @@ set_tests_properties(Gregorian Julian Milankovic SolarHijri Jewish IslamicCivil 
 )
 else()
 set_tests_properties(Gregorian Julian Milankovic SolarHijri Jewish IslamicCivil Egyptian Babylonian PROPERTIES
-    ENVIRONMENT "LD_LIBRARY_PATH=$<TARGET_FILE_DIR:MyLibraryShared>:$ENV{LD_LIBRARY_PATH}"
+    ENVIRONMENT "LD_LIBRARY_PATH=$<TARGET_FILE_DIR:calendars>:$ENV{LD_LIBRARY_PATH}"
 )
 endif()

@@ -23,8 +23,19 @@ project(calendars
     HOMEPAGE_URL "https://github.com/soroush/libcalendars"
     LANGUAGES C
 )
-
-find_package(check CONFIG REQUIRED)
+if(WIN32)
+    find_package(check CONFIG REQUIRED)
+    add_library(check INTERFACE)
+    target_link_libraries(check INTERFACE Check::checkShared)
+elseif(UNIX)
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(CHECK REQUIRED check)
+    set(check_FOUND ${CHECK_FOUND})
+    add_library(check INTERFACE)
+    target_include_directories(check INTERFACE ${CHECK_INCLUDE_DIRS})
+    target_link_libraries(check INTERFACE ${CHECK_LIBRARIES})
+    link_directories(${CHECK_LIBRARY_DIRS})
+endif()
 
 add_subdirectory(lib)
 
