@@ -13,6 +13,34 @@ GPL-compliant, C implementation. Besides there is no precise implementation of
 non-gregorian calendars, most importantly Solar Hijri and Islamic Civil 
 calendars.
 
+API Design Philosophy
+=====================
+
+    This library is API-less by design. This means the library is not intended
+to be used directly as a standalone API. Instead, it only provides arithmetic
+implementations meant to be integrated into existing date-time APIs or utilized
+by developers when creating their own APIs for handling date-time
+operations.
+
+Key Principles:
+
+* No Custom Data Structures: The library
+deliberately avoids introducing structures for representing calendar components
+(e.g., `year`, `month`, `day`). Instead, it operates exclusively on Plain Data
+Types (PDTs), such as integers or other native types, ensuring simplicity and
+compatibility with diverse applications.
+
+* Flexibility: By focusing solely on
+the arithmetic logic, the library provides a robust foundation for building or
+extending higher-level APIs. This design empowers developers to adapt the
+library seamlessly to their specific domain requirements without being
+constrained by predefined abstractions.
+
+* Integration-Ready: The library
+complements existing date-time APIs by adding precise calendar arithmetic
+capabilities without altering their design philosophy. It can also be used to
+prototype and implement custom solutions efficiently.
+
 How to use libcalendar?
 =======================
 

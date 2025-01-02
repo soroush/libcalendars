@@ -16,7 +16,7 @@ systems. Currently Gregorian, Julian, Milankovic, Solar Hijri (also known as
 Shamsi or Jalali), Islamic Civil and Jewish (also know as Hebrew) calendar 
 systems are provided.
 
-### Installation
+## Installation
 
 The easiest way to install `libcalendars` is to use PPA:
 
@@ -60,10 +60,37 @@ If nothing goes wrong, you should see all test passed:
 100% tests passed, 0 tests failed out of 6
 ```
 
-### Bindings
+## Bindings
 - Vala: [vlibcal](https://github.com/LinArcX/vlibcal)
 
-### Usage
+## API Design Philosophy
+
+This library is API-less by design. This means the library is not intended to be
+used directly as a standalone API. Instead, it only provides arithmetic
+implementations meant to be integrated into existing date-time APIs or utilized
+by developers when creating their own APIs for handling date-time
+operations.
+
+Key Principles:
+
+* No Custom Data Structures: The library
+deliberately avoids introducing structures for representing calendar components
+(e.g., `year`, `month`, `day`). Instead, it operates exclusively on Plain Data
+Types (PDTs), such as integers or other native types, ensuring simplicity and
+compatibility with diverse applications.
+
+* Flexibility: By focusing solely on
+the arithmetic logic, the library provides a robust foundation for building or
+extending higher-level APIs. This design empowers developers to adapt the
+library seamlessly to their specific domain requirements without being
+constrained by predefined abstractions.
+
+* Integration-Ready: The library
+complements existing date-time APIs by adding precise calendar arithmetic
+capabilities without altering their design philosophy. It can also be used to
+prototype and implement custom solutions efficiently.
+
+## Usage
 
 Almost all algorithms in libcalendar are implemented using Julian Day
 calculations. You can convert any date on supported calendars to JDN and vice
@@ -102,7 +129,7 @@ which will print:
 2017-09-11 is 1396/06/18 AP 
 ```
 
-### Documentation
+## Documentation
 
 Reference of API is available at 
 [https://soroush.github.io/libcalendars](https://soroush.github.io/libcalendars/).
@@ -115,10 +142,11 @@ This library is written in the hope that it will be useful. With your help,
 1. Build the library and thest its output. You can [raise an 
 issue](https://github.com/soroush/libcalendars/issues) if you've found any 
 problem. 
+
 2. Contribute to improve code quality, fix bugs and add new features. Please 
 read our [Code of Conduct](CODE_OF_CONDUCT.md) for more details. 
 
-# Algorithms
+## Algorithms
 
 This library is implemented in C programming language, using no external
 dependecies. The C standard library used in libcalendar is C11. Though it should
@@ -134,12 +162,12 @@ calendar calculations are implemented based on
 [Dr. Mousa Akrami](http://m-akrami.teacher.srbiau.ac.ir/)'s work on median year
 length for Persian calendar. (See notes on Solar Hijri calendar).
 
-# Calendars
+## Calendars
 
 Following is a list of supported calendars, and a short description (mostly from
 wikipedia) about them.
 
-## Gregorian
+### Gregorian
 
 The Gregorian calendar is internationally the most widely used civil calendar.
 It is named after Pope Gregory XIII, who introduced it in October 1582.
@@ -158,7 +186,7 @@ European country to adopt the reform was Greece, in 1923. Many (but not all)
 countries that have traditionally used the Islamic and other religious calendars
 have come to adopt this calendar for civil purposes.
 
-## Julian
+### Julian
 
 The Julian calendar, proposed by Julius Caesar in 46 BC (708 AUC), was a reform
 of the Roman calendar. It took effect on 1 January 45 BC (AUC 709), by edict.
@@ -170,7 +198,7 @@ rate of one day in 128 years. For the Gregorian the figure is one day in 3,030
 years. The difference in the average length of the year between Julian (365.25
 days) and Gregorian (365.2425 days) is 0.002%.
 
-## Milanković
+### Milanković
 
 The Revised Julian calendar, also known as the Milanković calendar, or, less
 formally, new calendar, is a calendar, developed and proposed by the Serbian
@@ -185,7 +213,7 @@ the Christian world. The calendar has been adopted by the Orthodox churches of
 Constantinople, Albania, Alexandria, Antioch, Bulgaria, Cyprus, Greece, Poland,
 and Romania.
 
-## Solar Hijri
+### Solar Hijri
 
 The Solar Hijri calendar, also called the Solar Hejri calendar or Shamsi Hijri
 calendar, and abbreviated as SH, is the official calendar of Iran and
@@ -200,7 +228,7 @@ The first six months have 31 days, the next five have 30 days, and the last
 month has 29 days in usual years but 30 days in leap years. The New Year's Day
 always falls on the March equinox.
 
-### A note on Solar Hijri...
+#### A note on Solar Hijri...
 
 My implementation of Solar Hijri (Shamsi) calendar is based on median year
 calculation obtained from Muousa Akrami's work:
@@ -210,7 +238,7 @@ This method is more accurate than 33-year algorithm and supports a wider range
 of dates, both in Solar Hijri <-> Gregorian comversions, and in JDN
 calculations.
 
-## Islamic Civil
+### Islamic Civil
 
 The Islamic, Muslim, or Hijri calendar is a lunar calendar consisting of 12 
 months in a year of 354 or 355 days. It is used (often alongside the Gregorian 
@@ -227,7 +255,7 @@ the Hijra") in parallel with the Christian (AD) and Jewish eras (AM). In Muslim
 countries, it is also sometimes denoted as H from its Arabic form. In English, 
 years prior to the Hijra are reckoned as BH ("Before the Hijra").
 
-# Egyptian
+### Egyptian
 
 The Egyptian calendar is one of the earliest known timekeeping systems,
 developed in ancient Egypt to align with the Nile's annual flood cycles. It
@@ -260,7 +288,7 @@ simplicity, combined with its cultural significance, helped the Egyptian
 calendar endure for millennia and leave a lasting legacy on the history of
 timekeeping.
 
-# Babylonian
+### Babylonian
 
 The Babylonian calendar, developed in ancient Mesopotamia, is one of the
 earliest recorded lunar calendars. It played a crucial role in the
