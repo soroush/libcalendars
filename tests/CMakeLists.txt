@@ -30,9 +30,10 @@ add_executable(julian julian.c)
 add_executable(jewish jewish.c)
 add_executable(islamic_civil islamic-civil.c)
 add_executable(solar_hijri solar-hijri.c)
+add_executable(egyptian egyptian.c)
 
 set_target_properties(
-    gregorian julian milankovic solar_hijri jewish islamic_civil
+    gregorian julian milankovic solar_hijri jewish islamic_civil egyptian
     PROPERTIES
         C_STANDARD 90
         DEBUG_POSTFIX "_d"
@@ -46,13 +47,14 @@ add_test(NAME "Milankovic" COMMAND milankovic WORKING_DIRECTORY ${CMAKE_BINARY_D
 add_test(NAME "SolarHijri" COMMAND solar_hijri WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 add_test(NAME "Jewish" COMMAND jewish WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 add_test(NAME "IslamicCivil" COMMAND islamic_civil WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+add_test(NAME "Egyptian" COMMAND egyptian WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 
 if(WIN32)
-set_tests_properties(Gregorian Julian Milankovic SolarHijri Jewish IslamicCivil PROPERTIES
+set_tests_properties(Gregorian Julian Milankovic SolarHijri Jewish IslamicCivil Egyptian PROPERTIES
     ENVIRONMENT "PATH=$<TARGET_FILE_DIR:calendars>;$ENV{PATH}"
 )
 else()
-set_tests_properties(Gregorian Julian Milankovic SolarHijri Jewish IslamicCivil PROPERTIES
+set_tests_properties(Gregorian Julian Milankovic SolarHijri Jewish IslamicCivil Egyptian PROPERTIES
     ENVIRONMENT "LD_LIBRARY_PATH=$<TARGET_FILE_DIR:MyLibraryShared>:$ENV{LD_LIBRARY_PATH}"
 )
 endif()

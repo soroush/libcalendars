@@ -227,3 +227,35 @@ the Hijra") in parallel with the Christian (AD) and Jewish eras (AM). In Muslim
 countries, it is also sometimes denoted as H from its Arabic form. In English, 
 years prior to the Hijra are reckoned as BH ("Before the Hijra").
 
+# Egyptian
+
+The Egyptian calendar is one of the earliest known timekeeping systems,
+developed in ancient Egypt to align with the Nile's annual flood cycles. It
+played a vital role in organizing agricultural activities and religious
+festivals. This calendar is notable for its remarkable simplicity and its
+influence on later timekeeping systems, including the Julian and Gregorian
+calendars.
+
+The Egyptian calendar was based on a solar year divided into three
+seasons of four months each, reflecting the natural cycles of the Nile:
+
+* Akhet (Inundation): The flood season, when the Nile overflowed, 
+  replenishing the
+  soil.
+* Peret (Emergence): The growing season, when crops were planted and 
+  cultivated.
+* Shemu (Harvest): The dry season, when crops were harvested.
+
+Each of the twelve months contained 30 days, making up a total of 360 days in
+the year. To reconcile this structure with the solar year of approximately
+365.25 days, the Egyptians added five additional days, known as the "epagomenal
+days," at the end of the year. These days were considered outside the normal
+calendar and were dedicated to the birthdays of key deities, including Osiris,
+Isis, and Horus.
+
+The calendar was not leap-adjusted, meaning it gradually drifted out
+of sync with the solar year over centuries. However, its consistency made it
+highly practical for everyday use and administrative tasks. This robust
+simplicity, combined with its cultural significance, helped the Egyptian
+calendar endure for millennia and leave a lasting legacy on the history of
+timekeeping.
