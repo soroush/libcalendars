@@ -16,36 +16,23 @@
 
 cmake_minimum_required(VERSION 3.16.0)
 
-# Calendar tests
-
-enable_language(CXX)
-enable_testing()
-
-link_libraries(calendars GTest::gtest GTest::gtest_main $<IF:$<TARGET_EXISTS:Check::check>,Check::check,Check::checkShared>)
-
 include_directories(PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include/>)
 
-file(GLOB_RECURSE ALL_SOURCES "*.c")
+# Commont test mathematics
+add_library(calendar_test_common OBJECT calendar-arithmetic.c)
+target_link_libraries(calendar_test_common PUBLIC calendars Check::checkShared)
 
-set_property(SOURCE ${ALL_SOURCES} PROPERTY LANGUAGE CXX)
+link_libraries(calendar_test_common calendars)
 
-add_executable(tst_gregorian tst-common.c tst-common.h tst-gregorian.c)
-add_executable(tst_milankovic tst-common.c tst-common.h tst-milankovic.c)
-add_executable(tst_julian tst-common.c tst-common.h tst-julian.c)
-add_executable(tst_jewish tst-common.c tst-common.h tst-jewish.c)
-add_executable(tst_islamic_civil tst-common.c tst-common.h tst-islamic-civil.c)
+add_executable(gregorian gregorian.c)
+add_executable(milankovic milankovic.c)
+add_executable(julian julian.c)
+add_executable(jewish jewish.c)
+add_executable(islamic_civil islamic-civil.c)
+add_executable(solar_hijri solar-hijri.c)
 
-# add_executable(tst_solar_hijri 
-#     calendar-arithmetic.cpp
-#     tst-solar-hijri.cpp
-#     )
-    
-    add_executable(tst_solar_hijri
-    tst-solar-hijri.c
-    calendar-arithmetic.c
-)
-
-set_target_properties(tst_gregorian tst_julian tst_milankovic tst_solar_hijri tst_jewish tst_islamic_civil
+set_target_properties(
+    gregorian julian milankovic solar_hijri jewish islamic_civil
     PROPERTIES
         C_STANDARD 90
         DEBUG_POSTFIX "_d"
@@ -53,16 +40,19 @@ set_target_properties(tst_gregorian tst_julian tst_milankovic tst_solar_hijri ts
 
 # Add tests
 
-add_test(NAME "Gregorian" COMMAND tst_gregorian WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-add_test(NAME "Julian" COMMAND tst_julian WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-add_test(NAME "Milankovic" COMMAND tst_milankovic WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-add_test(NAME "SolarHijri" COMMAND tst_solar_hijri WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-# add_test(NAME "SolarHijri_C" COMMAND tst_solar_hijri_c WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-add_test(NAME "Jewish" COMMAND tst_jewish WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-add_test(NAME "IslamicCivil" COMMAND tst_islamic_civil WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+add_test(NAME "Gregorian" COMMAND gregorian WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+add_test(NAME "Julian" COMMAND julian WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+add_test(NAME "Milankovic" COMMAND milankovic WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+add_test(NAME "SolarHijri" COMMAND solar_hijri WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+add_test(NAME "Jewish" COMMAND jewish WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+add_test(NAME "IslamicCivil" COMMAND islamic_civil WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 
-add_custom_command(TARGET tst_gregorian tst_julian tst_milankovic tst_solar_hijri tst_jewish tst_islamic_civil
-    POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:calendars>" "$<TARGET_FILE_DIR:tst_gregorian>"
-    COMMENT "Copy dll file to $<TARGET_FILE_DIR:tst_gregorian> directory" VERBATIM
+if(WIN32)
+set_tests_properties(Gregorian Julian Milankovic SolarHijri Jewish IslamicCivil PROPERTIES
+    ENVIRONMENT "PATH=$<TARGET_FILE_DIR:calendars>;$ENV{PATH}"
 )
+else()
+set_tests_properties(Gregorian Julian Milankovic SolarHijri Jewish IslamicCivil PROPERTIES
+    ENVIRONMENT "LD_LIBRARY_PATH=$<TARGET_FILE_DIR:MyLibraryShared>:$ENV{LD_LIBRARY_PATH}"
+)
+endif()

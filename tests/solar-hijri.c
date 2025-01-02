@@ -65,7 +65,6 @@ Suite* create_tests(void)
 {
     Suite* suit;
     TCase* solar_hijri;
-    TCase* islamic;
 
     suit = suite_create("Calendar Arithmetic");
 

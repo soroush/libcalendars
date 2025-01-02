@@ -440,3 +440,6 @@ __pycache__/
 
 build/*
 out/*
+checks.json
+CMakePresets.json
+.vscode/settings.json

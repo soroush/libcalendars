@@ -24,14 +24,13 @@ project(calendars
     LANGUAGES C
 )
 
-find_package(GTest CONFIG)
 find_package(check CONFIG REQUIRED)
 
 add_subdirectory(lib)
 
-if(${GTest_FOUND})
+if(${check_FOUND})
     enable_testing()
     add_subdirectory(tests)
 else()
-    message(STATUS "GTest library not found. Disabling the tests.")
+    message(STATUS "check library not found. Disabling the tests.")
 endif()
