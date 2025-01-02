@@ -183,3 +183,34 @@ highly practical for everyday use and administrative tasks. This robust
 simplicity, combined with its cultural significance, helped the Egyptian
 calendar endure for millennia and leave a lasting legacy on the history of
 timekeeping.
+
+Babylonian
+----------
+The Babylonian calendar, developed in ancient Mesopotamia, is one of the
+earliest recorded lunar calendars. It played a crucial role in the
+administrative, agricultural, and religious life of the Babylonians. Rooted in
+astronomical observations, this calendar reflects the sophisticated
+understanding of celestial movements by Babylonian scholars.
+
+The calendar was a lunisolar system, aligning months with the lunar cycle and
+years with the solar cycle. It relied on the Metonic Cycle, which states that
+235 synodical months are equal to 19 tropical years. These 19 years alternated
+between 12 and 13 months, with long years (13 months) occurring in the 1st,
+4th, 7th, 9th, 12th, 15th, and 18th years of the cycle. This structure included
+125 months of 30 days and 110 months of 29 days, adding up to 6,940 days in
+total. In most long years, the 12th month was doubled, but in the 18th year,
+the 6th month was doubled instead. Day 1 of month 1 (Nisannu) of year 1 in the
+Era of Seleukos corresponded to 3 April 310 BCE in the Julian Calendar (CJDN
+1607558).
+
+The Babylonians determined the beginning of each month by observing the phases
+of the moon. Since the calendar was partly based on direct observations, the
+length of months and years was not entirely fixed. Factors such as weather
+conditions could delay the official start of a month if the moon was obscured
+by clouds. This variability meant the distribution of months into years
+operated independently from the distribution of days into months.
+
+To reconstruct the Babylonian calendar predictably, we can use a mathematically
+derived version that closely approximates the historical system. Such a version
+would differ from the original calendar by at most one day, capturing its
+structure while avoiding the unpredictability of direct lunar observations.

@@ -28,6 +28,7 @@ add_library(calendars_object OBJECT
     "include/libcalendars/cl-milankovic.h"
     "include/libcalendars/cl-solar-hijri.h"
     "include/libcalendars/cl-egyptian.h"
+    "include/libcalendars/cl-babylonian.h"
     # Sources
     "src/cl-math.h"
     "src/cl-math.c"
@@ -39,6 +40,7 @@ add_library(calendars_object OBJECT
     "src/cl-islamic-civil.c"
     "src/cl-jewish.c"
     "src/cl-egyptian.c"
+    "src/cl-babylonian.c"
 )
 
 if(WIN32)
