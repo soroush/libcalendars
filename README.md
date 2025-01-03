@@ -2,19 +2,34 @@
 
 ![language](https://img.shields.io/badge/language-c-blue.svg)
 ![c](https://img.shields.io/badge/std-c99-blue.svg)
-![GCC](https://img.shields.io/badge/GCC-5.4.0-blue.svg)
-![GCC](https://img.shields.io/badge/GCC-4.9.3-blue.svg)
-![GCC](https://img.shields.io/badge/GCC-4.8.5-blue.svg)
-![MSVC](https://img.shields.io/badge/MSVC-14-red.svg)
+![GCC](https://img.shields.io/badge/GCC-13.0-blue.svg)
+![MSVC](https://img.shields.io/badge/MSVC-14-blue.svg)
 ![license](https://img.shields.io/badge/license-GPLv3-blue.svg)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6d907409c4244a0cb1a5e67299672d57)](https://www.codacy.com/app/soroush/libcalendars?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=soroush/libcalendars&amp;utm_campaign=Badge_Grade)
 [![Build Status](https://travis-ci.org/soroush/libcalendars.svg?branch=dev)](https://travis-ci.org/soroush/libcalendars)
 [![Build status](https://ci.appveyor.com/api/projects/status/kroimbg1ous41iak?svg=true)](https://ci.appveyor.com/project/soroush/libcalendars)
 
 A precise C library to provide arithmentic for the most common calendar 
 systems. Currently Gregorian, Julian, Milankovic, Solar Hijri (also known as 
-Shamsi or Jalali), Islamic Civil and Jewish (also know as Hebrew) calendar 
-systems are provided.
+Shamsi or Jalali), Islamic Civilm Jewish (also know as Hebrew), Egyptian and
+Babylonian calendar systems are provided.
+
+## Contents
+- [Installation](#installation)
+- [API Design Philosophy](#api-design-philosophy)
+- [Usage](#usage)
+    - [Documentation](#documentation)
+    - [Contribution](#contribution)
+    - [Algorithms](#algorithms)
+- [Calendars](#calendars)
+    - [Gregorian](#gregorian)
+    - [Julian](#julian)
+    - [Milanković](#milanković)
+    - [Solar Hijri (Jalali, or Shamsi)](#solar-hijri)
+    - [Islamic Civil](#islamic-civil)
+    - [Egyptian](#egyptian)
+    - [Babylonian](#babylonian)
+- [License](#license)
+    - [Commercial Use Exception](#commercial-use-exception)
 
 ## Installation
 
@@ -59,9 +74,6 @@ If nothing goes wrong, you should see all test passed:
 
 100% tests passed, 0 tests failed out of 6
 ```
-
-## Bindings
-- Vala: [vlibcal](https://github.com/LinArcX/vlibcal)
 
 ## API Design Philosophy
 
@@ -228,7 +240,7 @@ The first six months have 31 days, the next five have 30 days, and the last
 month has 29 days in usual years but 30 days in leap years. The New Year's Day
 always falls on the March equinox.
 
-#### A note on Solar Hijri...
+#### A note on Solar Hijri
 
 My implementation of Solar Hijri (Shamsi) calendar is based on median year
 calculation obtained from Muousa Akrami's work:
@@ -319,3 +331,15 @@ derived version that closely approximates the historical system. Such a version
 would differ from the original calendar by at most one day, capturing its
 structure while avoiding the unpredictability of direct lunar observations.
 
+## License
+
+This project is licensed under the **GNU General Public License v3.0 (GPL-3.0)**.  
+This means that you are free to use, modify, and distribute the software under the terms of the GPL-3.0 license.
+
+### Commercial Use Exception
+While this project is licensed under GPL-3.0, **commercial use is permitted only with prior written permission**.  
+However, this permission is **granted free of charge**. The requirement is in place to ensure that commercial usage aligns with the project's goals and values.  
+
+If you wish to use this project in a commercial product or service, please contact us to obtain the necessary permissions.
+
+For details about the GPL-3.0 license, see the [official license text](https://www.gnu.org/licenses/gpl-3.0.html).
