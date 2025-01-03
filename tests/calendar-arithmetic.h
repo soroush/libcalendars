@@ -22,12 +22,26 @@
 #include <stdint.h>
 #include <stdio.h>
 
+typedef struct _test_context
+{
+    void (*cal_to_jdn)(uint32_t*, int16_t, uint8_t, uint16_t);
+    void (*jdn_to_cal)(uint32_t, int16_t*, uint8_t*, uint16_t*);
+    void (*cal_to_gr)(int16_t, uint8_t, uint16_t, int16_t*, uint8_t*, uint16_t*);
+    void (*gr_to_cal)(int16_t, uint8_t, uint16_t, int16_t*, uint8_t*, uint16_t*);
+    uint32_t min_jd;
+    uint32_t max_jd;
+} test_context;
+
 void test_julian_day(
-    void (*cal_to_jdn)(uint32_t*, int16_t, uint8_t, uint16_t),
-    void (*jdn_to_cal)(uint32_t, int16_t*, uint8_t*, uint16_t*),
+    // void (*cal_to_jdn)(uint32_t*, int16_t, uint8_t, uint16_t),
+    // void (*jdn_to_cal)(uint32_t, int16_t*, uint8_t*, uint16_t*),
+    test_context* ctx,
     uint32_t in_jd, uint32_t* out_jd);
 
 void test_gregorian_calendar(
-    void (*cal_to_gr)(int16_t , uint8_t , uint16_t , int16_t*, uint8_t*, uint16_t*),
-    void (*gr_to_cal)(int16_t , uint8_t , uint16_t , int16_t*, uint8_t*, uint16_t*),
+    // void (*cal_to_gr)(int16_t, uint8_t, uint16_t, int16_t*, uint8_t*, uint16_t*),
+    // void (*gr_to_cal)(int16_t, uint8_t, uint16_t, int16_t*, uint8_t*, uint16_t*),
+    test_context* ctx,
     uint32_t in_jd, int16_t*, uint8_t*, uint16_t*, int16_t*, uint8_t*, uint16_t*);
+
+void test_continuity(test_context ctx, uint32_t jdn, uint8_t* valid);

@@ -23,26 +23,29 @@
 #include "calendar-arithmetic.h"
 
 void test_julian_day(
-    void (*cal_to_jdn)(uint32_t*, int16_t, uint8_t, uint16_t),
-    void (*jdn_to_cal)(uint32_t, int16_t*, uint8_t*, uint16_t*),
+    test_context* ctx,
     uint32_t in_jd, uint32_t* out_jd)
 {
     int16_t year;
     uint8_t month;
     uint16_t day;
-    (*jdn_to_cal)(in_jd, &year, &month, &day);
-    (*cal_to_jdn)(out_jd, year, month, day);
+    ctx->jdn_to_cal(in_jd, &year, &month, &day);
+    ctx->cal_to_jdn(out_jd, year, month, day);
 }
 
 void test_gregorian_calendar(
-    void (*cal_to_gr)(int16_t, uint8_t, uint16_t, int16_t*, uint8_t*, uint16_t*),
-    void (*gr_to_cal)(int16_t, uint8_t, uint16_t, int16_t*, uint8_t*, uint16_t*),
+    test_context* ctx,
     uint32_t in_jd, int16_t* gyi, uint8_t* gmi, uint16_t* gdi, int16_t* gyo, uint8_t* gmo, uint16_t* gdo)
 {
     int16_t year;
     uint8_t month;
     uint16_t day;
     jdn_to_gr(in_jd, gyi, gmi, gdi);
-    (*gr_to_cal)(*gyi, *gmi, *gdi, &year, &month, &day);
-    (*cal_to_gr)(year, month, day, gyo, gmo, gdo);
+    ctx->gr_to_cal(*gyi, *gmi, *gdi, &year, &month, &day);
+    ctx->cal_to_gr(year, month, day, gyo, gmo, gdo);
 }
+
+// void test_continuity(test_context ctx,  uint8_t* valid)
+// {
+
+// }

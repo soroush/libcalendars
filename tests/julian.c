@@ -26,13 +26,35 @@
 #include <stdlib.h>
 #include <assert.h>
 
+static test_context* ctx = NULL;
+
+void setup(void)
+{
+    ctx = malloc(sizeof(test_context));
+    if (ctx)
+    {
+        ctx->cal_to_jdn = &ju_to_jdn;
+        ctx->jdn_to_cal = &jdn_to_ju;
+        ctx->cal_to_gr = &ju_to_gr;
+        ctx->gr_to_cal = &gr_to_ju;
+        ctx->min_jd = 0;
+        ctx->max_jd = 0;
+    }
+}
+
+void teardown(void)
+{
+    free(ctx);
+    ctx = NULL;
+}
+
 START_TEST(julian_jdn)
 {
-    uint32_t jd = 0;
+    uint32_t jd;
     uint32_t out_jd = 0;
     for (jd = 0; jd < 2488069; jd++)
     {
-        test_julian_day(&ju_to_jdn, &jdn_to_ju, jd, &out_jd);
+        test_julian_day(ctx, jd, &out_jd);
         assert(jd == out_jd);
     }
 }
@@ -51,7 +73,7 @@ START_TEST(julian_gregorian)
     uint16_t gdo;
     for (jd = 0; jd < 2488069; jd++)
     {
-        test_gregorian_calendar(&ju_to_gr, &gr_to_ju, jd,
+        test_gregorian_calendar(ctx, jd,
             &gyi, &gmi, &gdi,
             &gyo, &gmo, &gdo);
         assert(gyi == gyo);
@@ -67,11 +89,10 @@ Suite* create_tests(void)
     TCase* julian;
 
     suit = suite_create("Calendar Arithmetic");
-
     julian = tcase_create("Julian");
+    tcase_add_checked_fixture(julian, setup, teardown);
     tcase_add_test(julian, julian_jdn);
     tcase_add_test(julian, julian_gregorian);
-
     suite_add_tcase(suit, julian);
     return suit;
 }
