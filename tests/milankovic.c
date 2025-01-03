@@ -17,77 +17,26 @@
  *
  */
 
+#include "calendar-arithmetic.h"
+
 #include <libcalendars/cl-milankovic.h>
 #include <libcalendars/cl-gregorian.h>
-#include <check.h>
-
-#include "calendar-arithmetic.h"
 
 #include <stdlib.h>
 #include <assert.h>
 
-START_TEST(milankovic_jdn)
-{
-    uint32_t jd = 0;
-    uint32_t out_jd = 0;
-    for (jd = 0; jd < 2488069; jd++)
-    {
-        test_julian_day(&ml_to_jdn, &jdn_to_ml, jd, &out_jd);
-        assert(jd == out_jd);
-    }
-}
-END_TEST
-
-START_TEST(milankovic_gregorian)
-{
-    uint32_t jd = 0;
-    uint32_t out_jd = 0;
-    uint32_t in_jd;
-    int16_t gyi;
-    uint8_t gmi;
-    uint16_t gdi;
-    int16_t gyo;
-    uint8_t gmo;
-    uint16_t gdo;
-    for (jd = 0; jd < 2488069; jd++)
-    {
-        test_gregorian_calendar(&ml_to_gr, &gr_to_ml, jd,
-            &gyi, &gmi, &gdi,
-            &gyo, &gmo, &gdo);
-        assert(gyi == gyo);
-        assert(gmi == gmo);
-        assert(gdi == gdo);
-    }
-}
-END_TEST
-
-Suite* create_tests(void)
-{
-    Suite* suit;
-    TCase* milankovic;
-
-    suit = suite_create("Calendar Arithmetic");
-
-    milankovic = tcase_create("Milankovic");
-    tcase_add_test(milankovic, milankovic_jdn);
-    tcase_add_test(milankovic, milankovic_gregorian);
-
-    suite_add_tcase(suit, milankovic);
-    return suit;
-}
-
 int main(void)
 {
-    int number_failed;
-    Suite* all_tests;
-    SRunner* runner;
+    const test_context ctx = {
+        .to_jdn = &ml_to_jdn,
+        .from_jdn = &jdn_to_ml,
+        .to_gr = &ml_to_gr,
+        .from_gr = &gr_to_ml,
+        .jdn_to_gr = &jdn_to_gr,
+        .min_jd = 0,
+        .max_jd = 2488069,
+    };
 
-    all_tests = create_tests();
-    runner = srunner_create(all_tests);
-    srunner_set_fork_status(runner, CK_NOFORK);
-    srunner_run_all(runner, CK_NORMAL);
-    number_failed = srunner_ntests_failed(runner);
-    srunner_free(runner);
-
-    return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
+    test_julian_day(&ctx);
+    test_gregorian_calendar(&ctx);
 }

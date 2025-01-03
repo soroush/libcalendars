@@ -49,7 +49,7 @@ uint8_t gr_days_in_month(uint8_t month, int16_t year) {
         case 11:
             return 30;
             break;
-        case 02:
+        case 2:
             return gr_is_leap(year) ? 29 : 28;
             break;
         default:

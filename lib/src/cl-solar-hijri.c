@@ -31,6 +31,8 @@ static const int32_t cycle_days = 1029983;
 static const uint16_t cycle_years = 2820;
 /* 365 + leapRatio */
 static const double year_length = 365.24219858156028368;
+// static const double year_length = 365.242374;
+// static const double year_length = 365.2421875;
 /* 475/01/01 AP, start of 2820 cycle */
 static const uint32_t hijri_shamsi_epoch = 2121446;
 /* 683.0 / 2820.0 */

@@ -17,52 +17,30 @@
  *
  */
 
-#include <libcalendars/cl-gregorian.h>
-#include <check.h>
-
 #include "calendar-arithmetic.h"
+
+#include <libcalendars/cl-gregorian.h>
 
 #include <stdlib.h>
 #include <assert.h>
 
-START_TEST(gregorian_jdn)
-{
-    uint32_t jd = 0;
-    uint32_t out_jd = 0;
-    for (jd = 0; jd < 2488069; jd++)
-    {
-        test_julian_day(&gr_to_jdn, &jdn_to_gr, jd, &out_jd);
-        assert(jd == out_jd);
-    }
-}
-END_TEST
-
-Suite* create_tests(void)
-{
-    Suite* suit;
-    TCase* gregorian;
-
-    suit = suite_create("Calendar Arithmetic");
-
-    gregorian = tcase_create("Gregorian");
-    tcase_add_test(gregorian, gregorian_jdn);
-
-    suite_add_tcase(suit, gregorian);
-    return suit;
-}
-
 int main(void)
 {
-    int number_failed;
-    Suite* all_tests;
-    SRunner* runner;
+    const test_context ctx = {
+        .to_jdn = &gr_to_jdn,
+        .from_jdn = &jdn_to_gr,
+        .to_gr = NULL,
+        .from_gr = NULL,
+        .jdn_to_gr = &jdn_to_gr,
+        .days_in_month = &gr_days_in_month,
+        .days_in_year = &gr_days_in_year,
+        .month_in_year = &gr_month_in_year,
+        .min_jd = 0,
+        .max_jd = 2488069,
+    };
 
-    all_tests = create_tests();
-    runner = srunner_create(all_tests);
-    srunner_set_fork_status(runner, CK_NOFORK);
-    srunner_run_all(runner, CK_NORMAL);
-    number_failed = srunner_ntests_failed(runner);
-    srunner_free(runner);
+    test_julian_day(&ctx);
+    test_continuity(&ctx);
 
-    return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
+    return EXIT_SUCCESS;
 }

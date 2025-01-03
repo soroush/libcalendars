@@ -17,77 +17,32 @@
  *
  */
 
+#include "calendar-arithmetic.h"
+
 #include <libcalendars/cl-solar-hijri.h>
 #include <libcalendars/cl-gregorian.h>
-#include <check.h>
-
-#include "calendar-arithmetic.h"
 
 #include <stdlib.h>
 #include <assert.h>
 
-START_TEST(solar_hijri_jdn)
-{
-    uint32_t jd = 0;
-    uint32_t out_jd = 0;
-    for (jd = 0; jd < 2488069; jd++)
-    {
-        test_julian_day(&sh_to_jdn, &jdn_to_sh, jd, &out_jd);
-        assert(jd == out_jd);
-    }
-}
-END_TEST
-
-START_TEST(solar_hijri_gregorian)
-{
-    uint32_t jd = 0;
-    uint32_t out_jd = 0;
-    uint32_t in_jd;
-    int16_t gyi;
-    uint8_t gmi;
-    uint16_t gdi;
-    int16_t gyo;
-    uint8_t gmo;
-    uint16_t gdo;
-    for (jd = 0; jd < 2488069; jd++)
-    {
-        test_gregorian_calendar(&sh_to_gr, &gr_to_sh, jd,
-            &gyi, &gmi, &gdi,
-            &gyo, &gmo, &gdo);
-        assert(gyi == gyo);
-        assert(gmi == gmo);
-        assert(gdi == gdo);
-    }
-}
-END_TEST
-
-Suite* create_tests(void)
-{
-    Suite* suit;
-    TCase* solar_hijri;
-
-    suit = suite_create("Calendar Arithmetic");
-
-    solar_hijri = tcase_create("Solar Hijri");
-    tcase_add_test(solar_hijri, solar_hijri_jdn);
-    tcase_add_test(solar_hijri, solar_hijri_gregorian);
-
-    suite_add_tcase(suit, solar_hijri);
-    return suit;
-}
-
 int main(void)
 {
-    int number_failed;
-    Suite* all_tests;
-    SRunner* runner;
+    const test_context ctx = {
+        .to_jdn = &sh_to_jdn,
+        .from_jdn = &jdn_to_sh,
+        .to_gr = &sh_to_gr,
+        .from_gr = &gr_to_sh,
+        .jdn_to_gr = &jdn_to_gr,
+        .days_in_month = &sh_days_in_month,
+        .days_in_year = &sh_days_in_year,
+        .month_in_year = &sh_month_in_year,
+        .min_jd = 0,
+        .max_jd = 2488069,
+    };
 
-    all_tests = create_tests();
-    runner = srunner_create(all_tests);
-    srunner_set_fork_status(runner, CK_NOFORK);
-    srunner_run_all(runner, CK_NORMAL);
-    number_failed = srunner_ntests_failed(runner);
-    srunner_free(runner);
+    test_julian_day(&ctx);
+    test_gregorian_calendar(&ctx);
+    // test_continuity(&ctx);
 
-    return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
+    return EXIT_SUCCESS;
 }

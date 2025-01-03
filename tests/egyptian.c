@@ -17,77 +17,26 @@
  *
  */
 
+#include "calendar-arithmetic.h"
+
 #include <libcalendars/cl-egyptian.h>
 #include <libcalendars/cl-gregorian.h>
-#include <check.h>
-
-#include "calendar-arithmetic.h"
 
 #include <stdlib.h>
 #include <assert.h>
 
-START_TEST(egyptian_jdn)
-{
-    uint32_t jd = 0;
-    uint32_t out_jd = 0;
-    for (jd = 0; jd < 2488069; jd++)
-    {
-        test_julian_day(&eg_to_jdn, &jdn_to_eg, jd, &out_jd);
-        assert(jd == out_jd);
-    }
-}
-END_TEST
-
-START_TEST(egyptian_gregorian)
-{
-    uint32_t jd = 0;
-    uint32_t out_jd = 0;
-    uint32_t in_jd;
-    int16_t gyi;
-    uint8_t gmi;
-    uint16_t gdi;
-    int16_t gyo;
-    uint8_t gmo;
-    uint16_t gdo;
-    for (jd = 0; jd < 2488069; jd++)
-    {
-        test_gregorian_calendar(&eg_to_gr, &gr_to_eg, jd,
-            &gyi, &gmi, &gdi,
-            &gyo, &gmo, &gdo);
-        assert(gyi == gyo);
-        assert(gmi == gmo);
-        assert(gdi == gdo);
-    }
-}
-END_TEST
-
-Suite* create_tests(void)
-{
-    Suite* suit;
-    TCase* egyptian;
-
-    suit = suite_create("Calendar Arithmetic");
-
-    egyptian = tcase_create("Egyptian");
-    tcase_add_test(egyptian, egyptian_jdn);
-    tcase_add_test(egyptian, egyptian_gregorian);
-
-    suite_add_tcase(suit, egyptian);
-    return suit;
-}
-
 int main(void)
 {
-    int number_failed;
-    Suite* all_tests;
-    SRunner* runner;
+    const test_context ctx = {
+        .to_jdn = &eg_to_jdn,
+        .from_jdn = &jdn_to_eg,
+        .to_gr = &eg_to_gr,
+        .from_gr = &gr_to_eg,
+        .jdn_to_gr = &jdn_to_gr,
+        .min_jd = 0,
+        .max_jd = 2488069,
+    };
 
-    all_tests = create_tests();
-    runner = srunner_create(all_tests);
-    srunner_set_fork_status(runner, CK_NOFORK);
-    srunner_run_all(runner, CK_NORMAL);
-    number_failed = srunner_ntests_failed(runner);
-    srunner_free(runner);
-
-    return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
+    test_julian_day(&ctx);
+    test_gregorian_calendar(&ctx);
 }

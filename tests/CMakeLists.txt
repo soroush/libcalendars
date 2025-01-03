@@ -20,7 +20,7 @@ include_directories(PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../incl
 
 # Commont test mathematics
 add_library(calendar_test_common OBJECT calendar-arithmetic.c)
-target_link_libraries(calendar_test_common PUBLIC calendars check)
+target_link_libraries(calendar_test_common PUBLIC calendars)
 
 link_libraries(calendar_test_common calendars)
 
