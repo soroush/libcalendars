@@ -1,0 +1,15 @@
+# Keeps the actions used by the workflows current. Action majors go out of
+# support as the runners move to newer Node.js releases, which shows up as a
+# deprecation warning on every run until the version is raised.
+version: 2
+
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    # One pull request for all of the actions, rather than one for each.
+    groups:
+      actions:
+        patterns:
+          - "*"
