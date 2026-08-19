@@ -43,15 +43,7 @@ main (void)
 
   test_julian_day (&ctx);
   test_gregorian_calendar (&ctx);
-
-  /* test_continuity is disabled here because it fails on the year -1 to
-     year 1 transition: the Julian calendar has no year zero, so that step
-     matches none of the cases the check knows about and its day counter
-     keeps running into the next year. The assertion trips at 0001-11-18
-     with 685 days counted into year 1. This is a defect in the check
-     rather than in the calendar arithmetic, and it is to be fixed
-     separately. */
-  /* test_continuity (&ctx); */
+  test_continuity (&ctx);
 
   return EXIT_SUCCESS;
 }

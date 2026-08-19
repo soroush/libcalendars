@@ -22,6 +22,7 @@
 #include <libcalendars/cl-gregorian.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 void
 test_julian_day (const test_context *const ctx)
@@ -104,14 +105,17 @@ test_continuity (const test_context *const ctx)
                           "Counted days since start of the month: %04d\n",
                           year, month, day, days_in_month);
                 }
-              // assert(ctx->days_in_month(month, year) == days_in_month);
+              assert (ctx->days_in_month (month, year) == days_in_month);
             }
           days_in_month = 1;
           if (days_in_year)
             days_in_year++;
         }
-      else if (new_year == year + 1 && new_month == 1 && new_day == 1)
+      else if (new_year > year && new_month == 1 && new_day == 1)
         {
+          // Start of a new year. This is an ordering test rather than a
+          // check for new_year == year + 1, because calendars without a
+          // year zero step straight from year -1 to year 1.
           // In case, we were counting before, check for the days in year and
           // mount
           if (days_in_year)
@@ -143,8 +147,12 @@ test_continuity (const test_context *const ctx)
         }
       else
         {
-          // Should not happen
-          // abort();
+          // Consecutive Julian day numbers must always map to consecutive
+          // dates. Anything else means the conversion is broken.
+          printf ("Discontinuity in the calendar! Date %04d-%02d-%02d is "
+                  "followed by %04d-%02d-%02d\n",
+                  year, month, day, new_year, new_month, new_day);
+          abort ();
         }
       year = new_year;
       month = new_month;
