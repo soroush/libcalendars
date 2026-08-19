@@ -43,7 +43,7 @@ main (void)
 
   test_julian_day (&ctx);
   test_gregorian_calendar (&ctx);
-  // test_continuity(&ctx);
+  test_continuity (&ctx);
 
   return EXIT_SUCCESS;
 }

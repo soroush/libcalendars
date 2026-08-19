@@ -35,8 +35,8 @@ static const double year_length = 365.24219858156028368;
 // static const double year_length = 365.2421875;
 /* 475/01/01 AP, start of 2820 cycle */
 static const uint32_t hijri_shamsi_epoch = 2121446;
-/* 683.0 / 2820.0 */
-static const double leap_threshold = 0.24219858156028368;
+/* Number of leap years in a cycle */
+static const int32_t cycle_leap_years = 683;
 
 /*
  * The calendar in civil use in Iran is not the arithmetic calendar.  Leap
@@ -120,22 +120,33 @@ LIBCALENDAR_API
 uint8_t
 sh_is_leap (int16_t year)
 {
-  double integral;
-  double frac;
   const int correction = sh_leap_correction (year);
   if (correction)
     {
       return correction > 0 ? 1 : 0;
     }
-  frac = modf ((year + 2346) * leap_threshold, &integral);
-  if (frac < leap_threshold)
-    {
-      return 1;
-    }
-  else
-    {
-      return 0;
-    }
+  /*
+   * A year is a leap year when the fractional part of
+   * (year + 2346) * 683 / 2820 falls below 683 / 2820, which as an integer
+   * remainder is simply
+   *
+   *   ((year + 2346) * 683) mod 2820 < 683.
+   *
+   * The remainder form is not a micro optimisation, it is the only form that
+   * is correct. Taking the fraction in floating point fails twice. For years
+   * before -2346 the product is negative and so is the fraction modf hands
+   * back, which is always below the threshold, so every one of those years
+   * was reported as a leap year. And where the quotient lands exactly on the
+   * threshold, which happens at year 475 and at the same position in every
+   * cycle, rounding drops it just under and the year disagrees with the year
+   * start that fdoy_c computes for it.
+   *
+   * mod() gives a non-negative remainder, so both cases fall out.
+   */
+  return mod ((year + 2346) * (int)cycle_leap_years, (int)cycle_years)
+                 < cycle_leap_years
+             ? 1
+             : 0;
 }
 
 LIBCALENDAR_API
@@ -290,10 +301,6 @@ jdn_to_sh (uint32_t jd, int16_t *year, uint8_t *month, uint16_t *day)
       start = sh_nowruz_jdn (y);
     }
   d = (uint16_t)((int32_t)jd - start + 1);
-  if (y <= 0)
-    {
-      y--;
-    }
   for (m = 1; m < 12; ++m)
     {
       if (d > sh_days_in_month (m, y))
@@ -304,6 +311,13 @@ jdn_to_sh (uint32_t jd, int16_t *year, uint8_t *month, uint16_t *day)
         {
           break;
         }
+    }
+  /* Everything above works in astronomical numbering, the way sh_to_jdn holds
+     the year. Step over year zero only once the day of the year has been
+     spent, or the month lengths get taken from the neighbouring year. */
+  if (y <= 0)
+    {
+      y--;
     }
   *year = y;
   *month = m;
