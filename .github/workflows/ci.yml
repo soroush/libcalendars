@@ -113,21 +113,30 @@ jobs:
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
       - name: Build the packages
-        # The version comes from the spec so the two cannot drift apart.
+        # The version comes from the spec so the two cannot drift apart, and
+        # the tree location from rpm itself rather than from an assumption
+        # about where the home directory is.
         run: |
+          set -x
           version=$(rpmspec -q --queryformat '%{version}' rpm/libcalendars.spec | head -1)
+          topdir=$(rpm --eval '%{_topdir}')
           rpmdev-setuptree
-          tarball=~/rpmbuild/SOURCES/libcalendars-${version}.tar.gz
+          mkdir -p "$topdir/SOURCES"
+          tarball="$topdir/SOURCES/libcalendars-${version}.tar.gz"
           git archive --format=tar.gz --prefix="libcalendars-${version}/" -o "$tarball" HEAD
+          ls -l "$topdir/SOURCES"
           rpmbuild -ba rpm/libcalendars.spec
 
       - name: Check the packages with rpmlint
-        run: rpmlint ~/rpmbuild/RPMS/*/*.rpm ~/rpmbuild/SRPMS/*.rpm
+        run: |
+          topdir=$(rpm --eval '%{_topdir}')
+          rpmlint "$topdir"/RPMS/*/*.rpm "$topdir"/SRPMS/*.rpm
 
       - name: Collect the packages
         run: |
+          topdir=$(rpm --eval '%{_topdir}')
           mkdir -p packages
-          cp ~/rpmbuild/RPMS/*/*.rpm ~/rpmbuild/SRPMS/*.rpm packages/
+          cp "$topdir"/RPMS/*/*.rpm "$topdir"/SRPMS/*.rpm packages/
           ls -l packages
 
       - name: Upload the packages
