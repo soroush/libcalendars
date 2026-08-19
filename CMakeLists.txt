@@ -26,6 +26,9 @@ project(calendars
 
 option(BUILD_TESTING "Build the libcalendars test suite" OFF)
 
+list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+include(ClangFormat)
+
 add_subdirectory(lib)
 
 if(BUILD_TESTING)
