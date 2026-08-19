@@ -19,24 +19,25 @@
 
 #include "calendar-arithmetic.h"
 
-#include <libcalendars/cl-islamic-civil.h>
 #include <libcalendars/cl-gregorian.h>
+#include <libcalendars/cl-islamic-civil.h>
 
-#include <stdlib.h>
 #include <assert.h>
+#include <stdlib.h>
 
-int main(void)
+int
+main (void)
 {
-    const test_context ctx = {
-        .to_jdn = &is_to_jdn,
-        .from_jdn = &jdn_to_is,
-        .to_gr = &is_to_gr,
-        .from_gr = &gr_to_is,
-        .jdn_to_gr = &jdn_to_gr,
-        .min_jd = 0,
-        .max_jd = 2488069,
-    };
+  const test_context ctx = {
+    .to_jdn = &is_to_jdn,
+    .from_jdn = &jdn_to_is,
+    .to_gr = &is_to_gr,
+    .from_gr = &gr_to_is,
+    .jdn_to_gr = &jdn_to_gr,
+    .min_jd = 0,
+    .max_jd = 2488069,
+  };
 
-    test_julian_day(&ctx);
-    test_gregorian_calendar(&ctx);
+  test_julian_day (&ctx);
+  test_gregorian_calendar (&ctx);
 }

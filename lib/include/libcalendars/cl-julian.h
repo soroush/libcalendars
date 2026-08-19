@@ -20,26 +20,30 @@
 #ifndef LIBCALENDAR_JULIAN_H
 #define LIBCALENDAR_JULIAN_H
 
-#include <stdint.h>
 #include "cl-export.h"
+#include <stdint.h>
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-LIBCALENDAR_API uint8_t  ju_is_leap(int16_t year);
-LIBCALENDAR_API uint8_t  ju_days_in_month(uint8_t month, int16_t year);
-LIBCALENDAR_API uint16_t ju_days_in_year(int16_t year);
-LIBCALENDAR_API uint8_t  ju_month_in_year(int16_t year);
-LIBCALENDAR_API uint8_t  ju_is_valid(int16_t year, uint8_t month, uint16_t day);
-LIBCALENDAR_API void ju_to_jdn(uint32_t* jd,
-                               int16_t year, uint8_t month, uint16_t day);
-LIBCALENDAR_API void jdn_to_ju(uint32_t jdn,
-                               int16_t* year, uint8_t* month, uint16_t* day);
-LIBCALENDAR_API void ju_to_gr(int16_t  jyear, uint8_t  jmonth, uint16_t  jday,
-                              int16_t* gyear, uint8_t* gmonth, uint16_t* gday);
-LIBCALENDAR_API void gr_to_ju(int16_t  gyear, uint8_t  gmonth, uint16_t  gday,
-                              int16_t* jyear, uint8_t* jmonth, uint16_t* jday);
+  LIBCALENDAR_API uint8_t ju_is_leap (int16_t year);
+  LIBCALENDAR_API uint8_t ju_days_in_month (uint8_t month, int16_t year);
+  LIBCALENDAR_API uint16_t ju_days_in_year (int16_t year);
+  LIBCALENDAR_API uint8_t ju_month_in_year (int16_t year);
+  LIBCALENDAR_API uint8_t ju_is_valid (int16_t year, uint8_t month,
+                                       uint16_t day);
+  LIBCALENDAR_API void ju_to_jdn (uint32_t *jd, int16_t year, uint8_t month,
+                                  uint16_t day);
+  LIBCALENDAR_API void jdn_to_ju (uint32_t jdn, int16_t *year, uint8_t *month,
+                                  uint16_t *day);
+  LIBCALENDAR_API void ju_to_gr (int16_t jyear, uint8_t jmonth, uint16_t jday,
+                                 int16_t *gyear, uint8_t *gmonth,
+                                 uint16_t *gday);
+  LIBCALENDAR_API void gr_to_ju (int16_t gyear, uint8_t gmonth, uint16_t gday,
+                                 int16_t *jyear, uint8_t *jmonth,
+                                 uint16_t *jday);
 
 #ifdef __cplusplus
 }

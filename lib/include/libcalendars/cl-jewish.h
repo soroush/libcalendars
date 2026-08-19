@@ -20,29 +20,33 @@
 #ifndef LIBCALENDAR_JEWISH_H
 #define LIBCALENDAR_JEWISH_H
 
-#include <stdint.h>
 #include "cl-export.h"
+#include <stdint.h>
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-LIBCALENDAR_API uint8_t jw_is_leap(int16_t year);
-LIBCALENDAR_API uint8_t jw_is_complete(int16_t year);
-LIBCALENDAR_API uint8_t jw_is_deficient(int16_t year);
-LIBCALENDAR_API uint8_t jw_is_regular(int16_t year);
-LIBCALENDAR_API uint8_t jw_days_in_month(uint8_t month, int16_t year);
-LIBCALENDAR_API uint16_t jw_days_in_year(int16_t year);
-LIBCALENDAR_API uint8_t  jw_month_in_year(int16_t year);
-LIBCALENDAR_API uint8_t  jw_is_valid(int16_t year, uint8_t month, uint16_t day);
-LIBCALENDAR_API void jw_to_jdn(uint32_t* jd,
-                               int16_t year, uint8_t month, uint16_t day);
-LIBCALENDAR_API void jdn_to_jw(uint32_t jdn,
-                               int16_t* year, uint8_t* month, uint16_t* day);
-LIBCALENDAR_API void jw_to_gr(int16_t  jyear, uint8_t  jmonth, uint16_t  jday,
-                              int16_t* gyear, uint8_t* gmonth, uint16_t* gday);
-LIBCALENDAR_API void gr_to_jw(int16_t  gyear, uint8_t  gmonth, uint16_t  gday,
-                              int16_t* jyear, uint8_t* jmonth, uint16_t* jday);
+  LIBCALENDAR_API uint8_t jw_is_leap (int16_t year);
+  LIBCALENDAR_API uint8_t jw_is_complete (int16_t year);
+  LIBCALENDAR_API uint8_t jw_is_deficient (int16_t year);
+  LIBCALENDAR_API uint8_t jw_is_regular (int16_t year);
+  LIBCALENDAR_API uint8_t jw_days_in_month (uint8_t month, int16_t year);
+  LIBCALENDAR_API uint16_t jw_days_in_year (int16_t year);
+  LIBCALENDAR_API uint8_t jw_month_in_year (int16_t year);
+  LIBCALENDAR_API uint8_t jw_is_valid (int16_t year, uint8_t month,
+                                       uint16_t day);
+  LIBCALENDAR_API void jw_to_jdn (uint32_t *jd, int16_t year, uint8_t month,
+                                  uint16_t day);
+  LIBCALENDAR_API void jdn_to_jw (uint32_t jdn, int16_t *year, uint8_t *month,
+                                  uint16_t *day);
+  LIBCALENDAR_API void jw_to_gr (int16_t jyear, uint8_t jmonth, uint16_t jday,
+                                 int16_t *gyear, uint8_t *gmonth,
+                                 uint16_t *gday);
+  LIBCALENDAR_API void gr_to_jw (int16_t gyear, uint8_t gmonth, uint16_t gday,
+                                 int16_t *jyear, uint8_t *jmonth,
+                                 uint16_t *jday);
 
 #ifdef __cplusplus
 }
