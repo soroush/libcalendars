@@ -53,6 +53,9 @@ jobs:
 
   package:
     name: debian package
+    # Only worth building packages once the library and the tests are known
+    # good on both runners.
+    needs: build
     runs-on: ubuntu-latest
     container: debian:trixie
 
@@ -75,8 +78,16 @@ jobs:
         run: lintian --tag-display-limit 0 ../libcalendars_*_*.changes
 
       - name: Collect the packages
+        # dpkg-buildpackage writes to the parent directory, which is outside
+        # the workspace, and upload-artifact refuses a path containing "..".
+        run: |
+          mkdir -p packages
+          mv ../*.deb ../*.buildinfo ../*.changes packages/
+          ls -l packages
+
+      - name: Upload the packages
         uses: actions/upload-artifact@v4
         with:
           name: debian-packages
-          path: ../*.deb
+          path: packages/
           if-no-files-found: error
