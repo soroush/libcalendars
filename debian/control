@@ -1,25 +1,47 @@
 Source: libcalendars
 Priority: optional
 Maintainer: Soroush Rabiei <soroush.rabiei@gmail.com>
-Build-Depends: debhelper (>= 9), autotools-dev, cdbs
-Standards-Version: 3.9.8
+Build-Depends:
+ debhelper-compat (= 13),
+ cmake,
+Standards-Version: 4.7.2
 Section: libs
+Rules-Requires-Root: no
 Homepage: https://soroush.github.io/libcalendars
 Vcs-Git: https://github.com/soroush/libcalendars.git
 Vcs-Browser: https://github.com/soroush/libcalendars
 
+Package: libcalendars1
+Architecture: any
+Multi-Arch: same
+Depends:
+ ${shlibs:Depends},
+ ${misc:Depends},
+Description: precise calendar arithmetic library
+ A precise C library providing arithmetic for the most common calendar
+ systems. Gregorian, Julian, Milankovic, Solar Hijri (also known as Shamsi
+ or Jalali), Islamic Civil, Jewish (also known as Hebrew), Egyptian and
+ Babylonian calendar systems are provided.
+ .
+ Conversions run through Julian Day Numbers, and the library operates on
+ plain integers rather than introducing date structures of its own, so that
+ it can be used behind an existing date and time API.
+ .
+ This package contains the shared library.
+
 Package: libcalendars-dev
 Section: libdevel
 Architecture: any
-Depends: libcalendars1 (= ${binary:Version}), ${misc:Depends}
-Description: Calendar Arithmetic library - development headers
- Header files and develipment libs for libcalendars.
-
-Package: libcalendars1
-Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: Calendar Arithmetic library
- A precise C library to provide arithmentic for the most common calendar 
- systems. Currently Gregorian, Julian, Milankovic, Solar Hijri (also known as 
- Shamsi or Jalali), Islamic Civil and Jewish (also know as Hebrew) calendar 
- systems are provided.
+Multi-Arch: same
+Depends:
+ libcalendars1 (= ${binary:Version}),
+ ${misc:Depends},
+Description: precise calendar arithmetic library - development files
+ A precise C library providing arithmetic for the most common calendar
+ systems. Gregorian, Julian, Milankovic, Solar Hijri (also known as Shamsi
+ or Jalali), Islamic Civil, Jewish (also known as Hebrew), Egyptian and
+ Babylonian calendar systems are provided.
+ .
+ This package contains the header files, the static library, the pkg-config
+ file and the CMake package configuration needed to build against
+ libcalendars.

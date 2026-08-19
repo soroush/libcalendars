@@ -16,6 +16,10 @@
 
 cmake_minimum_required(VERSION 3.16.0)
 
+# Included up here because the install directory variables it defines are
+# referenced by the export interface below, not only by the install rules.
+include(GNUInstallDirs)
+
 set(CALENDARS_HEADERS
     "include/libcalendars/cl-calendars.h"
     "include/libcalendars/cl-export.h"
@@ -72,10 +76,18 @@ add_library(calendars_static STATIC
 # archive would be built with the dllexport attributes of a shared library.
 target_compile_definitions(calendars_static PUBLIC libcalendars_STATIC)
 
+# Ship the static library as libcalendars.a rather than libcalendars_static.a,
+# so that -lcalendars resolves to it and the name matches what the pkg-config
+# file advertises. MSVC is excluded because there the import library of the
+# shared build already claims calendars.lib.
+if(NOT MSVC)
+    set_target_properties(calendars_static PROPERTIES OUTPUT_NAME calendars)
+endif()
+
 # Prepare the targets
 set_target_properties(calendars calendars_static PROPERTIES
     VERSION 1.1.0
-    SOVERSION 0
+    SOVERSION 1
     C_STANDARD 90
     DEBUG_POSTFIX "_d"
     C_VISIBILITY_PRESET hidden
@@ -103,8 +115,6 @@ endforeach()
 
 # Installation
 
-include(GNUInstallDirs)
-
 export(TARGETS calendars FILE "libcalendarsTargets.cmake")
 
 install(TARGETS calendars calendars_static
@@ -117,6 +127,16 @@ install(TARGETS calendars calendars_static
 
 install(DIRECTORY "include/" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
 
+configure_file(
+    "libcalendars.pc.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/libcalendars.pc"
+    @ONLY
+)
+
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/libcalendars.pc"
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig"
+)
+
 include(CMakePackageConfigHelpers)
 
 write_basic_package_version_file(
@@ -127,11 +147,11 @@ write_basic_package_version_file(
 
 install(EXPORT "calendarsTargets"
     FILE "libcalendarsTargets.cmake"
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/libcalendars"
 )
 
 install(FILES
     "cmake/libcalendarsConfig.cmake"
     "${CMAKE_CURRENT_BINARY_DIR}/libcalendarsConfigVersion.cmake"
-    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/"
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/libcalendars"
 )
