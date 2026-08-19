@@ -77,4 +77,12 @@ if(LIBCALENDARS_GIT_HOOKS AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
     else()
         message(STATUS "Could not enable the git hooks in .githooks")
     endif()
+
+    # Keep the bulk reformatting revisions out of git blame.
+    execute_process(
+        COMMAND git config blame.ignoreRevsFile .git-blame-ignore-revs
+        WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
+        OUTPUT_QUIET
+        ERROR_QUIET
+    )
 endif()
