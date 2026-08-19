@@ -17,6 +17,7 @@
 cmake_minimum_required(VERSION 3.16.0)
 
 include_directories(PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include/>)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 # Commont test mathematics
 add_library(calendar_test_common OBJECT calendar-arithmetic.c)
@@ -24,14 +25,14 @@ target_link_libraries(calendar_test_common PUBLIC calendars)
 
 link_libraries(calendar_test_common calendars)
 
-add_executable(gregorian gregorian.c)
-add_executable(milankovic milankovic.c)
-add_executable(julian julian.c)
-add_executable(jewish jewish.c)
-add_executable(islamic_civil islamic-civil.c)
-add_executable(solar_hijri solar-hijri.c)
-add_executable(egyptian egyptian.c)
-add_executable(babylonian babylonian.c)
+add_executable(gregorian gregorian/gregorian.c)
+add_executable(milankovic milankovic/milankovic.c)
+add_executable(julian julian/julian.c)
+add_executable(jewish jewish/jewish.c)
+add_executable(islamic_civil islamic-civil/islamic-civil.c)
+add_executable(solar_hijri solar-hijri/solar-hijri.c)
+add_executable(egyptian egyptian/egyptian.c)
+add_executable(babylonian babylonian/babylonian.c)
 
 set_target_properties(
     gregorian julian milankovic solar_hijri jewish islamic_civil egyptian babylonian
