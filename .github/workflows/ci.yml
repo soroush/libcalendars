@@ -1,0 +1,56 @@
+# Copyright (C) 2021-2025 - Soroush Rabiei, <soroush.rabiei@gmail.com>
+# This file is part of libcalendars.
+#
+# libcalendars is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# libcalendars is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with libcalendars.  If not, see <http://www.gnu.org/licenses/>.
+
+name: CI
+
+on:
+  push:
+    branches: [dev]
+  pull_request:
+    branches: [dev]
+
+jobs:
+  build:
+    name: ${{ matrix.os }} ${{ matrix.build_type }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        build_type: [Debug, Release]
+
+    steps:
+      - name: Check out the source
+        uses: actions/checkout@v4
+
+      - name: Configure
+        # The git hooks are for a working checkout and have no place on a
+        # runner, so they are turned off here.
+        run: >
+          cmake -S . -B build
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          -DBUILD_TESTING=ON
+          -DLIBCALENDARS_GIT_HOOKS=OFF
+
+      - name: Build
+        run: cmake --build build --config ${{ matrix.build_type }}
+
+      - name: Test
+        # The tests report failures through assert, which NDEBUG disables, so
+        # only the Debug matrix entries can actually fail. The Release entries
+        # are here to prove the library and the tests still compile with
+        # optimisation on.
+        run: ctest --test-dir build --config ${{ matrix.build_type }} --output-on-failure
