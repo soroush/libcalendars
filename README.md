@@ -5,8 +5,7 @@
 ![GCC](https://img.shields.io/badge/GCC-13.0-blue.svg)
 ![MSVC](https://img.shields.io/badge/MSVC-14-blue.svg)
 ![license](https://img.shields.io/badge/license-GPLv3-blue.svg)
-[![Build Status](https://travis-ci.org/soroush/libcalendars.svg?branch=dev)](https://travis-ci.org/soroush/libcalendars)
-[![Build status](https://ci.appveyor.com/api/projects/status/kroimbg1ous41iak?svg=true)](https://ci.appveyor.com/project/soroush/libcalendars)
+[![CI](https://github.com/soroush/libcalendars/actions/workflows/ci.yml/badge.svg?branch=dev)](https://github.com/soroush/libcalendars/actions/workflows/ci.yml)
 
 A precise C library to provide arithmentic for the most common calendar 
 systems. Currently Gregorian, Julian, Milankovic, Solar Hijri (also known as 
@@ -60,19 +59,23 @@ ctest . --config Release
 If nothing goes wrong, you should see all test passed:
 ```
     Start 1: Gregorian
-1/6 Test #1: Gregorian ........................   Passed    0.31 sec
+1/8 Test #1: Gregorian ........................   Passed    0.68 sec
     Start 2: Julian
-2/6 Test #2: Julian ...........................   Passed    0.59 sec
+2/8 Test #2: Julian ...........................   Passed    0.590 sec
     Start 3: Milankovic
-3/6 Test #3: Milankovic .......................   Passed    0.78 sec
+3/8 Test #3: Milankovic .......................   Passed    1.23 sec
     Start 4: SolarHijri
-4/6 Test #4: SolarHijri .......................   Passed    0.89 sec
+4/8 Test #4: SolarHijri .......................   Passed    1.32 sec
     Start 5: Jewish
-5/6 Test #5: Jewish ...........................   Passed   17.46 sec
+5/8 Test #5: Jewish ...........................   Passed   16.35 sec
     Start 6: IslamicCivil
-6/6 Test #6: IslamicCivil .....................   Passed    0.53 sec
+6/8 Test #6: IslamicCivil .....................   Passed    0.94 sec
+    Start 7: Egyptian
+7/8 Test #7: Egyptian .........................   Passed    0.84 sec
+    Start 8: Babylonian
+8/8 Test #8: Babylonian .......................   Passed    1.13 sec
 
-100% tests passed, 0 tests failed out of 6
+100% tests passed, 0 tests failed out of 8
 ```
 
 ## API Design Philosophy
