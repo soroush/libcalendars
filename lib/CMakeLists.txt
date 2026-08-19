@@ -16,9 +16,7 @@
 
 cmake_minimum_required(VERSION 3.16.0)
 
-# Intermediate Object Library
-add_library(calendars_object OBJECT 
-    # Headers
+set(CALENDARS_HEADERS
     "include/libcalendars/cl-calendars.h"
     "include/libcalendars/cl-export.h"
     "include/libcalendars/cl-gregorian.h"
@@ -29,7 +27,9 @@ add_library(calendars_object OBJECT
     "include/libcalendars/cl-solar-hijri.h"
     "include/libcalendars/cl-egyptian.h"
     "include/libcalendars/cl-babylonian.h"
-    # Sources
+)
+
+set(CALENDARS_SOURCES
     "src/cl-math.h"
     "src/cl-math.c"
     "src/cl-calendars.c"
@@ -49,75 +49,57 @@ else()
     set(PLATFORM_SOURCES "")
 endif()
 
-target_include_directories(calendars_object
-    PRIVATE
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-)
-
-set_target_properties(calendars_object PROPERTIES
-    C_STANDARD 90
-    DEBUG_POSTFIX "_d"
-    COMPILE_DEFINITIONS libcalendars_EXPORTS
-)
+# The shared and the static library are compiled separately rather than sharing
+# an OBJECT library: on Windows the two need opposite settings of the
+# libcalendars_EXPORTS / libcalendars_STATIC pair, so one set of objects cannot
+# serve both.
 
 # Define the shared library
-add_library(calendars SHARED "${PLATFORM_SOURCES}" $<TARGET_OBJECTS:calendars_object>)
+add_library(calendars SHARED
+    ${CALENDARS_HEADERS}
+    ${CALENDARS_SOURCES}
+    ${PLATFORM_SOURCES}
+)
 
-# Mark all public headers
-file(GLOB_RECURSE ALL_HEADER_FILES "include/libcalendars/*.h")
+# Define the static library
+add_library(calendars_static STATIC
+    ${CALENDARS_HEADERS}
+    ${CALENDARS_SOURCES}
+)
 
-# Prepate the target
-set_target_properties(calendars PROPERTIES
+# libcalendars_STATIC is PUBLIC so that it applies both while compiling the
+# archive itself and to everything that links against it. Were it INTERFACE the
+# archive would be built with the dllexport attributes of a shared library.
+target_compile_definitions(calendars_static PUBLIC libcalendars_STATIC)
+
+# Prepare the targets
+set_target_properties(calendars calendars_static PROPERTIES
     VERSION 1.1.0
     SOVERSION 0
     C_STANDARD 90
     DEBUG_POSTFIX "_d"
+    C_VISIBILITY_PRESET hidden
+)
+
+# DEFINE_SYMBOL is honoured for the shared library only, and is what selects the
+# dllexport branch of cl-export.h while the library itself is being compiled.
+set_target_properties(calendars PROPERTIES
     DEFINE_SYMBOL libcalendars_EXPORTS
 )
 
-target_include_directories(calendars
-    PUBLIC
-        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/src
-)
+foreach(target IN ITEMS calendars calendars_static)
+    target_include_directories(${target}
+        PUBLIC
+            $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        PRIVATE
+            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+    )
 
-if(UNIX)
-target_link_libraries(calendars PUBLIC m)
-endif()
-
-# Define the static libray
-add_library(calendars_static STATIC $<TARGET_OBJECTS:calendars_object>)
-
-# Prepate the target
-set_target_properties(calendars_static PROPERTIES
-    VERSION 1.1.0
-    SOVERSION 0
-    C_STANDARD 90
-    DEBUG_POSTFIX "_d"
-)
-
-target_compile_definitions(calendars_static INTERFACE libcalendars_STATIC)
-
-target_include_directories(calendars_static
-    PUBLIC
-        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/src
-)
-
-if(UNIX)
-target_link_libraries(calendars PUBLIC m)
-endif()
-
-# Generate package config file
-
-include(CMakePackageConfigHelpers)
+    if(UNIX)
+        target_link_libraries(${target} PUBLIC m)
+    endif()
+endforeach()
 
 # Installation
 
@@ -130,7 +112,6 @@ install(TARGETS calendars calendars_static
     LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
-    # PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/libcalendars"
     INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
 )
 

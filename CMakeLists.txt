@@ -24,7 +24,11 @@ project(calendars
     LANGUAGES C
 )
 
-enable_testing()
+option(BUILD_TESTING "Build the libcalendars test suite" OFF)
 
 add_subdirectory(lib)
-add_subdirectory(tests)
+
+if(BUILD_TESTING)
+    enable_testing()
+    add_subdirectory(tests)
+endif()

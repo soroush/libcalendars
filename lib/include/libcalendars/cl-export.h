@@ -20,34 +20,41 @@
 #ifndef LIBCALENDARS_EXPORT_H
 #define LIBCALENDARS_EXPORT_H
 
-#if defined libcalendars_STATIC
+/*
+ * LIBCALENDAR_API marks a symbol as part of the public interface, and must be
+ * repeated on both the declaration and the definition of every such symbol.
+ * LIBCALENDAR_PRIVATE marks an internal symbol that is shared between
+ * translation units but must not leave the library.
+ *
+ * On Windows the distinction is carried by the import/export attributes, and
+ * libcalendars_STATIC must be defined by anything linking the static library.
+ * Elsewhere it is carried by ELF visibility, which applies to the static and
+ * shared builds alike -- so libcalendars_STATIC is meaningless there.
+ */
+
+#if defined _WIN32 || defined __CYGWIN__ || defined __MINGW32__
+  #define LIBCALENDAR_PRIVATE
+  #if defined libcalendars_STATIC
     #define LIBCALENDAR_API
-    #define LIBCALENDAR_PRIVATE
-#else
-  #if defined _WIN32 || defined __CYGWIN__ || defined __MINGW32__
-    #ifdef libcalendars_EXPORTS
-      #ifdef __GNUC__
-        #define LIBCALENDAR_API __attribute__ ((dllexport))
-      #else
-        #define LIBCALENDAR_API __declspec(dllexport)
-      #endif
+  #elif defined libcalendars_EXPORTS
+    #ifdef __GNUC__
+      #define LIBCALENDAR_API __attribute__ ((dllexport))
     #else
-      #ifdef __GNUC__
-        #define LIBCALENDAR_API __attribute__ ((dllimport))
-      #else
-        #define LIBCALENDAR_API __declspec(dllimport)
-      #endif
+      #define LIBCALENDAR_API __declspec(dllexport)
     #endif
-    #define LIBCALENDAR_PRIVATE
   #else
-    #if __GNUC__ >= 4
-      #define LIBCALENDAR_API __attribute__ ((visibility ("default")))
-      #define LIBCALENDAR_PRIVATE  __attribute__ ((visibility ("hidden")))
+    #ifdef __GNUC__
+      #define LIBCALENDAR_API __attribute__ ((dllimport))
     #else
-      #define LIBCALENDAR_API
-      #define LIBCALENDAR_PRIVATE
+      #define LIBCALENDAR_API __declspec(dllimport)
     #endif
   #endif
+#elif defined __GNUC__ && __GNUC__ >= 4
+  #define LIBCALENDAR_API     __attribute__ ((visibility ("default")))
+  #define LIBCALENDAR_PRIVATE __attribute__ ((visibility ("hidden")))
+#else
+  #define LIBCALENDAR_API
+  #define LIBCALENDAR_PRIVATE
 #endif
 
 #endif /* LIBCALENDARS_EXPORT_H */

@@ -22,7 +22,7 @@
 #include <libcalendars/cl-gregorian.h>
 #include "cl-math.h"
 
-uint8_t jw_year_type(int16_t year) {
+static uint8_t jw_year_type(int16_t year) {
     div_t qr = pdiv(7 * year - 6, 19);
     double k_p = 0.178117457 * year + 0.777965458 * qr.rem + 0.2533747;
     double i;
