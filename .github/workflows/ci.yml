@@ -118,7 +118,9 @@ jobs:
         # about where the home directory is.
         run: |
           set -x
-          version=$(rpmspec -q --queryformat '%{version}' rpm/libcalendars.spec | head -1)
+          # --srpm, because a plain query prints the version once per binary
+          # package and they run together with no separator.
+          version=$(rpmspec -q --srpm --queryformat '%{version}' rpm/libcalendars.spec)
           topdir=$(rpm --eval '%{_topdir}')
           rpmdev-setuptree
           mkdir -p "$topdir/SOURCES"
