@@ -59,7 +59,7 @@ uint8_t sh_days_in_month(uint8_t month, int16_t year) {
     return 0;
 }
 
-int16_t cycle(uint32_t jdn) {
+static int16_t cycle(uint32_t jdn) {
     const int32_t offset = jdn - hijri_shamsi_epoch;
     int16_t cycle_no = offset / cycle_days;
     if(offset < 0) {

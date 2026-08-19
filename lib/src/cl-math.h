@@ -23,6 +23,8 @@
 #include <math.h>
 #include <stdlib.h>
 
+#include <libcalendars/cl-export.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -30,17 +32,17 @@ extern "C" {
 /**
  * \brief Division with Positive Ramainder 
  */
-div_t pdiv(int d, int v);
+LIBCALENDAR_PRIVATE div_t pdiv(int d, int v);
 
 /**
  * \brief Floor Division Function
  */
-int fdiv(int a, int b);
+LIBCALENDAR_PRIVATE int fdiv(int a, int b);
 
 /**
  * \brief Modular Division Function
  */
-int mod(int a, int b);
+LIBCALENDAR_PRIVATE int mod(int a, int b);
 
 #ifdef __cplusplus
 }

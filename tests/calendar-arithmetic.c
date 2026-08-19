@@ -81,10 +81,6 @@ void test_continuity(const test_context* const ctx)
         uint8_t new_month;
         uint16_t new_day;
         ctx->from_jdn(in_jd, &new_year, &new_month, &new_day);
-        printf("Date: %04d-%02d-%02d - Previous:  %04d-%02d-%02d - DiM: %04d - DiY: %04d\n",
-            new_year, new_month, new_day,
-            year, month, day,
-            days_in_month, days_in_year);
         if (new_year == year && new_month == month && new_day == day + 1)
         {
             // Most common case. Continue counting
