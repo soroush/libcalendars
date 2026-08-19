@@ -33,28 +33,28 @@
  */
 
 #if defined _WIN32 || defined __CYGWIN__ || defined __MINGW32__
-  #define LIBCALENDAR_PRIVATE
-  #if defined libcalendars_STATIC
-    #define LIBCALENDAR_API
-  #elif defined libcalendars_EXPORTS
-    #ifdef __GNUC__
-      #define LIBCALENDAR_API __attribute__ ((dllexport))
-    #else
-      #define LIBCALENDAR_API __declspec(dllexport)
-    #endif
-  #else
-    #ifdef __GNUC__
-      #define LIBCALENDAR_API __attribute__ ((dllimport))
-    #else
-      #define LIBCALENDAR_API __declspec(dllimport)
-    #endif
-  #endif
-#elif defined __GNUC__ && __GNUC__ >= 4
-  #define LIBCALENDAR_API     __attribute__ ((visibility ("default")))
-  #define LIBCALENDAR_PRIVATE __attribute__ ((visibility ("hidden")))
+#define LIBCALENDAR_PRIVATE
+#if defined libcalendars_STATIC
+#define LIBCALENDAR_API
+#elif defined libcalendars_EXPORTS
+#ifdef __GNUC__
+#define LIBCALENDAR_API __attribute__ ((dllexport))
 #else
-  #define LIBCALENDAR_API
-  #define LIBCALENDAR_PRIVATE
+#define LIBCALENDAR_API __declspec (dllexport)
+#endif
+#else
+#ifdef __GNUC__
+#define LIBCALENDAR_API __attribute__ ((dllimport))
+#else
+#define LIBCALENDAR_API __declspec (dllimport)
+#endif
+#endif
+#elif defined __GNUC__ && __GNUC__ >= 4
+#define LIBCALENDAR_API __attribute__ ((visibility ("default")))
+#define LIBCALENDAR_PRIVATE __attribute__ ((visibility ("hidden")))
+#else
+#define LIBCALENDAR_API
+#define LIBCALENDAR_PRIVATE
 #endif
 
 #endif /* LIBCALENDARS_EXPORT_H */

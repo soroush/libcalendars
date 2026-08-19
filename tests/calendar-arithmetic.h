@@ -24,19 +24,20 @@
 
 typedef struct test_context_t
 {
-    void (*to_jdn)(uint32_t*, int16_t, uint8_t, uint16_t);
-    void (*from_jdn)(uint32_t, int16_t*, uint8_t*, uint16_t*);
-    void (*to_gr)(int16_t, uint8_t, uint16_t, int16_t*, uint8_t*, uint16_t*);
-    void (*from_gr)(int16_t, uint8_t, uint16_t, int16_t*, uint8_t*, uint16_t*);
-    void (*jdn_to_gr)(uint32_t, int16_t*, uint8_t*, uint16_t*);
-    uint8_t (*days_in_month)(uint8_t month, int16_t year);
-    uint16_t (*days_in_year)(int16_t year);
-    uint8_t (*month_in_year)(int16_t year);
-    uint8_t (*is_valid)(int16_t year, uint8_t month, uint16_t day);
-    uint32_t min_jd;
-    uint32_t max_jd;
+  void (*to_jdn) (uint32_t *, int16_t, uint8_t, uint16_t);
+  void (*from_jdn) (uint32_t, int16_t *, uint8_t *, uint16_t *);
+  void (*to_gr) (int16_t, uint8_t, uint16_t, int16_t *, uint8_t *, uint16_t *);
+  void (*from_gr) (int16_t, uint8_t, uint16_t, int16_t *, uint8_t *,
+                   uint16_t *);
+  void (*jdn_to_gr) (uint32_t, int16_t *, uint8_t *, uint16_t *);
+  uint8_t (*days_in_month) (uint8_t month, int16_t year);
+  uint16_t (*days_in_year) (int16_t year);
+  uint8_t (*month_in_year) (int16_t year);
+  uint8_t (*is_valid) (int16_t year, uint8_t month, uint16_t day);
+  uint32_t min_jd;
+  uint32_t max_jd;
 } test_context;
 
-void test_julian_day(const test_context* const ctx);
-void test_gregorian_calendar(const test_context* const ctx);
-void test_continuity(const test_context* const ctx);
+void test_julian_day (const test_context *const ctx);
+void test_gregorian_calendar (const test_context *const ctx);
+void test_continuity (const test_context *const ctx);

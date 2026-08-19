@@ -21,26 +21,27 @@
 
 #include <libcalendars/cl-gregorian.h>
 
-#include <stdlib.h>
 #include <assert.h>
+#include <stdlib.h>
 
-int main(void)
+int
+main (void)
 {
-    const test_context ctx = {
-        .to_jdn = &gr_to_jdn,
-        .from_jdn = &jdn_to_gr,
-        .to_gr = NULL,
-        .from_gr = NULL,
-        .jdn_to_gr = &jdn_to_gr,
-        .days_in_month = &gr_days_in_month,
-        .days_in_year = &gr_days_in_year,
-        .month_in_year = &gr_month_in_year,
-        .min_jd = 0,
-        .max_jd = 2488069,
-    };
+  const test_context ctx = {
+    .to_jdn = &gr_to_jdn,
+    .from_jdn = &jdn_to_gr,
+    .to_gr = NULL,
+    .from_gr = NULL,
+    .jdn_to_gr = &jdn_to_gr,
+    .days_in_month = &gr_days_in_month,
+    .days_in_year = &gr_days_in_year,
+    .month_in_year = &gr_month_in_year,
+    .min_jd = 0,
+    .max_jd = 2488069,
+  };
 
-    test_julian_day(&ctx);
-    test_continuity(&ctx);
+  test_julian_day (&ctx);
+  test_continuity (&ctx);
 
-    return EXIT_SUCCESS;
+  return EXIT_SUCCESS;
 }
