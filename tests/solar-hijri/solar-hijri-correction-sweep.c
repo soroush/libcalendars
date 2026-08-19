@@ -70,11 +70,14 @@
 #define SH_CYCLE_YEARS 2820
 #define SH_YEAR_LENGTH 365.24219858156028368
 
+/* Integer remainder rather than a floating point fraction, for the reason
+   given in cl-solar-hijri.c: the fraction is negative before year -2346 and
+   rounds the wrong way where the quotient lands on the threshold. */
 static int
 arithmetic_is_leap (int year)
 {
-  double integral = 0.0;
-  return modf ((year + 2346) * LEAP_RATIO, &integral) < LEAP_RATIO ? 1 : 0;
+  const int r = (year + 2346) * 683 % SH_CYCLE_YEARS;
+  return (r < 0 ? r + SH_CYCLE_YEARS : r) < 683 ? 1 : 0;
 }
 
 static int32_t
