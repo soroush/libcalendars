@@ -34,7 +34,7 @@ jobs:
 
     steps:
       - name: Check out the source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Configure
         # The git hooks are for a working checkout and have no place on a
@@ -53,4 +53,4 @@ jobs:
         # only the Debug matrix entries can actually fail. The Release entries
         # are here to prove the library and the tests still compile with
         # optimisation on.
-        run: ctest --test-dir build --config ${{ matrix.build_type }} --output-on-failure
+        run: ctest --test-dir build -C ${{ matrix.build_type }} --output-on-failure
