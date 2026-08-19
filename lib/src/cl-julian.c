@@ -82,7 +82,7 @@ LIBCALENDAR_API
 uint8_t
 ju_is_valid (int16_t year, uint8_t month, uint16_t day)
 {
-  if (day > 0 && day <= ju_days_in_month (month, year))
+  if (year != 0 && day > 0 && day <= ju_days_in_month (month, year))
     {
       return 1;
     }
@@ -98,7 +98,9 @@ ju_to_jdn (uint32_t *jd, int16_t year, uint8_t month, uint16_t day)
   int32_t j2 = 0;
   if (!year)
     {
+      /* There is no year zero, so this date does not exist. */
       *jd = 0;
+      return;
     }
   if (year < 0)
     {
