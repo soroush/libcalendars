@@ -116,9 +116,13 @@ sh_nowruz_correction (int16_t year)
   return offset;
 }
 
-LIBCALENDAR_API
-uint8_t
-sh_is_leap (int16_t year)
+/*
+ * The leap rule on the astronomical scale, where the year before 1 AP is year
+ * zero. Everything inside this file works in that numbering, so the
+ * conversions call this directly and the public sh_is_leap shifts into it.
+ */
+static uint8_t
+sh_is_leap_a (int16_t year)
 {
   const int correction = sh_leap_correction (year);
   if (correction)
@@ -147,6 +151,38 @@ sh_is_leap (int16_t year)
                  < cycle_leap_years
              ? 1
              : 0;
+}
+
+/* Month length on the astronomical scale. */
+static uint8_t
+sh_days_in_month_a (uint8_t month, int16_t year)
+{
+  if (month > 0 && month <= 12)
+    {
+      return month < 7 ? 31 : month < 12 || sh_is_leap_a (year) ? 30 : 29;
+    }
+
+  return 0;
+}
+
+/* Year length on the astronomical scale. */
+static uint16_t
+sh_days_in_year_a (int16_t year)
+{
+  return sh_is_leap_a (year) ? 366 : 365;
+}
+
+LIBCALENDAR_API
+uint8_t
+sh_is_leap (int16_t year)
+{
+  /* The calendar has no year zero. Shift negative years onto the astronomical
+     scale, on which 1 BP is year 0, before applying the leap rule. */
+  if (year < 0)
+    {
+      ++year;
+    }
+  return sh_is_leap_a (year);
 }
 
 LIBCALENDAR_API
@@ -191,7 +227,7 @@ sh_is_valid (int16_t year, uint8_t month, uint16_t day)
 {
   if (year < 0)
     ++year;
-  if (day > 0 && day <= sh_days_in_month (month, year))
+  if (day > 0 && day <= sh_days_in_month_a (month, year))
     {
       return 1;
     }
@@ -271,7 +307,7 @@ sh_to_jdn (uint32_t *jd, int16_t year, uint8_t month, uint16_t day)
   d_y = 0;
   for (i = 1; i < month; ++i)
     {
-      d_y += sh_days_in_month (i, year);
+      d_y += sh_days_in_month_a (i, year);
     }
   d_y += day;
   *jd = f_d + d_y - 1;
@@ -295,7 +331,7 @@ jdn_to_sh (uint32_t jd, int16_t *year, uint8_t *month, uint16_t *day)
       --y;
       start = sh_nowruz_jdn (y);
     }
-  while ((int32_t)jd >= start + sh_days_in_year (y))
+  while ((int32_t)jd >= start + sh_days_in_year_a (y))
     {
       ++y;
       start = sh_nowruz_jdn (y);
@@ -303,9 +339,9 @@ jdn_to_sh (uint32_t jd, int16_t *year, uint8_t *month, uint16_t *day)
   d = (uint16_t)((int32_t)jd - start + 1);
   for (m = 1; m < 12; ++m)
     {
-      if (d > sh_days_in_month (m, y))
+      if (d > sh_days_in_month_a (m, y))
         {
-          d -= sh_days_in_month (m, y);
+          d -= sh_days_in_month_a (m, y);
         }
       else
         {
