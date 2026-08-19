@@ -14,16 +14,15 @@
 # You should have received a copy of the GNU General Public License
 # along with libcalendars.  If not, see <http://www.gnu.org/licenses/>.
 
-prefix=@prefix@
-exec_prefix=@exec_prefix@
-libdir=@libdir@
-includedir=@includedir@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+libdir=@CMAKE_INSTALL_FULL_LIBDIR@
+includedir=@CMAKE_INSTALL_FULL_INCLUDEDIR@
 
-Name: @PACKAGE_NAME@
-Description: A Calendar Arithmetic Library
-Version: @PACKAGE_VERSION@
-URL: @PACKAGE_URL@
-#Requires: @AX_PACKAGE_REQUIRES@
-#Requires.private: @AX_PACKAGE_REQUIRES_PRIVATE@
-Libs: -L${libdir} -lcalendars -lm
-Cflags: -I${includedir}/
+Name: @PROJECT_NAME@
+Description: A calendar arithmetic library
+Version: @PROJECT_VERSION@
+URL: @PROJECT_HOMEPAGE_URL@
+Libs: -L${libdir} -lcalendars
+Libs.private: -lm
+Cflags: -I${includedir}
