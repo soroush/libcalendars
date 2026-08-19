@@ -1,3 +1,16 @@
+libcalendars (1.1.0-1) unstable; urgency=medium
+
+  * Rework the packaging for the CMake build. The old rules used CDBS with
+    the autotools class, which no longer matched the source.
+  * Switch to debhelper compat 13 and drop the obsolete debian/compat.
+  * Correct the installed paths, which did not account for multiarch.
+  * Ship the static library, the pkg-config file and the CMake package
+    configuration in the development package.
+  * Drop debian/shlibs.local in favour of a symbols file.
+  * Update Standards-Version to 4.7.2. No further changes needed.
+
+ -- Soroush Rabiei <soroush.rabiei@gmail.com>  Wed, 19 Aug 2026 12:00:00 +0330
+
 libcalendars (1.0.0-1) artful; urgency=medium
 
   * Initial release

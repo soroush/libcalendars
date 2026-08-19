@@ -50,3 +50,33 @@ jobs:
 
       - name: Test
         run: ctest --test-dir build -C Debug --output-on-failure
+
+  package:
+    name: debian package
+    runs-on: ubuntu-latest
+    container: debian:trixie
+
+    steps:
+      - name: Install the build dependencies
+        run: |
+          apt-get update -qq
+          apt-get install -y --no-install-recommends             build-essential debhelper cmake devscripts lintian fakeroot git ca-certificates
+
+      - name: Check out the source
+        uses: actions/checkout@v5
+
+      - name: Allow git to read the checkout
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Build the packages
+        run: dpkg-buildpackage -us -uc -b
+
+      - name: Check the packages with lintian
+        run: lintian --tag-display-limit 0 ../libcalendars_*_*.changes
+
+      - name: Collect the packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: debian-packages
+          path: ../*.deb
+          if-no-files-found: error

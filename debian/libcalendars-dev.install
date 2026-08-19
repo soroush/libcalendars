@@ -1,3 +1,5 @@
 usr/include/*
-usr/lib/lib*.so
-usr/lib/pkgconfig/*
+usr/lib/*/lib*.a
+usr/lib/*/lib*.so
+usr/lib/*/pkgconfig/*.pc
+usr/lib/*/cmake/libcalendars/*

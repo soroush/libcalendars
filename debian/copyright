@@ -1,13 +1,14 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: libcalendars
+Upstream-Contact: Soroush Rabiei <soroush.rabiei@gmail.com>
 Source: https://github.com/soroush/libcalendars
 
 Files: *
-Copyright: 2017 - 2018 Soroush Rabiei <soroush.rabiei@gmail.com>
+Copyright: 2017-2026 Soroush Rabiei <soroush.rabiei@gmail.com>
 License: GPL-3.0+
 
 Files: debian/*
-Copyright: 2018 Soroush Rabiei <soroush.rabiei@gmail.com>
+Copyright: 2018-2026 Soroush Rabiei <soroush.rabiei@gmail.com>
 License: GPL-3.0+
 
 License: GPL-3.0+
