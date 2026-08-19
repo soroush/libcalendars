@@ -390,6 +390,32 @@ The rest of the file was already consistent about this. `sh_to_jdn` folds year
 zero in first with `if (year < 0) { ++year; }` and works in astronomical
 numbering throughout, and `sh_nowruz_jdn` expects the same.
 
+### The public leap functions answer on the historical scale
+
+Everywhere else in the library, a public function takes a year on the
+historical scale, the one with no year zero, and shifts it inward.
+`gr_is_leap` opens with `if (year < 0) { ++year; }` for exactly this reason,
+and `gr_days_in_month` and `gr_days_in_year` inherit the shift by calling it.
+
+`sh_is_leap` never had that shift, so it read its argument as an astronomical
+year while `sh_to_jdn`, `jdn_to_sh` and `sh_is_valid` read theirs as
+historical. For positive years the two scales coincide and nothing showed. For
+negative years they are one apart, so `sh_days_in_year` answered for the
+neighbouring year: `jdn_to_sh` would report a year of 366 counted days and
+`sh_days_in_year` would call the same year 365.
+
+The rule now exists twice. `sh_is_leap_a`, `sh_days_in_month_a` and
+`sh_days_in_year_a` are private and work on the astronomical scale, which is
+what the conversions hold internally. The public `sh_is_leap` shifts and
+delegates, and `sh_days_in_month` and `sh_days_in_year` inherit the shift
+through it, the same arrangement the Gregorian calendar uses.
+
+This is the defect that `test_continuity` catches and a walk over the dates
+does not. The dates either side of a negative year boundary are perfectly
+consecutive, because `jdn_to_sh` derives them from the year start; it is only
+when the counted length of the year is compared against `sh_days_in_year` that
+the two scales are seen to disagree.
+
 ### Outside 1206 to 1498 the arithmetic rule stands alone
 
 No decree exists outside the published range, so there is nothing to correct
@@ -436,9 +462,17 @@ With `-DBUILD_TESTING=ON`, all eleven tests pass. Relevant results:
 `test_continuity` had been commented out since before this work. It asserts
 that consecutive Julian day numbers map to consecutive dates, and that the
 counted length of every month and every year matches `sh_days_in_month` and
-`sh_days_in_year`. With the two defects above repaired it passes over the whole
-range and is now enabled. A standalone walk over the same range counts zero
-discontinuities, against 4286 before the repair.
+`sh_days_in_year`. With the three defects above repaired it passes over the
+whole range and is now enabled. A standalone walk over the same range counts
+zero discontinuities, against 4286 before the repair, and zero disagreements
+between counted and reported lengths.
+
+The tests must be built with assertions enabled to mean anything. `assert` is
+what `test_julian_day`, `test_gregorian_calendar` and `test_continuity` report
+through, and a release build defines `NDEBUG` and compiles all three into
+nothing, so they pass without checking. The CI workflow configures with
+`-DCMAKE_BUILD_TYPE=Debug` for this reason. The three ground truth programs
+report through exit codes instead and are unaffected by the build type.
 
 ## Known limitations
 
