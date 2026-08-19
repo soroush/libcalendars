@@ -1,0 +1,52 @@
+# Copyright (C) 2021-2025 - Soroush Rabiei, <soroush.rabiei@gmail.com>
+# This file is part of libcalendars.
+#
+# libcalendars is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# libcalendars is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with libcalendars.  If not, see <http://www.gnu.org/licenses/>.
+
+name: CI
+
+on:
+  push:
+    branches: [dev]
+  pull_request:
+    branches: [dev]
+
+jobs:
+  build:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Check out the source
+        uses: actions/checkout@v5
+
+      - name: Configure
+        # Built with debug flags, because the tests report failures through
+        # assert and NDEBUG would disable it. The git hooks are for a working
+        # checkout and have no place on a runner, so they are turned off.
+        run: >
+          cmake -S . -B build
+          -DCMAKE_BUILD_TYPE=Debug
+          -DBUILD_TESTING=ON
+          -DLIBCALENDARS_GIT_HOOKS=OFF
+
+      - name: Build
+        run: cmake --build build --config Debug
+
+      - name: Test
+        run: ctest --test-dir build -C Debug --output-on-failure
