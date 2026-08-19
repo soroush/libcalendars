@@ -26,6 +26,12 @@ LIBCALENDAR_API
 uint8_t
 gr_is_leap (int16_t year)
 {
+  /* The calendar has no year zero. Shift negative years onto the astronomical
+     scale, on which 1 BC is year 0, before applying the leap rule. */
+  if (year < 0)
+    {
+      ++year;
+    }
   if ((year & 3) == 0 && ((year % 25) != 0 || (year & 15) == 0))
     {
       return 1;
@@ -84,7 +90,7 @@ LIBCALENDAR_API
 uint8_t
 gr_is_valid (int16_t year, uint8_t month, uint16_t day)
 {
-  if (month <= gr_month_in_year (year)
+  if (year != 0 && month <= gr_month_in_year (year)
       && day <= gr_days_in_month (month, year))
     {
       return 1;
@@ -96,10 +102,24 @@ LIBCALENDAR_API
 void
 gr_to_jdn (uint32_t *jd, int16_t year, uint8_t month, uint16_t day)
 {
-  const int8_t c0 = fdiv ((month - 3), 12);
-  const int16_t x1 = month - (12 * c0) - 3;
-  const int16_t x4 = year + c0;
-  const div_t d = pdiv (x4, 100);
+  int8_t c0 = 0;
+  int16_t x1 = 0;
+  int16_t x4 = 0;
+  div_t d;
+  if (!year)
+    {
+      /* There is no year zero, so this date does not exist. */
+      *jd = 0;
+      return;
+    }
+  if (year < 0)
+    {
+      ++year;
+    }
+  c0 = fdiv ((month - 3), 12);
+  x1 = month - (12 * c0) - 3;
+  x4 = year + c0;
+  d = pdiv (x4, 100);
   *jd = fdiv (146097 * d.quot, 4) + fdiv (36525 * d.rem, 100)
         + fdiv (153 * x1 + 2, 5) + day + 1721119;
 }
@@ -115,4 +135,9 @@ jdn_to_gr (uint32_t jd, int16_t *year, uint8_t *month, uint16_t *day)
   *day = (x1.rem / 5) + 1;
   *month = x1.quot - 12 * c0 + 3;
   *year = 100 * x3.quot + x2.quot + c0;
+  /* Report years before 1 AD on the historical scale, which has no zero. */
+  if (*year <= 0)
+    {
+      --(*year);
+    }
 }
