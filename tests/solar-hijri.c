@@ -19,30 +19,31 @@
 
 #include "calendar-arithmetic.h"
 
-#include <libcalendars/cl-solar-hijri.h>
 #include <libcalendars/cl-gregorian.h>
+#include <libcalendars/cl-solar-hijri.h>
 
-#include <stdlib.h>
 #include <assert.h>
+#include <stdlib.h>
 
-int main(void)
+int
+main (void)
 {
-    const test_context ctx = {
-        .to_jdn = &sh_to_jdn,
-        .from_jdn = &jdn_to_sh,
-        .to_gr = &sh_to_gr,
-        .from_gr = &gr_to_sh,
-        .jdn_to_gr = &jdn_to_gr,
-        .days_in_month = &sh_days_in_month,
-        .days_in_year = &sh_days_in_year,
-        .month_in_year = &sh_month_in_year,
-        .min_jd = 0,
-        .max_jd = 2488069,
-    };
+  const test_context ctx = {
+    .to_jdn = &sh_to_jdn,
+    .from_jdn = &jdn_to_sh,
+    .to_gr = &sh_to_gr,
+    .from_gr = &gr_to_sh,
+    .jdn_to_gr = &jdn_to_gr,
+    .days_in_month = &sh_days_in_month,
+    .days_in_year = &sh_days_in_year,
+    .month_in_year = &sh_month_in_year,
+    .min_jd = 0,
+    .max_jd = 2488069,
+  };
 
-    test_julian_day(&ctx);
-    test_gregorian_calendar(&ctx);
-    // test_continuity(&ctx);
+  test_julian_day (&ctx);
+  test_gregorian_calendar (&ctx);
+  // test_continuity(&ctx);
 
-    return EXIT_SUCCESS;
+  return EXIT_SUCCESS;
 }

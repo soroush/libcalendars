@@ -26,23 +26,24 @@
 #include <libcalendars/cl-export.h>
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-/**
- * \brief Division with Positive Ramainder 
- */
-LIBCALENDAR_PRIVATE div_t pdiv(int d, int v);
+  /**
+   * \brief Division with Positive Ramainder
+   */
+  LIBCALENDAR_PRIVATE div_t pdiv (int d, int v);
 
-/**
- * \brief Floor Division Function
- */
-LIBCALENDAR_PRIVATE int fdiv(int a, int b);
+  /**
+   * \brief Floor Division Function
+   */
+  LIBCALENDAR_PRIVATE int fdiv (int a, int b);
 
-/**
- * \brief Modular Division Function
- */
-LIBCALENDAR_PRIVATE int mod(int a, int b);
+  /**
+   * \brief Modular Division Function
+   */
+  LIBCALENDAR_PRIVATE int mod (int a, int b);
 
 #ifdef __cplusplus
 }
