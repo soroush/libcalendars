@@ -91,3 +91,48 @@ jobs:
           name: debian-packages
           path: packages/
           if-no-files-found: error
+
+  rpm:
+    name: rpm package
+    # Same gate as the Debian stage: only package what already builds and
+    # tests cleanly.
+    needs: build
+    runs-on: ubuntu-latest
+    container: quay.io/rockylinux/rockylinux:10
+
+    steps:
+      - name: Install the build dependencies
+        run: |
+          dnf -y install rpm-build rpmdevtools cmake gcc make git epel-release
+          dnf -y install rpmlint
+
+      - name: Check out the source
+        uses: actions/checkout@v7
+
+      - name: Allow git to read the checkout
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Build the packages
+        # The version comes from the spec so the two cannot drift apart.
+        run: |
+          version=$(rpmspec -q --queryformat '%{version}' rpm/libcalendars.spec | head -1)
+          rpmdev-setuptree
+          tarball=~/rpmbuild/SOURCES/libcalendars-${version}.tar.gz
+          git archive --format=tar.gz --prefix="libcalendars-${version}/" -o "$tarball" HEAD
+          rpmbuild -ba rpm/libcalendars.spec
+
+      - name: Check the packages with rpmlint
+        run: rpmlint ~/rpmbuild/RPMS/*/*.rpm ~/rpmbuild/SRPMS/*.rpm
+
+      - name: Collect the packages
+        run: |
+          mkdir -p packages
+          cp ~/rpmbuild/RPMS/*/*.rpm ~/rpmbuild/SRPMS/*.rpm packages/
+          ls -l packages
+
+      - name: Upload the packages
+        uses: actions/upload-artifact@v7
+        with:
+          name: rpm-packages
+          path: packages/
+          if-no-files-found: error
