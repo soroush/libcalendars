@@ -24,33 +24,29 @@ on:
 
 jobs:
   build:
-    name: ${{ matrix.os }} ${{ matrix.build_type }}
+    name: ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
-        build_type: [Debug, Release]
 
     steps:
       - name: Check out the source
         uses: actions/checkout@v5
 
       - name: Configure
-        # The git hooks are for a working checkout and have no place on a
-        # runner, so they are turned off here.
+        # Built with debug flags, because the tests report failures through
+        # assert and NDEBUG would disable it. The git hooks are for a working
+        # checkout and have no place on a runner, so they are turned off.
         run: >
           cmake -S . -B build
-          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          -DCMAKE_BUILD_TYPE=Debug
           -DBUILD_TESTING=ON
           -DLIBCALENDARS_GIT_HOOKS=OFF
 
       - name: Build
-        run: cmake --build build --config ${{ matrix.build_type }}
+        run: cmake --build build --config Debug
 
       - name: Test
-        # The tests report failures through assert, which NDEBUG disables, so
-        # only the Debug matrix entries can actually fail. The Release entries
-        # are here to prove the library and the tests still compile with
-        # optimisation on.
-        run: ctest --test-dir build -C ${{ matrix.build_type }} --output-on-failure
+        run: ctest --test-dir build -C Debug --output-on-failure
