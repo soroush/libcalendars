@@ -1,0 +1,74 @@
+#!/bin/sh
+#
+# Copyright (C) 2021-2025 - Soroush Rabiei, <soroush.rabiei@gmail.com>
+# This file is part of libcalendars.
+#
+# libcalendars is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# libcalendars is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with libcalendars.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Reformats the staged C sources with clang-format and stages the result, so
+# that what lands in the commit is what the .clang-format style produces.
+# Enabled by the build via `git config core.hooksPath .githooks`, or by hand
+# with the same command. Skip it for one commit with `git commit --no-verify`.
+
+set -e
+
+if ! command -v clang-format >/dev/null 2>&1; then
+    echo "pre-commit: clang-format not found, leaving formatting alone" >&2
+    exit 0
+fi
+
+# Only files that are staged, still present, and are C sources or headers.
+files=$(git diff --cached --name-only --diff-filter=ACMR -z \
+        | tr '\0' '\n' \
+        | grep -E '^(lib/src/|lib/include/|tests/).*\.[ch]$' || true)
+
+[ -z "$files" ] && exit 0
+
+formatted=""
+skipped=""
+for f in $files; do
+    [ -f "$f" ] || continue
+
+    # A file with unstaged changes cannot be reformatted in place without
+    # dragging those changes into the commit, so report it instead.
+    if ! git diff --quiet -- "$f"; then
+        if ! clang-format --dry-run -Werror --style=file -- "$f" 2>/dev/null; then
+            skipped="$skipped $f"
+        fi
+        continue
+    fi
+
+    before=$(git hash-object -- "$f")
+    clang-format -i --style=file -- "$f"
+    after=$(git hash-object -- "$f")
+    if [ "$before" != "$after" ]; then
+        git add -- "$f"
+        formatted="$formatted $f"
+    fi
+done
+
+if [ -n "$formatted" ]; then
+    echo "pre-commit: reformatted and restaged:" >&2
+    for f in $formatted; do echo "    $f" >&2; done
+fi
+
+if [ -n "$skipped" ]; then
+    echo "pre-commit: these files are unformatted but also have unstaged" >&2
+    echo "changes, so they were left alone. Format them yourself and stage" >&2
+    echo "the result:" >&2
+    for f in $skipped; do echo "    $f" >&2; done
+    exit 1
+fi
+
+exit 0
