@@ -1,4 +1,228 @@
+2026-08-23  Soroush Rabiei  <soroush.rabiei@gmail.com>
+
+	Release 1.1.0.
+
+	* CMakeLists.txt (project): Set VERSION to 1.1.0.
+	* lib/CMakeLists.txt (calendars, calendars_static): Set VERSION to
+	1.1.0 and SOVERSION to 1.
+	* lib/win32/libcalendars.rc (VS_VERSION_INFO): Raise FILEVERSION,
+	PRODUCTVERSION, FileVersion and ProductVersion from 1.0.0.1 to
+	1.1.0.0.
+	* debian/changelog, rpm/libcalendars.spec (%changelog): Describe the
+	1.1.0-1 release.
+	* NEWS: Add the release notes for 1.1.0.
+
+2026-08-23  Soroush Rabiei  <soroush.rabiei@gmail.com>
+
+	Rewrite the README against the current code.
+
+	* README.md: Drop the commercial use exception; the license is plain
+	GPL-3.0-or-later, as the source headers, debian/copyright and the
+	RPM spec already say.  Drop the PPA install instructions.  Fix the
+	usage examples, which used an invalid octal literal (09), a wrong
+	printf format (%l) and a wrong result (1396/06/18 for 2017-09-11;
+	the answer is 1396/06/20).  Tell the reader to build the tests with
+	Debug, since a Release build defines NDEBUG and compiles the asserts
+	away.  Describe the Solar Hijri algorithm as the 2820 year cycle
+	with the official corrections rather than a median year method.
+	Note that the library links libm and that cl-calendars.h does not
+	cover the Egyptian and Babylonian calendars.  Add a section on the
+	Jewish calendar.
+	* README: Remove.  The plain text copy carried the same stale
+	examples and nothing referenced it.
+	* doc/solar-hijri-official-corrections.md: Write the mathematics in
+	a form that GitHub renders.
+
+2026-08-19  Soroush Rabiei  <soroush.rabiei@gmail.com>
+
+	Converge the Solar Hijri calendar with the official calendar of
+	Iran (issue #6).
+
+	The calendar in civil use in Iran is set by observation of the
+	vernal equinox at the reference meridian and, where the observation
+	falls near noon, by decree.  No arithmetic rule reproduces it
+	exactly.  Measured against the published table of Nowruz dates for
+	1206 to 1498 AP, the 2820 year rule disagreed on ten leap years and
+	five conversions were a day out.  The ten disagreements are five
+	swaps of adjacent years (1209/1210, 1242/1243, 1275/1276, 1436/1437
+	and 1469/1470), so each one moves a leap year by one step, displaces
+	Nowruz for exactly one year and then returns.  The library now
+	carries those five swaps as a table and applies them on top of the
+	rule.  Over the published range the leap years and the conversions
+	now match the official calendar exactly, in both directions.
+	Outside the range no decree was issued and the arithmetic rule
+	stands alone.  See doc/solar-hijri-official-corrections.md for the
+	analysis and the measurements behind the design.
+
+	* lib/src/cl-solar-hijri.c (sh_leap_swaps): New table of the five
+	decreed displacements.
+	(sh_leap_correction, sh_nowruz_correction): New functions reading
+	the table, one for the leap decision and one for the running day
+	offset.
+	(sh_nowruz_jdn): New function.  Both conversion directions take the
+	year start from it, so the leap years and the year starts cannot
+	drift apart.
+	(sh_to_jdn, jdn_to_sh): Go through sh_nowruz_jdn.  jdn_to_sh
+	estimates the year from the mean year length, which ignores the
+	decrees and can land one year off in either direction, so the
+	single adjustment step becomes a pair of loops.
+	(sh_is_leap_a): Decide leap years by the integer remainder
+	((year + 2346) * 683) mod 2820 < 683 instead of a floating point
+	fraction.  The fraction was negative before year -2346, which made
+	every one of those years a leap year, and rounding dropped year 475
+	and the same position in every later cycle just under the
+	threshold.
+	(jdn_to_sh): Walk the months before renumbering the year for the
+	missing year zero, so the month lengths come from the right year.
+	Every negative year boundary was discontinuous before.
+	(sh_is_leap_a, sh_days_in_month_a, sh_days_in_year_a): New private
+	functions on the astronomical scale for the conversions to use.
+	(sh_is_leap, sh_days_in_month, sh_days_in_year): Answer on the
+	historical scale, the one with no year zero, like every other public
+	entry point.  sh_is_leap read its argument as an astronomical year
+	while sh_to_jdn, jdn_to_sh and sh_is_valid read theirs as
+	historical, so for negative years sh_days_in_year answered for the
+	neighbouring year.
+	* tests/solar-hijri/official-leap-years.csv: New file.  The official
+	mapping of Nowruz to the Gregorian calendar for 1206 to 1498 AP with
+	the leap flag of each year.
+	* tests/solar-hijri/ground-truth.c, tests/solar-hijri/ground-truth.h:
+	New files.  Read the table.
+	* tests/solar-hijri/solar-hijri-leap.c: New test.  Checks every leap
+	decision against the table; 293 years, 0 mismatches, down from 10.
+	* tests/solar-hijri/solar-hijri-conversion.c: New test.  Checks
+	sh_to_gr and gr_to_sh against every row; 0 mismatches in each
+	direction, down from 5 and 5.
+	* tests/solar-hijri/solar-hijri-correction-sweep.c: New program.
+	Not a pass or fail test: it applies the displacements one at a time
+	and reports what each one does.
+	* tests/solar-hijri/solar-hijri.c: Enable test_continuity, which had
+	been commented out since it was written.  A walk over every Julian
+	day number from 0 to 2488069 counted 4286 discontinuities before
+	these changes and counts none after.
+	* tests/CMakeLists.txt: Register SolarHijriLeapGroundTruth,
+	SolarHijriConversionGroundTruth and SolarHijriCorrectionSweep.
+	Move each calendar test into its own directory.
+	* doc/solar-hijri-official-corrections.md: New file.
+
+2026-08-19  Soroush Rabiei  <soroush.rabiei@gmail.com>
+
+	Remove year zero from the Gregorian and Julian calendars (issues
+	#16 and #17).
+
+	The Gregorian functions numbered years astronomically, so the year
+	before 1 AD was 0 and the one before that was -1.  The Julian
+	functions used historical numbering, where -1 is 1 BC and is
+	followed directly by year 1, so the two calendars disagreed about
+	the meaning of a negative year.  Both now use historical numbering:
+	there is no year zero, year -1 is 1 BC, and year zero is rejected
+	as invalid.  The Julian guard had existed but was dead code.
+
+	* lib/src/cl-gregorian.c (jdn_to_gr): Decrement any year at or below
+	zero, so JDN 1721425 is -1-12-31 and JDN 1721426 is 1-1-1.
+	(gr_to_jdn): Shift negative years back onto the astronomical scale;
+	report year zero as invalid by writing a JDN of 0.
+	(gr_is_leap): Apply the same shift, so gr_is_leap(-1) is 1 because
+	1 BC is astronomical year 0.  gr_days_in_month and gr_days_in_year
+	follow from it unchanged.
+	(gr_is_valid): Reject year zero.
+	* lib/src/cl-julian.c (ju_to_jdn): Return right after writing the
+	JDN of 0 for year zero.  The guard wrote 0 and then fell through to
+	the normal computation, which overwrote it, so ju_to_jdn(&jd, 0, 1,
+	1) returned 1721060 and the round trip through jdn_to_ju gave
+	-1-1-1.
+	(ju_is_valid): Reject year zero.  It checked the day against the
+	month length but never looked at the year.
+	* tests/calendar-arithmetic.c (test_continuity): Detect a new year
+	by ordering rather than by year + 1, so the step from -1-12-31 to
+	1-1-1 is handled.  Enable the days_in_month assertion on month
+	rollover.  Abort on a non-consecutive pair of dates instead of
+	falling through.
+	* tests/julian/julian.c: Call test_continuity.
+
+2026-08-19  Soroush Rabiei  <soroush.rabiei@gmail.com>
+
+	Build system, packaging and continuous integration.
+
+	* lib/CMakeLists.txt: Compile the shared and the static library
+	separately instead of from one OBJECT library, so the static archive
+	no longer carries dllexport directives on MSVC.  Propagate
+	libcalendars_STATIC as PUBLIC.  Set C_VISIBILITY_PRESET hidden on
+	both targets so the shared library exports exactly its public API.
+	Link m into the static library as well.  Ship the static library as
+	libcalendars.a.  Install a pkg-config file and a CMake package
+	configuration.
+	* lib/include/libcalendars/cl-export.h: Key on platform rather than
+	on linkage.  The macros are now libcalendars_EXPORTS and
+	libcalendars_STATIC; consumers of the static library on Windows must
+	define libcalendars_STATIC.  Add LIBCALENDAR_PRIVATE.
+	* lib/src/cl-math.h: Mark the helpers LIBCALENDAR_PRIVATE.
+	* lib/src/cl-jewish.c (jw_year_type): Give internal linkage.
+	* lib/src/cl-solar-hijri.c (cycle): Likewise.
+	* CMakeLists.txt: Declare BUILD_TESTING as an option, default OFF,
+	and guard enable_testing() and the tests directory with it.  It was
+	documented but never read.
+	* cmake/ClangFormat.cmake, .clang-format, .githooks: Add
+	clang-format tooling and a pre-commit hook, controlled by
+	LIBCALENDARS_GIT_HOOKS.
+	* lib/src/*.c, lib/include/libcalendars/*.h, tests/*.c: Reformat
+	with clang-format.  The revision is listed in
+	.git-blame-ignore-revs.
+	* .github/workflows/ci.yml: Replace Travis and AppVeyor with GitHub
+	Actions.  Build and test on Ubuntu and Windows with Debug flags,
+	since the tests report through assert.  Build Debian and RPM
+	packages in separate stages and attach them as artifacts.
+	* .github/dependabot.yml: New file.
+	* debian/*: Rework for the CMake build: debhelper compat 13,
+	multiarch paths, a symbols file, the static library, pkg-config
+	file and CMake configuration in the development package.
+	* rpm/libcalendars.spec: Rewrite for the CMake build.
+	* tests/calendar-arithmetic.c (test_continuity): Drop the per day
+	trace, which emitted about 160 MB per test executable.
+
+2025-01-03  Soroush Rabiei  <soroush.rabiei@gmail.com>
+
+	* tests/*: Drop the dependency on the check library.  The tests are
+	plain C programs that report through assert.
+	* tests/calendar-arithmetic.c (test_continuity): New function.  Walks
+	every Julian day number in a range and asserts that consecutive
+	numbers map to consecutive dates and that the counted length of each
+	year and month matches days_in_year and days_in_month.
+
+2025-01-02  Soroush Rabiei  <soroush.rabiei@gmail.com>
+
+	* lib/src/cl-egyptian.c, lib/include/libcalendars/cl-egyptian.h: New
+	files.  The Egyptian calendar: twelve months of 30 days and the five
+	epagomenal days as a thirteenth month, no leap years.
+	* lib/src/cl-babylonian.c, lib/include/libcalendars/cl-babylonian.h:
+	New files.  An arithmetic Babylonian calendar on the 19 year cycle
+	with the 12th month doubled in long years and the 6th in the 18th
+	year.
+	* tests/egyptian.c, tests/babylonian.c: New tests.
+	* lib/CMakeLists.txt: Build a static library alongside the shared
+	one.
+
+2021-01-20  Soroush Rabiei  <soroush.rabiei@gmail.com>
+
+	* CMakeLists.txt, lib/CMakeLists.txt: Replace autotools with CMake.
+	* configure.ac, Makefile.am, src/Makefile.am: Remove.
+	* lib/CMakeLists.txt: Link libm on Unix.  Name the library
+	calendars rather than libcalendars so the file is libcalendars.so
+	and not liblibcalendars.so.
+
+2017-10-05  Soroush Rabiei  <soroush.rabiei@gmail.com>
+
+	* src/cl-jewish.c, src/cl-jewish.h (jw_is_complete, jw_is_deficient,
+	jw_is_regular): New functions for the three year types.
+	* src/cl-julian.c, src/cl-milankovic.c, src/cl-islamic-civil.c:
+	Shift negative years onto the astronomical scale before the leap
+	rule, and treat year zero as missing.  Also fix ju_is_leap, which
+	tested mod 3 rather than mod 4.
+
+2017-09-27  Soroush Rabiei  <soroush.rabiei@gmail.com>
+
+	Release 1.0.0.
+
 2017-08-29  Soroush Rabiei  <soroush.rabiei@gmail.com>
 
 	* *.*: Initial implementation for Solar Hijri calendar added.
-

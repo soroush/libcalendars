@@ -1,0 +1,107 @@
+libcalendars NEWS -- history of user-visible changes.
+
+* Noteworthy changes in release 1.1.0 (2026-08-23)
+
+** Solar Hijri: the arithmetic calendar now matches the official calendar
+
+  The calendar in civil use in Iran is not an arithmetic calendar.  Leap
+  years are settled by observation of the vernal equinox at the Iran
+  Standard Time meridian and, where the equinox falls close to noon, by
+  decree.  No formula reproduces that exactly.  libcalendars uses the 2820
+  year cycle (683 leap years per cycle), and measured against the official
+  table of Nowruz dates for 1206 to 1498 AP that rule disagreed on ten
+  leap years, which put five conversions one day out.
+
+  The ten disagreements are five swaps of adjacent years: 1209/1210,
+  1242/1243, 1275/1276, 1436/1437 and 1469/1470.  In each pair the decree
+  made the other year the leap year, so Nowruz is displaced for exactly
+  one year and then returns.  The library now carries those five swaps as
+  a table and applies them on top of the arithmetic rule.  Over the
+  published range, sh_is_leap and the conversions in both directions now
+  agree with the official calendar on every year and every date.  Outside
+  the range no decree has been issued and the arithmetic rule stands on
+  its own.
+
+  The published table is shipped as tests/solar-hijri/official-leap-years.csv
+  and three new tests check the library against it.  The analysis, the
+  measurements and the reasoning behind the shape of the fix are in
+  doc/solar-hijri-official-corrections.md.
+
+  Three further defects in the Solar Hijri code were found and fixed on
+  the way.  The leap test is now exact integer arithmetic; the floating
+  point form reported every year before -2346 as a leap year and dropped
+  year 475 (and the same position in every later cycle) just under the
+  threshold.  jdn_to_sh now walks the months before it renumbers the year
+  for the missing year zero, so month lengths come from the right year;
+  every negative year boundary was discontinuous before.  And sh_is_leap,
+  sh_days_in_month and sh_days_in_year now take their year on the
+  historical scale, with no year zero, like every other public function.
+  The continuity test, which walks every Julian day number from 0 to
+  2488069, counted 4286 discontinuities before these fixes and counts none
+  after, so it is now enabled for the Solar Hijri calendar.
+
+  The leap year answer for years before -2346 and for year 475 has
+  changed.  The old answers came from a floating point fraction that was
+  simply wrong; the new ones agree with the year starts the library has
+  always computed.
+
+** Gregorian and Julian: no more year zero
+
+  The Gregorian functions numbered years astronomically, so the year
+  before 1 AD was 0 and 1 BC had to be written as 0.  The Julian functions
+  used historical numbering, where -1 is 1 BC and is followed directly by
+  year 1, so the two calendars disagreed about what a negative year means.
+  Both now use historical numbering.  There is no year zero; year -1 is
+  1 BC; and year zero is rejected: gr_is_valid and ju_is_valid return 0
+  for it and gr_to_jdn and ju_to_jdn write a JDN of 0.
+
+  Concretely, for the Gregorian calendar JDN 1721425 is now -1-12-31 and
+  JDN 1721426 is 1-1-1, and gr_is_leap(-1) is 1 because 1 BC is
+  astronomical year 0.  Callers that passed 0 or negative Gregorian years
+  under the old convention must subtract one from years at or below zero.
+
+  The Julian calendar already documented this behaviour but the year zero
+  guard in ju_to_jdn was dead code: it wrote 0 and then fell through to
+  the normal computation, so ju_to_jdn(&jd, 0, 1, 1) returned 1721060 and
+  a round trip through jdn_to_ju gave -1-1-1.  ju_is_valid also never
+  looked at the year.  Both are fixed.
+
+** New calendars
+
+  The Egyptian calendar (eg_ functions, cl-egyptian.h) and an arithmetic
+  Babylonian calendar (ba_ functions, cl-babylonian.h) are new.  The
+  Jewish calendar gained jw_is_complete, jw_is_deficient and
+  jw_is_regular for the three year types.  The generic interface in
+  cl-calendars.h does not yet cover the Egyptian and Babylonian
+  calendars; use their own headers.
+
+** Build system and packaging
+
+  The build system is CMake (3.16 or newer); autotools is gone.  The
+  build produces a shared and a static library, installs a pkg-config
+  file and a CMake package configuration, and links libm on Unix.
+
+  The export macros in cl-export.h are now libcalendars_EXPORTS and
+  libcalendars_STATIC.  On Windows, code that links the static library
+  must define libcalendars_STATIC (it was LIBCALENDAR_STATIC before).
+  The shared library now exports exactly the public API.
+
+  BUILD_TESTING is now a real option, default OFF.  The tests report
+  through assert, so build them with CMAKE_BUILD_TYPE=Debug; a Release
+  build defines NDEBUG and every test passes without checking anything.
+  The tests no longer depend on the check library.
+
+  Debian and RPM packaging were reworked for the CMake build.  CI runs on
+  GitHub Actions, builds and tests on Ubuntu and Windows, and builds both
+  package formats.  Sources are formatted with clang-format.
+
+** Documentation
+
+  The README was rewritten against the current code.  The commercial use
+  exception is gone; the license is the GPL, version 3 or later, as the
+  source headers always said.  The PPA is no longer offered.
+
+* Noteworthy changes in release 1.0.0 (2017-09-27)
+
+  First release.  Gregorian, Julian, Milanković, Islamic Civil, Jewish
+  and Solar Hijri calendars.

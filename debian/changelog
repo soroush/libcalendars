@@ -1,5 +1,20 @@
 libcalendars (1.1.0-1) unstable; urgency=medium
 
+  * New upstream release.
+    - Solar Hijri: the arithmetic calendar now agrees with the official
+      calendar of Iran on every year and date in the published 1206 to
+      1498 AP table. Five decreed leap year displacements are carried as
+      a table and applied on top of the 2820 year rule.
+    - Solar Hijri: the leap test is exact integer arithmetic; years before
+      -2346 and year 475 were answered wrongly before. Negative year
+      boundaries are continuous. The public leap functions take the year
+      on the historical scale like every other entry point.
+    - Gregorian and Julian: there is no year zero. Year -1 is 1 BC and
+      year zero is rejected. The Gregorian functions used astronomical
+      numbering before and the Julian year zero guard was dead code.
+    - New Egyptian and Babylonian calendars, and the three Jewish year
+      types.
+    - The export macro for static linking is now libcalendars_STATIC.
   * Rework the packaging for the CMake build. The old rules used CDBS with
     the autotools class, which no longer matched the source.
   * Switch to debhelper compat 13 and drop the obsolete debian/compat.
@@ -8,8 +23,9 @@ libcalendars (1.1.0-1) unstable; urgency=medium
     configuration in the development package.
   * Drop debian/shlibs.local in favour of a symbols file.
   * Update Standards-Version to 4.7.2. No further changes needed.
+  * Install NEWS and README.md in the shared library package.
 
- -- Soroush Rabiei <soroush.rabiei@gmail.com>  Wed, 19 Aug 2026 12:00:00 +0330
+ -- Soroush Rabiei <soroush.rabiei@gmail.com>  Sun, 23 Aug 2026 12:00:00 +0330
 
 libcalendars (1.0.0-1) artful; urgency=medium
 
