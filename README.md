@@ -42,7 +42,8 @@ sudo cmake --install . --config Release
 This installs a shared library, a static library, the headers under
 `include/libcalendars/`, a pkg-config file (`libcalendars.pc`), and a CMake
 package config, so you can link with either `pkg-config --libs libcalendars`
-or `find_package(libcalendars)`.
+or `find_package(libcalendars)`. The pkg-config file is not installed on
+Windows; use `find_package` there.
 
 The `debian/` and `rpm/` directories hold packaging files. CI builds `.deb`
 and `.rpm` packages from them on every push, and the packages are attached to
