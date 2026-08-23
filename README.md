@@ -1,47 +1,37 @@
-# A calendar implementation library
+# libcalendars
 
 ![language](https://img.shields.io/badge/language-c-blue.svg)
-![c](https://img.shields.io/badge/std-c99-blue.svg)
-![GCC](https://img.shields.io/badge/GCC-13.0-blue.svg)
-![MSVC](https://img.shields.io/badge/MSVC-14-blue.svg)
 ![license](https://img.shields.io/badge/license-GPLv3-blue.svg)
 [![CI](https://github.com/soroush/libcalendars/actions/workflows/ci.yml/badge.svg?branch=dev)](https://github.com/soroush/libcalendars/actions/workflows/ci.yml)
 
-A precise C library to provide arithmentic for the most common calendar 
-systems. Currently Gregorian, Julian, Milankovic, Solar Hijri (also known as 
-Shamsi or Jalali), Islamic Civilm Jewish (also know as Hebrew), Egyptian and
-Babylonian calendar systems are provided.
+A small C library that does the arithmetic for common calendar systems. It
+supports the Gregorian, Julian, Milanković (Revised Julian), Solar Hijri
+(Shamsi or Jalali), Islamic Civil, Jewish (Hebrew), Egyptian, and Babylonian
+calendars.
 
 ## Contents
+
 - [Installation](#installation)
-- [API Design Philosophy](#api-design-philosophy)
+- [Design](#design)
 - [Usage](#usage)
-    - [Documentation](#documentation)
-    - [Contribution](#contribution)
-    - [Algorithms](#algorithms)
+- [Documentation](#documentation)
+- [Contributing](#contributing)
+- [Algorithms](#algorithms)
 - [Calendars](#calendars)
     - [Gregorian](#gregorian)
     - [Julian](#julian)
     - [Milanković](#milanković)
-    - [Solar Hijri (Jalali, or Shamsi)](#solar-hijri)
+    - [Solar Hijri](#solar-hijri)
     - [Islamic Civil](#islamic-civil)
+    - [Jewish](#jewish)
     - [Egyptian](#egyptian)
     - [Babylonian](#babylonian)
 - [License](#license)
-    - [Commercial Use Exception](#commercial-use-exception)
 
 ## Installation
 
-The easiest way to install `libcalendars` is to use PPA:
+Build and install from source with CMake (3.16 or newer):
 
-```bash
-sudo add-apt-repository ppa:soroush-r/solap
-sudo apt update
-sudo apt install libcalendars1    # installs the library
-sudo apt install libcalendars-dev # Installs development headers
-```
-
-Alternatively you can compile the package from source:
 ```bash
 mkdir build && cd build
 cmake ..
@@ -49,300 +39,331 @@ cmake --build . --config Release
 sudo cmake --install . --config Release
 ```
 
-In case you also want to build and run unit tests:
+This installs a shared library, a static library, the headers under
+`include/libcalendars/`, a pkg-config file (`libcalendars.pc`), and a CMake
+package config, so you can link with either `pkg-config --libs libcalendars`
+or `find_package(libcalendars)`.
+
+The `debian/` and `rpm/` directories hold packaging files. CI builds `.deb`
+and `.rpm` packages from them on every push, and the packages are attached to
+the workflow run as artifacts.
+
+To build and run the test suite, configure with `BUILD_TESTING=ON` and use a
+Debug build. The tests report failures through `assert`, so a Release build
+(which defines `NDEBUG`) would make every test pass no matter what:
+
 ```bash
-cmake -DBUILD_TESTING=ON ..
-cmake --build . --config Release
-ctest . --config Release
+cmake -DBUILD_TESTING=ON -DCMAKE_BUILD_TYPE=Debug ..
+cmake --build . --config Debug
+ctest . --config Debug
 ```
 
-If nothing goes wrong, you should see all test passed:
+If all goes well you will see every test pass:
+
 ```
-    Start 1: Gregorian
-1/8 Test #1: Gregorian ........................   Passed    0.68 sec
-    Start 2: Julian
-2/8 Test #2: Julian ...........................   Passed    0.590 sec
-    Start 3: Milankovic
-3/8 Test #3: Milankovic .......................   Passed    1.23 sec
-    Start 4: SolarHijri
-4/8 Test #4: SolarHijri .......................   Passed    1.32 sec
-    Start 5: Jewish
-5/8 Test #5: Jewish ...........................   Passed   16.35 sec
-    Start 6: IslamicCivil
-6/8 Test #6: IslamicCivil .....................   Passed    0.94 sec
-    Start 7: Egyptian
-7/8 Test #7: Egyptian .........................   Passed    0.84 sec
-    Start 8: Babylonian
-8/8 Test #8: Babylonian .......................   Passed    1.13 sec
+      Start  1: Gregorian
+ 1/11 Test  #1: Gregorian .........................   Passed    0.61 sec
+      Start  2: Julian
+ 2/11 Test  #2: Julian ............................   Passed    1.02 sec
+      Start  3: Milankovic
+ 3/11 Test  #3: Milankovic ........................   Passed    1.14 sec
+      Start  4: SolarHijri
+ 4/11 Test  #4: SolarHijri ........................   Passed    1.69 sec
+      Start  5: SolarHijriLeapGroundTruth
+ 5/11 Test  #5: SolarHijriLeapGroundTruth .........   Passed    0.02 sec
+      Start  6: SolarHijriConversionGroundTruth
+ 6/11 Test  #6: SolarHijriConversionGroundTruth ...   Passed    0.02 sec
+      Start  7: SolarHijriCorrectionSweep
+ 7/11 Test  #7: SolarHijriCorrectionSweep .........   Passed    0.02 sec
+      Start  8: Jewish
+ 8/11 Test  #8: Jewish ............................   Passed   15.68 sec
+      Start  9: IslamicCivil
+ 9/11 Test  #9: IslamicCivil ......................   Passed    0.87 sec
+      Start 10: Egyptian
+10/11 Test #10: Egyptian ..........................   Passed    0.78 sec
+      Start 11: Babylonian
+11/11 Test #11: Babylonian ........................   Passed    1.06 sec
 
-100% tests passed, 0 tests failed out of 8
+100% tests passed, 0 tests failed out of 11
 ```
 
-## API Design Philosophy
+## Design
 
-This library is API-less by design. This means the library is not intended to be
-used directly as a standalone API. Instead, it only provides arithmetic
-implementations meant to be integrated into existing date-time APIs or utilized
-by developers when creating their own APIs for handling date-time
-operations.
+This library does not try to be a date and time API. It only provides the
+arithmetic, and is meant to sit behind an existing date and time API or to
+serve as the base for one you write yourself.
 
-Key Principles:
-
-* No Custom Data Structures: The library
-deliberately avoids introducing structures for representing calendar components
-(e.g., `year`, `month`, `day`). Instead, it operates exclusively on Plain Data
-Types (PDTs), such as integers or other native types, ensuring simplicity and
-compatibility with diverse applications.
-
-* Flexibility: By focusing solely on
-the arithmetic logic, the library provides a robust foundation for building or
-extending higher-level APIs. This design empowers developers to adapt the
-library seamlessly to their specific domain requirements without being
-constrained by predefined abstractions.
-
-* Integration-Ready: The library
-complements existing date-time APIs by adding precise calendar arithmetic
-capabilities without altering their design philosophy. It can also be used to
-prototype and implement custom solutions efficiently.
+- **No custom data types.** There is no struct for a date. Every function
+  takes and returns plain integers: `int16_t` for years, `uint8_t` for months,
+  `uint16_t` for days, and `uint32_t` for Julian Day Numbers.
+- **Arithmetic only.** Because the library stops at the arithmetic, it does
+  not force any particular model of dates, times, or time zones on the code
+  that uses it.
+- **Easy to integrate.** It can add calendar conversions to an API that
+  already exists without changing how that API works, and it is small enough
+  to use for quick prototypes.
 
 ## Usage
 
-Almost all algorithms in libcalendar are implemented using Julian Day
-calculations. You can convert any date on supported calendars to JDN and vice
-versa. For example:
+Almost every conversion in the library goes through the Julian Day Number
+(JDN). Each calendar has a pair of functions to go from a date to a JDN and
+back. For example, for the Solar Hijri calendar:
 
 ```c
+#include <inttypes.h>
+#include <stdio.h>
+#include <libcalendars/cl-solar-hijri.h>
+
 uint32_t jdn = 0;
-sh_to_jdn(&jdn, 1392, 04, 15);
-printf("Julian Day for 1392/04/15 AP is: %l\n", jdn);
+sh_to_jdn(&jdn, 1392, 4, 15);
+printf("Julian Day for 1392/04/15 AP is: %" PRIu32 "\n", jdn);
 ```
-Which prints:
 
-```$ Julian Day for 1392/04/15 AP is: 2456480```
+This prints:
 
-You can also use non-jdn broken-down date API. For example you
-can check if a year in Solar Hijri calendar is leap or not:
+```
+Julian Day for 1392/04/15 AP is: 2456480
+```
+
+Each calendar also has functions that work on a broken-down date without going
+through a JDN. For example, to check whether a Solar Hijri year is a leap year:
 
 ```c
-if(sh_is_leap(1395)) /* returns 0 for regular years and 1 for leap years */
-    printf("Yep\n");
+if (sh_is_leap(1395)) /* returns 1 for leap years and 0 otherwise */
+    printf("1395 is a leap year\n");
 ```
-You can also convert calendar dates to/from Gregorian calendar:
+
+Every non-Gregorian calendar has direct conversions to and from the Gregorian
+calendar:
+
 ```c
 int16_t y;
 uint8_t m;
 uint16_t d;
-sh_to_gr(1396, 06, 20, &y, &m, &d);
+sh_to_gr(1396, 6, 20, &y, &m, &d);
 printf("1396/06/20 AP is %04d-%02d-%02d\n", y, m, d);
-gr_to_sh(2017, 09, 11, &y, &m, &d); 
-printf("2017-09-11 is %04d-%02d-%02d AP\n", y, m, d);
+gr_to_sh(2017, 9, 11, &y, &m, &d);
+printf("2017-09-11 is %04d/%02d/%02d AP\n", y, m, d);
 ```
-which will print:
+
+This prints:
 
 ```
 1396/06/20 AP is 2017-09-11
-2017-09-11 is 1396/06/18 AP 
+2017-09-11 is 1396/06/20 AP
 ```
+
+Note that month and day arguments are plain integers. Writing them with a
+leading zero, such as `09`, is an octal literal in C and will not compile.
+
+Each calendar has its own header and function prefix:
+
+| Calendar      | Header              | Prefix |
+|---------------|---------------------|--------|
+| Gregorian     | `cl-gregorian.h`    | `gr_`  |
+| Julian        | `cl-julian.h`       | `ju_`  |
+| Milanković    | `cl-milankovic.h`   | `ml_`  |
+| Solar Hijri   | `cl-solar-hijri.h`  | `sh_`  |
+| Islamic Civil | `cl-islamic-civil.h`| `is_`  |
+| Jewish        | `cl-jewish.h`       | `jw_`  |
+| Egyptian      | `cl-egyptian.h`     | `eg_`  |
+| Babylonian    | `cl-babylonian.h`   | `ba_`  |
+
+The header `cl-calendars.h` offers a second, generic interface where the
+calendar is picked at run time with a `CAL_*` constant, for example
+`convert_date(CAL_GREGORIAN, CAL_SOLAR_HIJRI, ...)`. This interface currently
+covers the Gregorian, Julian, Milanković, Islamic Civil, Jewish, and Solar
+Hijri calendars. The Egyptian and Babylonian calendars are only available
+through their own headers.
 
 ## Documentation
 
-Reference of API is available at 
+The API reference is at
 [https://soroush.github.io/libcalendars](https://soroush.github.io/libcalendars/).
 
-## Contribution
+## Contributing
 
-This library is written in the hope that it will be useful. With your help, 
-`libcalendars` can be better (: You can help `libcalendars` in several ways:
+This library is written in the hope that it will be useful, and it can get
+better with your help. There are two main ways to contribute:
 
-1. Build the library and thest its output. You can [raise an 
-issue](https://github.com/soroush/libcalendars/issues) if you've found any 
-problem. 
+1. Build the library and test its output. If you find a problem, please
+   [open an issue](https://github.com/soroush/libcalendars/issues).
 
-2. Contribute to improve code quality, fix bugs and add new features. Please 
-read our [Code of Conduct](CODE_OF_CONDUCT.md) for more details. 
+2. Improve the code, fix bugs, or add new features. Please read the
+   [Code of Conduct](CODE_OF_CONDUCT.md) first.
 
 ## Algorithms
 
-This library is implemented in C programming language, using no external
-dependecies. The C standard library used in libcalendar is C11. Though it should
-be possible to compile this library with a C99 compiler.
+The library is written in C with no dependencies beyond the C standard
+library and the math library (`libm`). The CMake build sets the C standard to
+C90 with compiler extensions enabled, and the source uses a few C99 features
+(`<stdint.h>`, `inline`, and `//` comments) that GCC, Clang, and MSVC all
+accept in that mode. CI builds and tests on Ubuntu and Windows.
 
-Most of the conversion algorithms for JDN to calendar and vice versa are
-implemented based
-[Dr Louis Strous](http://orcid.org/0000-0003-2110-7248)'s work (available online
-on [Astronomy](http://aa.quae.nl/en/reken/juliaansedag.html) page). Namely
-Gregorian, Julian, Milankovic and Islamic Civil calendars and their JDN
-calculations are adopted from above page. Solar Hijri (Shamsi) and Jalali
-calendar calculations are implemented based on
-[Dr. Mousa Akrami](http://m-akrami.teacher.srbiau.ac.ir/)'s work on median year
-length for Persian calendar. (See notes on Solar Hijri calendar).
+Most of the conversions between calendar dates and Julian Day Numbers follow
+the work of [Dr. Louis Strous](http://orcid.org/0000-0003-2110-7248), published
+on the [Astronomy Answers](http://aa.quae.nl/en/reken/juliaansedag.html) page.
+In particular, the Gregorian, Julian, Milanković, and Islamic Civil
+calculations come from that page. The Solar Hijri calendar is described in its
+own section below.
 
 ## Calendars
 
-Following is a list of supported calendars, and a short description (mostly from
-wikipedia) about them.
+This section gives a short description of each supported calendar, mostly
+drawn from Wikipedia.
 
 ### Gregorian
 
-The Gregorian calendar is internationally the most widely used civil calendar.
-It is named after Pope Gregory XIII, who introduced it in October 1582.
+The Gregorian calendar is the most widely used civil calendar in the world. It
+is named after Pope Gregory XIII, who introduced it in October 1582.
 
-The calendar was a refinement to the Julian calendar[3] involving a 0.002%
-correction in the length of the year. The motivation for the reform was to stop
-the drift of the calendar with respect to the equinoxes and
-solstices—particularly the northern vernal equinox, which helps set the date
-for Easter. Transition to the Gregorian calendar would restore the holiday to
-the time of the year in which it was celebrated when introduced by the early
-Church. The reform was adopted initially by the Catholic countries of Europe.
-Protestants and Eastern Orthodox countries continued to use the traditional
-Julian calendar and adopted the Gregorian reform after a time, at least for
-civil purposes and for the sake of convenience in international trade. The last
-European country to adopt the reform was Greece, in 1923. Many (but not all)
-countries that have traditionally used the Islamic and other religious calendars
-have come to adopt this calendar for civil purposes.
+It refines the Julian calendar by shortening the average year by 0.002%. The
+reason for the reform was to stop the calendar from drifting against the
+equinoxes and solstices, in particular the northern vernal equinox, which is
+used to set the date of Easter. Catholic countries adopted the reform first.
+Protestant and Eastern Orthodox countries kept the Julian calendar for a while
+and switched later, at least for civil use and for the convenience of
+international trade. The last European country to adopt it was Greece, in
+1923. Many (but not all) countries that have traditionally used the Islamic or
+other religious calendars now use the Gregorian calendar for civil purposes.
 
 ### Julian
 
-The Julian calendar, proposed by Julius Caesar in 46 BC (708 AUC), was a reform
-of the Roman calendar. It took effect on 1 January 45 BC (AUC 709), by edict.
-It was the predominant calendar in the Roman world, most of Europe, and in
-European settlements in the Americas and elsewhere, until it was refined and
-gradually replaced by the Gregorian calendar, promulgated in 1582 by Pope
-Gregory XIII. The Julian calendar gains against the mean tropical year at the
-rate of one day in 128 years. For the Gregorian the figure is one day in 3,030
-years. The difference in the average length of the year between Julian (365.25
-days) and Gregorian (365.2425 days) is 0.002%.
+The Julian calendar, proposed by Julius Caesar in 46 BC (708 AUC), was a
+reform of the Roman calendar. It took effect by edict on 1 January 45 BC
+(709 AUC). It was the main calendar of the Roman world, most of Europe, and
+the European settlements in the Americas and elsewhere until it was replaced,
+gradually, by the Gregorian calendar of 1582. The Julian calendar gains one
+day on the mean tropical year every 128 years; the Gregorian calendar gains
+one day every 3,030 years. The difference between the average Julian year
+(365.25 days) and the average Gregorian year (365.2425 days) is 0.002%.
 
 ### Milanković
 
-The Revised Julian calendar, also known as the Milanković calendar, or, less
-formally, new calendar, is a calendar, developed and proposed by the Serbian
-scientist Milutin Milanković in 1923, which effectively discontinued the 340
-years of divergence between the naming of dates sanctioned by those Eastern
-Orthodox churches adopting it and the Gregorian calendar that has come to
-predominate worldwide. This calendar was intended to replace the ecclesiastical
-calendar based on the Julian calendar hitherto in use by all of the Eastern
-Orthodox Church. The Revised Julian calendar temporarily aligned its dates with
-the Gregorian calendar proclaimed in 1582 by Pope Gregory XIII for adoption by
-the Christian world. The calendar has been adopted by the Orthodox churches of
-Constantinople, Albania, Alexandria, Antioch, Bulgaria, Cyprus, Greece, Poland,
-and Romania.
+The Revised Julian calendar, also known as the Milanković calendar or simply
+the "new calendar," was proposed by the Serbian scientist Milutin Milanković
+in 1923. It closed the 340-year gap that had opened between the dates used by
+the Eastern Orthodox churches that adopted it and the Gregorian calendar used
+by most of the world. It was meant to replace the Julian calendar that the
+whole Eastern Orthodox Church had used for its church calendar until then. For
+the time being its dates match the Gregorian calendar. It has been adopted by
+the Orthodox churches of Constantinople, Albania, Alexandria, Antioch,
+Bulgaria, Cyprus, Greece, Poland, and Romania.
 
 ### Solar Hijri
 
-The Solar Hijri calendar, also called the Solar Hejri calendar or Shamsi Hijri
-calendar, and abbreviated as SH, is the official calendar of Iran and
-Afghanistan. It begins on the vernal equinox (Nowruz) as determined by
-astronomical calculation for the Iran Standard Time meridian
-(52.5°E or GMT+3.5h). This determination of starting moment is more accurate
-than the Gregorian calendar for predicting the date of the vernal equinox,
-because it uses astronomical observations rather than mathematical rules.
+The Solar Hijri calendar, also called the Solar Hejri or Shamsi Hijri calendar
+and abbreviated SH, is the official calendar of Iran and Afghanistan. The year
+begins on the vernal equinox (Nowruz), fixed by astronomical calculation for
+the Iran Standard Time meridian (52.5°E, or UTC+3:30). Because it is tied to
+the observed equinox rather than to an arithmetic rule, it tracks the vernal
+equinox more closely than the Gregorian calendar does.
 
-Each of the twelve months corresponds with a zodiac sign.
-The first six months have 31 days, the next five have 30 days, and the last
-month has 29 days in usual years but 30 days in leap years. The New Year's Day
-always falls on the March equinox.
+Each of the twelve months matches a zodiac sign. The first six months have 31
+days, the next five have 30 days, and the last month has 29 days in a common
+year and 30 days in a leap year. New Year's Day always falls on the March
+equinox.
 
-#### A note on Solar Hijri
+#### How the library computes Solar Hijri dates
 
-My implementation of Solar Hijri (Shamsi) calendar is based on median year
-calculation obtained from Muousa Akrami's work:
-[The development of Iranian calendar: historical and astronomical foundations - 
-2014](https://arxiv.org/pdf/1111.4926.pdf).
-This method is more accurate than 33-year algorithm and supports a wider range
-of dates, both in Solar Hijri <-> Gregorian comversions, and in JDN
-calculations.
+The official calendar is set by observation, so no arithmetic rule can
+reproduce it exactly. The library uses the 2820-year cycle, which has 683 leap
+years per cycle and a mean year of 365.24219858 days. The cycle starts at
+475 AP (Julian Day Number 2121446). The reference used for this rule is
+[Mousa Akrami, *The development of Iranian calendar: historical and
+astronomical foundations* (2014)](https://arxiv.org/pdf/1111.4926.pdf).
+
+On a handful of years the official leap year sits one year away from where the
+2820-year rule puts it. The library carries a short table of those years and
+applies it on top of the rule, so that its output matches the published
+official calendar for the years the table covers. The test suite checks the
+result against a table of official leap years in
+`tests/solar-hijri/official-leap-years.csv`. The details, and how the table
+was derived, are in
+[doc/solar-hijri-official-corrections.md](doc/solar-hijri-official-corrections.md).
 
 ### Islamic Civil
 
-The Islamic, Muslim, or Hijri calendar is a lunar calendar consisting of 12 
-months in a year of 354 or 355 days. It is used (often alongside the Gregorian 
-calendar) to date events in many Muslim countries. It is also used by Muslims to 
-determine the proper days of Islamic holidays and rituals, such as the annual 
-period of fasting and the proper time for the pilgrimage to Mecca.
+The Islamic, Muslim, or Hijri calendar is a lunar calendar with 12 months and
+a year of 354 or 355 days. It is used, often alongside the Gregorian calendar,
+to date events in many Muslim countries, and by Muslims everywhere to find the
+right days for religious observances such as the yearly fast and the
+pilgrimage to Mecca.
 
-The Islamic calendar employs the Hijri era whose epoch was retrospectively 
-established as the Islamic New Year of AD 622. During that year, Muhammad and 
-his followers migrated from Mecca to Yathrib (now Medina) and established the 
-first Muslim community (ummah), an event commemorated as the Hijra. In the West, 
-dates in this era are usually denoted AH (Latin: Anno Hegirae, "in the year of 
-the Hijra") in parallel with the Christian (AD) and Jewish eras (AM). In Muslim 
-countries, it is also sometimes denoted as H from its Arabic form. In English, 
-years prior to the Hijra are reckoned as BH ("Before the Hijra").
+The calendar counts years from the Hijri era, whose epoch was later fixed as
+the Islamic New Year of AD 622. In that year Muhammad and his followers moved
+from Mecca to Yathrib (now Medina) and founded the first Muslim community, an
+event known as the Hijra. In the West, years in this era are usually marked AH
+(Latin *Anno Hegirae*, "in the year of the Hijra"), alongside the Christian
+(AD) and Jewish (AM) eras. In Muslim countries the Arabic form H is also used.
+In English, years before the Hijra are written BH ("Before the Hijra").
+
+The library implements the tabular (civil) version of this calendar, which
+uses a fixed arithmetic rule rather than observation of the new moon.
+
+### Jewish
+
+The Jewish or Hebrew calendar is a lunisolar calendar. Months follow the moon
+and years follow the sun, so a year has either 12 or 13 months. Leap years,
+with the extra month, fall seven times in every 19-year cycle. A common year
+has 353, 354, or 355 days and a leap year has 383, 384, or 385 days; the exact
+length depends on rules that push Rosh Hashanah away from certain weekdays.
+The library exposes these year types through `jw_is_deficient`,
+`jw_is_regular`, and `jw_is_complete`.
 
 ### Egyptian
 
-The Egyptian calendar is one of the earliest known timekeeping systems,
-developed in ancient Egypt to align with the Nile's annual flood cycles. It
-played a vital role in organizing agricultural activities and religious
-festivals. This calendar is notable for its remarkable simplicity and its
-influence on later timekeeping systems, including the Julian and Gregorian
+The Egyptian calendar is one of the earliest known timekeeping systems. It was
+developed in ancient Egypt to follow the yearly flood of the Nile, and it
+organized farming and religious festivals. It is notable for its simplicity
+and for its influence on later calendars, including the Julian and Gregorian
 calendars.
 
-The Egyptian calendar was based on a solar year divided into three
-seasons of four months each, reflecting the natural cycles of the Nile:
+The year was divided into three seasons of four months each, matching the
+cycle of the Nile:
 
-* Akhet (Inundation): The flood season, when the Nile overflowed, 
-  replenishing the
-  soil.
-* Peret (Emergence): The growing season, when crops were planted and 
-  cultivated.
-* Shemu (Harvest): The dry season, when crops were harvested.
+- Akhet (Inundation): the flood season, when the Nile overflowed and renewed
+  the soil.
+- Peret (Emergence): the growing season, when crops were planted and tended.
+- Shemu (Harvest): the dry season, when crops were gathered.
 
-Each of the twelve months contained 30 days, making up a total of 360 days in
-the year. To reconcile this structure with the solar year of approximately
-365.25 days, the Egyptians added five additional days, known as the "epagomenal
-days," at the end of the year. These days were considered outside the normal
-calendar and were dedicated to the birthdays of key deities, including Osiris,
-Isis, and Horus.
+Each of the twelve months had 30 days, for a total of 360 days. To bring this
+closer to the solar year of about 365.25 days, the Egyptians added five extra
+days, the "epagomenal days," at the end of the year. These days stood outside
+the normal calendar and were devoted to the birthdays of major gods, including
+Osiris, Isis, and Horus.
 
-The calendar was not leap-adjusted, meaning it gradually drifted out
-of sync with the solar year over centuries. However, its consistency made it
-highly practical for everyday use and administrative tasks. This robust
-simplicity, combined with its cultural significance, helped the Egyptian
-calendar endure for millennia and leave a lasting legacy on the history of
-timekeeping.
+The calendar had no leap years, so it slowly drifted against the solar year
+over the centuries. Its regularity, however, made it very practical for
+everyday and administrative use. The library treats the five epagomenal days
+as a short thirteenth month.
 
 ### Babylonian
 
 The Babylonian calendar, developed in ancient Mesopotamia, is one of the
-earliest recorded lunar calendars. It played a crucial role in the
-administrative, agricultural, and religious life of the Babylonians. Rooted in
-astronomical observations, this calendar reflects the sophisticated
-understanding of celestial movements by Babylonian scholars.
+earliest recorded lunar calendars. It was central to the administrative,
+agricultural, and religious life of Babylon, and it reflects the careful
+astronomical observation of Babylonian scholars.
 
-The calendar was a lunisolar system, aligning months with the lunar cycle and
-years with the solar cycle. It relied on the Metonic Cycle, which states that
-235 synodical months are equal to 19 tropical years. These 19 years alternated
-between 12 and 13 months, with long years (13 months) occurring in the 1st,
-4th, 7th, 9th, 12th, 15th, and 18th years of the cycle. This structure included
-125 months of 30 days and 110 months of 29 days, adding up to 6,940 days in
-total. In most long years, the 12th month was doubled, but in the 18th year,
-the 6th month was doubled instead. Day 1 of month 1 (Nisannu) of year 1 in the
-Era of Seleukos corresponded to 3 April 310 BCE in the Julian Calendar (CJDN
-1607558).
+It was a lunisolar system: months followed the moon and years followed the
+sun. It relied on the Metonic cycle, in which 235 lunar months equal 19
+tropical years. Within each 19-year cycle, 12 years had 12 months and 7 years
+had 13, with the long years falling in the 1st, 4th, 7th, 9th, 12th, 15th, and
+18th years of the cycle. In most long years the 12th month was doubled; in the
+18th year the 6th month was doubled instead. Day 1 of month 1 (Nisannu) of
+year 1 of the Seleucid era fell on 3 April 310 BCE in the Julian calendar
+(Julian Day Number 1607558).
 
-The Babylonians determined the beginning of each month by observing the phases
-of the moon. Since the calendar was partly based on direct observations, the
-length of months and years was not entirely fixed. Factors such as weather
-conditions could delay the official start of a month if the moon was obscured
-by clouds. This variability meant the distribution of months into years
-operated independently from the distribution of days into months.
-
-To reconstruct the Babylonian calendar predictably, we can use a mathematically
-derived version that closely approximates the historical system. Such a version
-would differ from the original calendar by at most one day, capturing its
-structure while avoiding the unpredictability of direct lunar observations.
+The Babylonians started each month by observing the new moon, so month and
+year lengths were not entirely fixed. Bad weather could delay the official
+start of a month if the moon was hidden by clouds. The library implements a
+fixed arithmetic version of the calendar that follows the cycle above and
+comes within a day of the historical one.
 
 ## License
 
-This project is licensed under the **GNU General Public License v3.0 (GPL-3.0)**.  
-This means that you are free to use, modify, and distribute the software under the terms of the GPL-3.0 license.
-
-### Commercial Use Exception
-While this project is licensed under GPL-3.0, **commercial use is permitted only with prior written permission**.  
-However, this permission is **granted free of charge**. The requirement is in place to ensure that commercial usage aligns with the project's goals and values.  
-
-If you wish to use this project in a commercial product or service, please contact us to obtain the necessary permissions.
-
-For details about the GPL-3.0 license, see the [official license text](https://www.gnu.org/licenses/gpl-3.0.html).
+This project is licensed under the GNU General Public License, version 3 or
+(at your option) any later version. You are free to use, modify, and
+distribute the software under the terms of that license. See
+[COPYING](COPYING) for the full text, or read it online at
+[gnu.org](https://www.gnu.org/licenses/gpl-3.0.html).
