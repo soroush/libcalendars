@@ -29,7 +29,7 @@
 %global __brp_strip_static_archive %{nil}
 
 Name:           libcalendars
-Version:        1.1.0
+Version:        1.1.1
 Release:        1%{?dist}
 Summary:        Precise calendar arithmetic library
 
@@ -97,6 +97,15 @@ the shared library unless static linking is required.
 %{_libdir}/%{name}.a
 
 %changelog
+* Sun Aug 23 2026 Soroush Rabiei <soroush.rabiei@gmail.com> - 1.1.1-1
+- New upstream release. No code changes; the library and its ABI are
+  identical to 1.1.0.
+- Every source, header, build and packaging file now carries the same
+  copyright notice with an SPDX identifier; a wrong project name, a
+  misspelt author name and stale licence text are fixed.
+- The upstream tree keeps the Debian and RPM files under packaging/, so
+  the spec is now read from packaging/rpm.
+
 * Sun Aug 23 2026 Soroush Rabiei <soroush.rabiei@gmail.com> - 1.1.0-1
 - New upstream release. The Solar Hijri calendar now agrees with the
   official calendar of Iran over the published 1206 to 1498 AP table, the

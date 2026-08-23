@@ -89,7 +89,7 @@ endif()
 
 # Prepare the targets
 set_target_properties(calendars calendars_static PROPERTIES
-    VERSION 1.1.0
+    VERSION 1.1.1
     SOVERSION 1
     C_STANDARD 90
     DEBUG_POSTFIX "_d"
