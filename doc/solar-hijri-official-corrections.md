@@ -199,19 +199,19 @@ carrying a delta of $+1$ where the officials add a day and $-1$ where they
 remove one, and derives both quantities from the same pin set:
 
 $$
-\mathrm{leap}^{*}(y) = \mathrm{leap}_{\mathrm{arith}}(y) \oplus \mathrm{pinned}(y),
+\mathrm{leap}^{\ast}(y) = \mathrm{leap}_{\mathrm{arith}}(y) \oplus \mathrm{pinned}(y),
 $$
 
 $$
-N^{*}(y) = N_{\mathrm{arith}}(y) + \sum_{\substack{e \in P \\ e < y}} \Delta_e .
+N^{\ast}(y) = N_{\mathrm{arith}}(y) + \sum_{\substack{e \in P \\ e < y}} \Delta_e .
 $$
 
 The invariant that ties them together is
 
 $$
-N^{*}(y + 1) - N^{*}(y) =
+N^{\ast}(y + 1) - N^{\ast}(y) =
 \begin{cases}
-366 & \mathrm{leap}^{*}(y) \\
+366 & \mathrm{leap}^{\ast}(y) \\
 365 & \text{otherwise.}
 \end{cases}
 $$
