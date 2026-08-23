@@ -3,22 +3,34 @@
 ## The problem
 
 libcalendars implements the Solar Hijri calendar with the arithmetic 2820 year
-rule. Let
+rule. The cycle holds 683 leap years in 2820 years, so the fraction of years
+that are leap is
 
 $$
-\lambda = \frac{683}{2820} = 0.242198\ldots,
-\qquad \theta = (y + 2346)\,\lambda,
-\qquad \varphi = \theta - \lfloor \theta \rfloor,
+\lambda = \frac{683}{2820} = 0.242198\ldots
 $$
 
-so that $\varphi$ is the fractional part of $\theta$. A year $y$ is a leap year
-when
+For a year $y$ define the real number
 
 $$
-\varphi < \lambda,
+x_y = (y + 2346) \cdot \lambda
 $$
 
-and the first day of year $y$ is placed at
+(the offset $2346 = 2820 - 474$ lines the count up with the cycle that starts
+at 475 AP) and its fractional part
+
+$$
+f_y = x_y - \lfloor x_y \rfloor, \qquad 0 \le f_y < 1 .
+$$
+
+Year $y$ is a leap year exactly when
+
+$$
+f_y < \lambda .
+$$
+
+In integers this is the same as $683 (y + 2346) \bmod 2820 < 683$. The first
+day of year $y$ is placed at
 
 $$
 N_{\mathrm{arith}}(y) = E + c\,D + \left\lfloor y_c \cdot L \right\rfloor,
@@ -143,8 +155,8 @@ $$
 \frac{163}{673},\quad \frac{683}{2820}.
 $$
 
-Advancing by a convergent denominator moves the fractional part
-$\varphi = \theta - \lfloor \theta \rfloor$ by a very small amount:
+Advancing by a convergent denominator moves the fractional part $f_y$ by a
+very small amount:
 
 $$
 33\lambda \equiv -0.007447, \qquad
@@ -166,9 +178,7 @@ rule alone. They cannot. Ranking every year in the table by its distance from
 the leap decision boundary,
 
 $$
-\delta(y) = \min\Bigl(\varphi,\ \bigl|\lambda - \varphi\bigr|,\ 1 - \varphi\Bigr),
-\qquad \varphi = \theta - \lfloor \theta \rfloor,
-\qquad \theta = (y + 2346)\lambda,
+\delta(y) = \min \bigl( f_y, \ |\lambda - f_y|, \ 1 - f_y \bigr),
 $$
 
 gives:
@@ -345,8 +355,7 @@ Making the leap years and the year starts share one source exposed a defect
 that had been sitting under the old code. `sh_is_leap` asked whether
 
 $$
-\theta - \lfloor \theta \rfloor < \lambda,
-\qquad \theta = (y + 2346)\,\lambda
+f_y < \lambda, \qquad f_y = x_y - \lfloor x_y \rfloor, \qquad x_y = (y + 2346) \cdot \lambda
 $$
 
 with $\lambda$ held as a `double`. The same question, written as an integer
