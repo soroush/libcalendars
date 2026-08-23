@@ -6,7 +6,7 @@ libcalendars implements the Solar Hijri calendar with the arithmetic 2820 year
 rule. A year $y$ is a leap year when
 
 $$
-\operatorname{frac}\!\left((y + 2346)\,\lambda\right) < \lambda,
+\mathrm{frac}\!\left((y + 2346)\,\lambda\right) < \lambda,
 \qquad \lambda = \frac{683}{2820} = 0.242198\ldots
 $$
 
@@ -136,7 +136,7 @@ $$
 $$
 
 Advancing by a convergent denominator moves the fractional part
-$\operatorname{frac}((y + 2346)\lambda)$ by a very small amount:
+$\mathrm{frac}((y + 2346)\lambda)$ by a very small amount:
 
 $$
 33\lambda \equiv -0.007447, \qquad
@@ -158,8 +158,8 @@ rule alone. They cannot. Ranking every year in the table by its distance from
 the leap decision boundary,
 
 $$
-\delta(y) = \min\Bigl(\operatorname{frac}(\theta),\ \bigl|\lambda -
-\operatorname{frac}(\theta)\bigr|,\ 1 - \operatorname{frac}(\theta)\Bigr),
+\delta(y) = \min\Bigl(\mathrm{frac}(\theta),\ \bigl|\lambda -
+\mathrm{frac}(\theta)\bigr|,\ 1 - \mathrm{frac}(\theta)\Bigr),
 \qquad \theta = (y + 2346)\lambda,
 $$
 
@@ -337,7 +337,7 @@ Making the leap years and the year starts share one source exposed a defect
 that had been sitting under the old code. `sh_is_leap` asked whether
 
 $$
-\operatorname{frac}\!\left((y + 2346)\,\lambda\right) < \lambda
+\mathrm{frac}\!\left((y + 2346)\,\lambda\right) < \lambda
 $$
 
 with $\lambda$ held as a `double`. The same question, written as an integer
