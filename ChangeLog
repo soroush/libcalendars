@@ -1,5 +1,22 @@
 2026-08-23  Soroush Rabiei  <soroush.rabiei@gmail.com>
 
+	Move the packaging files under packaging/.
+
+	* debian/*: Move to packaging/debian.  A debian/ directory at the
+	upstream root overlaps with the DEP-14 packaging repository, which
+	carries its own.
+	* rpm/libcalendars.spec: Move to packaging/rpm.
+	* .github/workflows/ci.yml (package): Copy packaging/debian to
+	debian/ before dpkg-buildpackage, which expects it at the source
+	root.
+	(rpm): Read the spec from packaging/rpm.
+	* .gitattributes: Follow the move for the eol=lf rule.
+	* .gitignore: Ignore a debian/ directory at the root; it is a
+	build-time copy.
+	* README.md: Point at the new locations.
+
+2026-08-23  Soroush Rabiei  <soroush.rabiei@gmail.com>
+
 	Release 1.1.0.
 
 	* CMakeLists.txt (project): Set VERSION to 1.1.0.

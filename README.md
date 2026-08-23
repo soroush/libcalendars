@@ -45,7 +45,8 @@ package config, so you can link with either `pkg-config --libs libcalendars`
 or `find_package(libcalendars)`. The pkg-config file is not installed on
 Windows; use `find_package` there.
 
-The `debian/` and `rpm/` directories hold packaging files. CI builds `.deb`
+The `packaging/debian/` and `packaging/rpm/` directories hold packaging
+files. CI builds `.deb`
 and `.rpm` packages from them on every push, and the packages are attached to
 the workflow run as artifacts. CI also builds Windows packages with MSVC: two
 zip files, one Debug and one Release, each holding the install tree described

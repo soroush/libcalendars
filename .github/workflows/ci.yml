@@ -74,6 +74,14 @@ jobs:
       - name: Allow git to read the checkout
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
+      - name: Put the debian directory in place
+        # The tree keeps the Debian files under packaging/ so that the
+        # upstream root does not carry a debian/ directory, which would
+        # collide with the DEP-14 packaging repository. dpkg-buildpackage
+        # expects debian/ at the source root, so copy it there for the
+        # build.
+        run: cp -a packaging/debian debian
+
       - name: Build the packages
         run: dpkg-buildpackage -us -uc -b
 
@@ -123,14 +131,14 @@ jobs:
           set -x
           # --srpm, because a plain query prints the version once per binary
           # package and they run together with no separator.
-          version=$(rpmspec -q --srpm --queryformat '%{version}' rpm/libcalendars.spec)
+          version=$(rpmspec -q --srpm --queryformat '%{version}' packaging/rpm/libcalendars.spec)
           topdir=$(rpm --eval '%{_topdir}')
           rpmdev-setuptree
           mkdir -p "$topdir/SOURCES"
           tarball="$topdir/SOURCES/libcalendars-${version}.tar.gz"
           git archive --format=tar.gz --prefix="libcalendars-${version}/" -o "$tarball" HEAD
           ls -l "$topdir/SOURCES"
-          rpmbuild -ba rpm/libcalendars.spec
+          rpmbuild -ba packaging/rpm/libcalendars.spec
 
       - name: Check the packages with rpmlint
         run: |
