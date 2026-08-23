@@ -3,11 +3,19 @@
 ## The problem
 
 libcalendars implements the Solar Hijri calendar with the arithmetic 2820 year
-rule. A year $y$ is a leap year when
+rule. Let
 
 $$
-\mathrm{frac}\!\left((y + 2346)\,\lambda\right) < \lambda,
-\qquad \lambda = \frac{683}{2820} = 0.242198\ldots
+\lambda = \frac{683}{2820} = 0.242198\ldots,
+\qquad \theta = (y + 2346)\,\lambda,
+\qquad \varphi = \theta - \lfloor \theta \rfloor,
+$$
+
+so that $\varphi$ is the fractional part of $\theta$. A year $y$ is a leap year
+when
+
+$$
+\varphi < \lambda,
 $$
 
 and the first day of year $y$ is placed at
@@ -136,7 +144,7 @@ $$
 $$
 
 Advancing by a convergent denominator moves the fractional part
-$\mathrm{frac}((y + 2346)\lambda)$ by a very small amount:
+$\varphi = \theta - \lfloor \theta \rfloor$ by a very small amount:
 
 $$
 33\lambda \equiv -0.007447, \qquad
@@ -158,8 +166,8 @@ rule alone. They cannot. Ranking every year in the table by its distance from
 the leap decision boundary,
 
 $$
-\delta(y) = \min\Bigl(\mathrm{frac}(\theta),\ \bigl|\lambda -
-\mathrm{frac}(\theta)\bigr|,\ 1 - \mathrm{frac}(\theta)\Bigr),
+\delta(y) = \min\Bigl(\varphi,\ \bigl|\lambda - \varphi\bigr|,\ 1 - \varphi\Bigr),
+\qquad \varphi = \theta - \lfloor \theta \rfloor,
 \qquad \theta = (y + 2346)\lambda,
 $$
 
@@ -337,7 +345,8 @@ Making the leap years and the year starts share one source exposed a defect
 that had been sitting under the old code. `sh_is_leap` asked whether
 
 $$
-\mathrm{frac}\!\left((y + 2346)\,\lambda\right) < \lambda
+\theta - \lfloor \theta \rfloor < \lambda,
+\qquad \theta = (y + 2346)\,\lambda
 $$
 
 with $\lambda$ held as a `double`. The same question, written as an integer
