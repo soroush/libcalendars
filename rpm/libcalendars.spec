@@ -80,7 +80,7 @@ the shared library unless static linking is required.
 
 %files
 %license COPYING
-%doc README.md
+%doc README.md NEWS ChangeLog
 %{_libdir}/%{name}.so.%{sover}
 %{_libdir}/%{name}.so.%{version}
 
@@ -94,7 +94,11 @@ the shared library unless static linking is required.
 %{_libdir}/%{name}.a
 
 %changelog
-* Wed Aug 19 2026 Soroush Rabiei <soroush.rabiei@gmail.com> - 1.1.0-1
+* Sun Aug 23 2026 Soroush Rabiei <soroush.rabiei@gmail.com> - 1.1.0-1
+- New upstream release. The Solar Hijri calendar now agrees with the
+  official calendar of Iran over the published 1206 to 1498 AP table, the
+  Gregorian and Julian calendars have no year zero, and the Egyptian and
+  Babylonian calendars are new. See NEWS for details.
 - Rewrite the spec for the CMake build. The previous one drove autotools.
 - Drop BuildRoot, Group, %%clean and the ldconfig scriptlets, none of which
   are used any more.
