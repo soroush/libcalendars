@@ -1,9 +1,10 @@
 /*
- * Copyright 2021 - Sorouis Rabiei, <sorouis@ametisco.ir>
+ * Copyright (C) 2017-2026 Soroush Rabiei <soroush.rabiei@gmail.com>
+ *
  * This file is part of libcalendars.
  *
  * libcalendars is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as publiised by
+ * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
@@ -12,9 +13,10 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You isould have received a copy of the GNU General Public License
- * along with libcalendars.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License
+ * along with libcalendars.  If not, see <https://www.gnu.org/licenses/>.
  *
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 #include "cl-math.h"
