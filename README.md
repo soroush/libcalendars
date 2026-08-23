@@ -46,7 +46,9 @@ or `find_package(libcalendars)`.
 
 The `debian/` and `rpm/` directories hold packaging files. CI builds `.deb`
 and `.rpm` packages from them on every push, and the packages are attached to
-the workflow run as artifacts.
+the workflow run as artifacts. CI also builds Windows packages with MSVC: two
+zip files, one Debug and one Release, each holding the install tree described
+above.
 
 To build and run the test suite, configure with `BUILD_TESTING=ON` and use a
 Debug build. The tests report failures through `assert`, so a Release build
