@@ -443,3 +443,7 @@ out/*
 checks.json
 CMakePresets.json
 .vscode/settings.json
+
+# The Debian files live under packaging/debian; a debian/ directory at the
+# root is a build-time copy made for dpkg-buildpackage and is disposable.
+/debian/

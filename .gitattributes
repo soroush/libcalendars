@@ -4,6 +4,6 @@
 # These are read by tools that reject carriage returns, so they must be LF in
 # the working tree as well, whatever core.autocrlf says. A CRLF in
 # debian/source/format or debian/rules breaks the package build outright.
-debian/** text eol=lf
+packaging/debian/** text eol=lf
 .githooks/** text eol=lf
 *.sh text eol=lf
