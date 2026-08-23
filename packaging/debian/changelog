@@ -1,3 +1,15 @@
+libcalendars (1.1.1-1) unstable; urgency=medium
+
+  * New upstream release. No code changes; the library and its ABI are
+    identical to 1.1.0.
+    - Every source, header, build and packaging file now carries the same
+      copyright notice with an SPDX identifier; a wrong project name, a
+      misspelt author name and stale licence text are fixed.
+    - The upstream tree keeps the Debian and RPM files under packaging/,
+      out of the way of this repository's own debian directory.
+
+ -- Soroush Rabiei <soroush.rabiei@gmail.com>  Sun, 23 Aug 2026 23:30:00 +0330
+
 libcalendars (1.1.0-1) unstable; urgency=medium
 
   * New upstream release.

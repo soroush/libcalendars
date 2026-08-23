@@ -1,5 +1,25 @@
 libcalendars NEWS -- history of user-visible changes.
 
+* Noteworthy changes in release 1.1.1 (2026-08-23)
+
+  A licence compliance and repository structure release.  There are no
+  code changes; the library and its ABI are identical to 1.1.0.
+
+** Unified copyright headers
+
+  Every source, header, build and packaging file now carries the same
+  copyright notice: the 2017-2026 range, the correct project name
+  (eighteen files said "libcalendar"), the https link to the GNU licence
+  page and an SPDX identifier.  A misspelt author name, an old address
+  and typos in the licence text of cl-islamic-civil.c are fixed, and the
+  files that had no notice at all now carry one.
+
+** Packaging files moved under packaging/
+
+  The debian/ and rpm/ directories moved to packaging/debian and
+  packaging/rpm.  The upstream root no longer carries a debian/
+  directory, which overlapped with the DEP-14 packaging repository.
+
 * Noteworthy changes in release 1.1.0 (2026-08-23)
 
 ** Solar Hijri: the arithmetic calendar now matches the official calendar
