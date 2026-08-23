@@ -147,3 +147,59 @@ jobs:
           name: rpm-packages
           path: packages/
           if-no-files-found: error
+
+  windows:
+    name: windows package
+    # Same gate as the Debian and RPM stages.
+    needs: build
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out the source
+        uses: actions/checkout@v7
+
+      - name: Configure
+        # The Visual Studio generator is multi-config, so one configure serves
+        # both the Debug and the Release build below.
+        run: >
+          cmake -S . -B build
+          -DBUILD_TESTING=OFF
+          -DLIBCALENDARS_GIT_HOOKS=OFF
+
+      - name: Read the version
+        # The zip files carry the version in their name. It is taken from the
+        # CMake cache, where project() records it, so that it cannot drift
+        # from the one the library is built with.
+        run: |
+          $version = (Select-String -Path build/CMakeCache.txt -Pattern '^CMAKE_PROJECT_VERSION:STATIC=(.+)$').Matches[0].Groups[1].Value
+          "VERSION=$version" >> $env:GITHUB_ENV
+
+      - name: Build Debug
+        run: cmake --build build --config Debug
+
+      - name: Build Release
+        run: cmake --build build --config Release
+
+      - name: Install Debug
+        run: cmake --install build --config Debug --prefix packages/libcalendars-${{ env.VERSION }}-win64-Debug
+
+      - name: Install Release
+        run: cmake --install build --config Release --prefix packages/libcalendars-${{ env.VERSION }}-win64-Release
+
+      - name: Zip the packages
+        # A package is the install tree as is, zipped with the directory as
+        # its top level. cmake -E tar is used so that the archive is written
+        # by a tool that is already present, with forward slashes in the
+        # entry names.
+        working-directory: packages
+        run: |
+          cmake -E tar cf libcalendars-${{ env.VERSION }}-win64-Debug.zip --format=zip libcalendars-${{ env.VERSION }}-win64-Debug
+          cmake -E tar cf libcalendars-${{ env.VERSION }}-win64-Release.zip --format=zip libcalendars-${{ env.VERSION }}-win64-Release
+          Get-ChildItem *.zip
+
+      - name: Upload the packages
+        uses: actions/upload-artifact@v7
+        with:
+          name: windows-packages
+          path: packages/*.zip
+          if-no-files-found: error

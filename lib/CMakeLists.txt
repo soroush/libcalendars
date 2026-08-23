@@ -127,15 +127,20 @@ install(TARGETS calendars calendars_static
 
 install(DIRECTORY "include/" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
 
-configure_file(
-    "libcalendars.pc.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/libcalendars.pc"
-    @ONLY
-)
+# The pkg-config file is not installed on Windows. It carries the absolute
+# prefix the build was configured with, which is wrong for a zip file that is
+# unpacked anywhere, and the CMake package config below serves consumers there.
+if(NOT WIN32)
+    configure_file(
+        "libcalendars.pc.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/libcalendars.pc"
+        @ONLY
+    )
 
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/libcalendars.pc"
-    DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig"
-)
+    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/libcalendars.pc"
+        DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig"
+    )
+endif()
 
 include(CMakePackageConfigHelpers)
 
